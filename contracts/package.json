@@ -1,0 +1,29 @@
+{
+  "name": "afterhours-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "afterhours.fi weekend floor contracts: KeeperVault (ERC-4626, CPPI), CoverMarket (signed quotes, Monday-open settlement), ReferenceOracle",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia",
+    "deploy:bscTestnet": "hardhat run scripts/deploy.ts --network bscTestnet",
+    "epoch:sepolia": "hardhat run scripts/openEpoch.ts --network sepolia",
+    "epoch:bscTestnet": "hardhat run scripts/openEpoch.ts --network bscTestnet",
+    "export-abi": "hardhat run scripts/exportAbi.ts",
+    "e2e:sepolia": "hardhat run scripts/e2e.ts --network sepolia",
+    "e2e:bscTestnet": "hardhat run scripts/e2e.ts --network bscTestnet",
+    "buy:sepolia": "hardhat run scripts/buyFromServer.ts --network sepolia",
+    "buy:bscTestnet": "hardhat run scripts/buyFromServer.ts --network bscTestnet"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}

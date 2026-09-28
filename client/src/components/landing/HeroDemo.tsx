@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState, type ReactNode } from "react";
+import { useReducedMotion } from "framer-motion";
 import { HandCoins, MoonStars, ShieldCheck } from "@phosphor-icons/react";
 import { StockMark } from "@/components/ui/StockMark";
 
@@ -109,24 +109,26 @@ export function HeroDemo() {
           <Cell label="We paid you" value={`+$${PAYOUT.toLocaleString("en-US")}`} tone="floor" show={phase >= 2} />
         </div>
 
-        <AnimatePresence>
-          {phase >= 3 && (
-            <motion.div key={`r${cycle}`} initial={reduced ? false : { opacity: 0, y: 10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0 }} className="mt-4 flex items-center gap-3 rounded-2xl border border-held/30 bg-held-soft px-4 py-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-held text-[#00140B]">
-                <HandCoins weight="duotone" className="h-5 w-5" />
-              </span>
-              <div className="text-sm">
-                <div className="font-semibold text-ink">Monday 9:30 am · ${PAYOUT.toLocaleString("en-US")} sent to your wallet</div>
-                <div className="text-xs text-ink-2">Automatically. You lost 3% plus the fee instead of 12.5%.</div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        {phase < 3 && (
-          <div className="mt-4 flex items-center gap-3 rounded-2xl border border-line bg-surface-2 px-4 py-3 text-sm text-ink-2">
-            <MoonStars weight="duotone" className="h-5 w-5 text-keeper" /> {phase === 0 ? "Friday: you set protection, then close the app." : "The weekend: DeepSeek news breaks while the market is shut…"}
-          </div>
-        )}
+        {/* All three captions share one grid cell, so the card is always as tall as the tallest one and never jumps. */}
+        <div className="mt-4 grid">
+          <Caption show={phase === 0} tone="wait">
+            <MoonStars weight="duotone" className="h-5 w-5 shrink-0 text-keeper" />
+            <span>Friday: you set protection, then close the app.</span>
+          </Caption>
+          <Caption show={phase === 1 || phase === 2} tone="wait">
+            <MoonStars weight="duotone" className="h-5 w-5 shrink-0 text-keeper" />
+            <span>The weekend: DeepSeek news breaks while the market is shut…</span>
+          </Caption>
+          <Caption show={phase >= 3} tone="paid">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-held text-[#00140B]">
+              <HandCoins weight="duotone" className="h-5 w-5" />
+            </span>
+            <span className="block">
+              <span className="block font-semibold text-ink">Monday 9:30 am · ${PAYOUT.toLocaleString("en-US")} sent to your wallet</span>
+              <span className="block text-xs text-ink-2">Automatically. You lost 3% plus the fee instead of 12.5%.</span>
+            </span>
+          </Caption>
+        </div>
       </div>
     </div>
   );
@@ -137,6 +139,19 @@ function Cell({ label, value, tone, show = true }: { label: string; value: strin
     <div className="rounded-xl bg-surface-2 px-2 py-2.5">
       <div className="text-[10px] uppercase tracking-wider text-ink-3">{label}</div>
       <div className={`tnum mt-0.5 text-sm font-semibold transition-opacity duration-500 ${show ? "opacity-100" : "opacity-0"} ${tone === "gap" ? "text-gap" : tone === "floor" ? "text-floor" : "text-ink"}`}>{value}</div>
+    </div>
+  );
+}
+
+function Caption({ show, tone, children }: { show: boolean; tone: "wait" | "paid"; children: ReactNode }) {
+  return (
+    <div
+      aria-hidden={!show}
+      className={`col-start-1 row-start-1 flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none ${
+        tone === "paid" ? "border-held/30 bg-held-soft" : "border-line bg-surface-2 text-ink-2"
+      } ${show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-1 opacity-0"}`}
+    >
+      {children}
     </div>
   );
 }

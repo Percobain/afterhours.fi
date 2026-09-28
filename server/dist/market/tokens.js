@@ -118,7 +118,8 @@ async function epochOnChain(chainId, epochId) {
 async function currentEpoch(chainId) {
     const now = (0, time_1.nowSec)();
     const computed = (0, time_1.nextFridayClose)(now, config_1.config.epochCloseHourUtc);
-    const known = knownEpochs(chainId).find((e) => e.bindDeadline >= now);
+    // Only real Friday-close weekends are sold; demo/test epochs seen by the indexer are ignored.
+    const known = knownEpochs(chainId).find((e) => e.bindDeadline >= now && (0, time_1.isFridayCloseEpoch)(e.epochId));
     const candidate = known && known.epochId <= computed ? known.epochId : computed;
     const chain = await epochOnChain(chainId, candidate);
     if (chain?.exists)

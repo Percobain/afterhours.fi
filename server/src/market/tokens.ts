@@ -9,7 +9,7 @@ import { getPublicClient } from "../chains";
 import { config, getChain, tickerFromSymbol, wrapperFor, type ChainConfig, type EpochInfo, type TokenInfo } from "../config";
 import { logger } from "../logger";
 import { KeyedTtlCache } from "../util/http";
-import { expectedOpenFor, nextFridayClose, nowSec, WEEK } from "../util/time";
+import { expectedOpenFor, isFridayCloseEpoch, nextFridayClose, nowSec, WEEK } from "../util/time";
 
 const tokenCache = new KeyedTtlCache<TokenInfo[]>(5 * 60_000, "tokens");
 const epochCache = new KeyedTtlCache<{ exists: boolean; bindDeadline: number; expectedOpen: number }>(60_000, "epoch");
@@ -120,7 +120,8 @@ export interface CurrentEpoch extends EpochInfo {
 export async function currentEpoch(chainId: number): Promise<CurrentEpoch> {
   const now = nowSec();
   const computed = nextFridayClose(now, config.epochCloseHourUtc);
-  const known = knownEpochs(chainId).find((e) => e.bindDeadline >= now);
+  // Only real Friday-close weekends are sold; demo/test epochs seen by the indexer are ignored.
+  const known = knownEpochs(chainId).find((e) => e.bindDeadline >= now && isFridayCloseEpoch(e.epochId));
   const candidate = known && known.epochId <= computed ? known.epochId : computed;
   const chain = await epochOnChain(chainId, candidate);
   if (chain?.exists) return { epochId: candidate, bindDeadline: chain.bindDeadline, expectedOpen: chain.expectedOpen, openOnChain: true, source: "chain" };

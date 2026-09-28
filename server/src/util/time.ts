@@ -20,6 +20,15 @@ export function nextFridayClose(fromSec: number = nowSec(), closeHourUtc = 20): 
   return Math.floor(d.getTime() / 1000);
 }
 
+/**
+ * True when epochId is a real weekend: a Friday at 20:00 or 21:00 UTC on the hour (the US close in daylight / winter time).
+ * Demo epochs opened by scripts/e2e.ts (now + 1 day) fail this and are never offered for sale.
+ */
+export function isFridayCloseEpoch(epochId: number): boolean {
+  const d = new Date(epochId * 1000);
+  return d.getUTCDay() === 5 && (d.getUTCHours() === 20 || d.getUTCHours() === 21) && d.getUTCMinutes() === 0 && d.getUTCSeconds() === 0;
+}
+
 export function expectedOpenFor(epochId: number): number {
   return Math.floor(epochId + OPEN_OFFSET_SECONDS);
 }

@@ -1,0 +1,20 @@
+{
+ "n_token_weekends": 165,
+ "tokens": 15,
+ "median_abs_under_gap": 0.008092797757337955,
+ "median_abs_tok_preopen_move": 0.008287412678439798,
+ "beta_preopen_on_gap": 0.9477204595749056,
+ "corr_preopen_gap": 0.9640114836018714,
+ "beta_sunday_on_gap": 0.01999491011059284,
+ "median_abs_tok_preopen_vs_monopen": 0.003080386683602443,
+ "p90_abs_tok_preopen_vs_monopen": 0.008368402780787586,
+ "median_wk_range": 0.0300653165720286,
+ "median_wk_vol_share": 0.20827214066572364,
+ "median_hours_with_trades_share": 1.0,
+ "largest_under_gap": -0.05797797528714721,
+ "largest_under_gap_row": {
+  "symbol": "CRCLBUSDT",
+  "friday": "2026-07-31",
+  "tok_move_preopen": -0.060393034030995385
+ }
+}

@@ -1,0 +1,2031 @@
+{
+ "scorecard": [
+  {
+   "version": "v1a",
+   "mean_fair_bp": 23.451,
+   "mean_charged_bp": 35.497,
+   "mean_payout_bp": 3.314,
+   "loss_ratio": 0.093,
+   "keeper_sharpe_ann": 5.065,
+   "zero_premium_share": 0.0
+  },
+  {
+   "version": "v1b",
+   "mean_fair_bp": 9.788,
+   "mean_charged_bp": 15.214,
+   "mean_payout_bp": 3.314,
+   "loss_ratio": 0.218,
+   "keeper_sharpe_ann": 2.69,
+   "zero_premium_share": 0.0
+  },
+  {
+   "version": "v2",
+   "mean_fair_bp": 2.509,
+   "mean_charged_bp": 3.992,
+   "mean_payout_bp": 3.314,
+   "loss_ratio": 0.83,
+   "keeper_sharpe_ann": 0.2,
+   "zero_premium_share": 0.112
+  },
+  {
+   "version": "v3",
+   "mean_fair_bp": 2.895,
+   "mean_charged_bp": 4.526,
+   "mean_payout_bp": 3.314,
+   "loss_ratio": 0.732,
+   "keeper_sharpe_ann": 0.342,
+   "zero_premium_share": 0.014
+  },
+  {
+   "version": "v4",
+   "mean_fair_bp": 3.666,
+   "mean_charged_bp": 5.849,
+   "mean_payout_bp": 3.314,
+   "loss_ratio": 0.567,
+   "keeper_sharpe_ann": 0.682,
+   "zero_premium_share": 0.011
+  }
+ ],
+ "regime": [
+  {
+   "vol_quintile": "calmest 20%",
+   "v1a": 0.02,
+   "v1b": 0.03,
+   "v2": 0.02,
+   "v3": 0.02,
+   "v4": 0.03
+  },
+  {
+   "vol_quintile": "q2",
+   "v1a": 0.2,
+   "v1b": 0.45,
+   "v2": 0.25,
+   "v3": 0.22,
+   "v4": 0.54
+  },
+  {
+   "vol_quintile": "q3",
+   "v1a": 0.08,
+   "v1b": 0.28,
+   "v2": 0.22,
+   "v3": 0.2,
+   "v4": 0.56
+  },
+  {
+   "vol_quintile": "q4",
+   "v1a": 0.07,
+   "v1b": 0.25,
+   "v2": 0.47,
+   "v3": 0.41,
+   "v4": 0.67
+  },
+  {
+   "vol_quintile": "wildest 20%",
+   "v1a": 0.1,
+   "v1b": 0.21,
+   "v2": 1.46,
+   "v3": 1.26,
+   "v4": 0.58
+  }
+ ],
+ "calibration": [
+  {
+   "dec": 0,
+   "pred_bp": 0.03,
+   "real_bp": 0.05,
+   "n": 4562
+  },
+  {
+   "dec": 1,
+   "pred_bp": 0.09,
+   "real_bp": 0.0,
+   "n": 4561
+  },
+  {
+   "dec": 2,
+   "pred_bp": 0.17,
+   "real_bp": 0.78,
+   "n": 4561
+  },
+  {
+   "dec": 3,
+   "pred_bp": 0.29,
+   "real_bp": 0.27,
+   "n": 4561
+  },
+  {
+   "dec": 4,
+   "pred_bp": 0.48,
+   "real_bp": 0.61,
+   "n": 4562
+  },
+  {
+   "dec": 5,
+   "pred_bp": 0.81,
+   "real_bp": 0.94,
+   "n": 4561
+  },
+  {
+   "dec": 6,
+   "pred_bp": 1.37,
+   "real_bp": 1.24,
+   "n": 4561
+  },
+  {
+   "dec": 7,
+   "pred_bp": 2.49,
+   "real_bp": 2.72,
+   "n": 4561
+  },
+  {
+   "dec": 8,
+   "pred_bp": 5.29,
+   "real_bp": 6.48,
+   "n": 4561
+  },
+  {
+   "dec": 9,
+   "pred_bp": 26.06,
+   "real_bp": 20.41,
+   "n": 4562
+  }
+ ],
+ "by_year": [
+  {
+   "year": 2005,
+   "premium_bp": 1.48,
+   "payout_bp": 0.09,
+   "loss_ratio": 0.06
+  },
+  {
+   "year": 2006,
+   "premium_bp": 1.57,
+   "payout_bp": 0.64,
+   "loss_ratio": 0.41
+  },
+  {
+   "year": 2007,
+   "premium_bp": 1.67,
+   "payout_bp": 0.19,
+   "loss_ratio": 0.11
+  },
+  {
+   "year": 2008,
+   "premium_bp": 9.03,
+   "payout_bp": 4.89,
+   "loss_ratio": 0.54
+  },
+  {
+   "year": 2009,
+   "premium_bp": 6.9,
+   "payout_bp": 2.66,
+   "loss_ratio": 0.39
+  },
+  {
+   "year": 2010,
+   "premium_bp": 2.66,
+   "payout_bp": 1.12,
+   "loss_ratio": 0.42
+  },
+  {
+   "year": 2011,
+   "premium_bp": 3.72,
+   "payout_bp": 1.58,
+   "loss_ratio": 0.43
+  },
+  {
+   "year": 2012,
+   "premium_bp": 2.31,
+   "payout_bp": 0.5,
+   "loss_ratio": 0.21
+  },
+  {
+   "year": 2013,
+   "premium_bp": 1.98,
+   "payout_bp": 0.05,
+   "loss_ratio": 0.02
+  },
+  {
+   "year": 2014,
+   "premium_bp": 1.71,
+   "payout_bp": 0.0,
+   "loss_ratio": 0.0
+  },
+  {
+   "year": 2015,
+   "premium_bp": 2.05,
+   "payout_bp": 4.68,
+   "loss_ratio": 2.28
+  },
+  {
+   "year": 2016,
+   "premium_bp": 2.86,
+   "payout_bp": 0.13,
+   "loss_ratio": 0.05
+  },
+  {
+   "year": 2017,
+   "premium_bp": 1.71,
+   "payout_bp": 0.02,
+   "loss_ratio": 0.01
+  },
+  {
+   "year": 2018,
+   "premium_bp": 3.29,
+   "payout_bp": 0.41,
+   "loss_ratio": 0.13
+  },
+  {
+   "year": 2019,
+   "premium_bp": 2.84,
+   "payout_bp": 1.68,
+   "loss_ratio": 0.59
+  },
+  {
+   "year": 2020,
+   "premium_bp": 12.86,
+   "payout_bp": 22.8,
+   "loss_ratio": 1.77
+  },
+  {
+   "year": 2021,
+   "premium_bp": 13.39,
+   "payout_bp": 1.61,
+   "loss_ratio": 0.12
+  },
+  {
+   "year": 2022,
+   "premium_bp": 12.27,
+   "payout_bp": 6.41,
+   "loss_ratio": 0.52
+  },
+  {
+   "year": 2023,
+   "premium_bp": 6.6,
+   "payout_bp": 1.96,
+   "loss_ratio": 0.3
+  },
+  {
+   "year": 2024,
+   "premium_bp": 9.27,
+   "payout_bp": 6.73,
+   "loss_ratio": 0.73
+  },
+  {
+   "year": 2025,
+   "premium_bp": 9.05,
+   "payout_bp": 6.41,
+   "loss_ratio": 0.71
+  },
+  {
+   "year": 2026,
+   "premium_bp": 13.49,
+   "payout_bp": 3.14,
+   "loss_ratio": 0.23
+  }
+ ],
+ "pooled": [
+  {
+   "index": "single names",
+   "n_weekends": 50059.0,
+   "mean_bp": 6.5025,
+   "sd": 0.0183,
+   "skew": 4.7442,
+   "exkurt": 220.9167,
+   "P(gap<-3%)": 0.0241,
+   "P(gap<-5%)": 0.0082,
+   "P(gap<-7%)": 0.0041,
+   "P(gap<-10%)": 0.0019,
+   "E[payout] 3% (bp)": 5.7147,
+   "E[payout] 5% (bp)": 2.866,
+   "E[payout] 7% (bp)": 1.672,
+   "E[payout] 10% (bp)": 0.8285,
+   "z_skew": 0.1322,
+   "z_exkurt": 62.3437,
+   "P(z<-3)": 0.0028,
+   "P(z<-5)": 0.0005
+  },
+  {
+   "index": "ETFs",
+   "n_weekends": 11756.0,
+   "mean_bp": 1.8398,
+   "sd": 0.017,
+   "skew": 1.3687,
+   "exkurt": 62.8067,
+   "P(gap<-3%)": 0.0275,
+   "P(gap<-5%)": 0.0096,
+   "P(gap<-7%)": 0.0038,
+   "P(gap<-10%)": 0.0019,
+   "E[payout] 3% (bp)": 6.1343,
+   "E[payout] 5% (bp)": 2.7718,
+   "E[payout] 7% (bp)": 1.4829,
+   "E[payout] 10% (bp)": 0.7452,
+   "z_skew": -0.5386,
+   "z_exkurt": 9.0295,
+   "P(z<-3)": 0.0043,
+   "P(z<-5)": 0.0007
+  },
+  {
+   "index": "all",
+   "n_weekends": 61815.0,
+   "mean_bp": 5.6158,
+   "sd": 0.018,
+   "skew": 4.2156,
+   "exkurt": 198.0308,
+   "P(gap<-3%)": 0.0247,
+   "P(gap<-5%)": 0.0085,
+   "P(gap<-7%)": 0.0041,
+   "P(gap<-10%)": 0.0019,
+   "E[payout] 3% (bp)": 5.7945,
+   "E[payout] 5% (bp)": 2.8481,
+   "E[payout] 7% (bp)": 1.6361,
+   "E[payout] 10% (bp)": 0.8127,
+   "z_skew": -0.0578,
+   "z_exkurt": 46.3381,
+   "P(z<-3)": 0.0031,
+   "P(z<-5)": 0.0005
+  }
+ ],
+ "var_ratio": {
+  "median": 0.341,
+  "min": 0.194,
+  "max": 0.692
+ },
+ "bs_underprice_median": {
+  "3": 0.26,
+  "5": 0.28,
+  "7": 0.29,
+  "10": 0.45
+ },
+ "famous": [
+  {
+   "friday": "1987-10-16",
+   "event": "Black Monday 1987",
+   "kind": "crash",
+   "ticker": "^GSPC",
+   "gap_open": -0.2047,
+   "gap_close": -0.2047,
+   "premium_charged_bp": null,
+   "hermee_unprotected_pnl": -20466.9308,
+   "hermee_protected_pnl": null
+  },
+  {
+   "friday": "2001-09-07",
+   "event": "9/11 - market shut a week",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0094,
+   "gap_close": 0.0122,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -938.2311,
+   "hermee_protected_pnl": -948.2311
+  },
+  {
+   "friday": "2001-09-07",
+   "event": "9/11 - market shut a week",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0062,
+   "gap_close": 0.0119,
+   "premium_charged_bp": 2.4748,
+   "hermee_unprotected_pnl": -623.1124,
+   "hermee_protected_pnl": -647.8606
+  },
+  {
+   "friday": "2001-09-07",
+   "event": "9/11 - market shut a week",
+   "kind": "crash",
+   "ticker": "BA",
+   "gap_open": -0.0062,
+   "gap_close": -0.0381,
+   "premium_charged_bp": 1.6207,
+   "hermee_unprotected_pnl": -619.7893,
+   "hermee_protected_pnl": -635.9964
+  },
+  {
+   "friday": "2001-09-07",
+   "event": "9/11 - market shut a week",
+   "kind": "crash",
+   "ticker": "DIS",
+   "gap_open": -0.0253,
+   "gap_close": -0.022,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -2530.0797,
+   "hermee_protected_pnl": -2540.0797
+  },
+  {
+   "friday": "2008-09-12",
+   "event": "Lehman weekend",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0354,
+   "gap_close": -0.0476,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -3537.1683,
+   "hermee_protected_pnl": -3547.1683
+  },
+  {
+   "friday": "2008-09-12",
+   "event": "Lehman weekend",
+   "kind": "crash",
+   "ticker": "BAC",
+   "gap_open": -0.1633,
+   "gap_close": -0.2131,
+   "premium_charged_bp": 9.0389,
+   "hermee_unprotected_pnl": -16330.7584,
+   "hermee_protected_pnl": -5090.3887
+  },
+  {
+   "friday": "2008-09-12",
+   "event": "Lehman weekend",
+   "kind": "crash",
+   "ticker": "C",
+   "gap_open": -0.0874,
+   "gap_close": -0.1514,
+   "premium_charged_bp": 6.7343,
+   "hermee_unprotected_pnl": -8741.6647,
+   "hermee_protected_pnl": -5067.343
+  },
+  {
+   "friday": "2008-09-12",
+   "event": "Lehman weekend",
+   "kind": "crash",
+   "ticker": "AIG",
+   "gap_open": -0.4135,
+   "gap_close": -0.6079,
+   "premium_charged_bp": 50.5202,
+   "hermee_unprotected_pnl": -41350.9053,
+   "hermee_protected_pnl": -5505.2023
+  },
+  {
+   "friday": "2008-09-12",
+   "event": "Lehman weekend",
+   "kind": "crash",
+   "ticker": "XLF",
+   "gap_open": -0.0667,
+   "gap_close": -0.0974,
+   "premium_charged_bp": 4.2393,
+   "hermee_unprotected_pnl": -6666.6451,
+   "hermee_protected_pnl": -5042.3925
+  },
+  {
+   "friday": "2008-10-10",
+   "event": "G7 bank rescue rally",
+   "kind": "rally",
+   "ticker": "SPY",
+   "gap_open": 0.0607,
+   "gap_close": 0.1452,
+   "premium_charged_bp": 5.7305,
+   "hermee_unprotected_pnl": 6067.8283,
+   "hermee_protected_pnl": 6010.5237
+  },
+  {
+   "friday": "2008-10-10",
+   "event": "G7 bank rescue rally",
+   "kind": "rally",
+   "ticker": "C",
+   "gap_open": 0.1127,
+   "gap_close": 0.1162,
+   "premium_charged_bp": 94.2362,
+   "hermee_unprotected_pnl": 11268.5633,
+   "hermee_protected_pnl": 10326.2015
+  },
+  {
+   "friday": "2008-10-10",
+   "event": "G7 bank rescue rally",
+   "kind": "rally",
+   "ticker": "BAC",
+   "gap_open": 0.1394,
+   "gap_close": 0.092,
+   "premium_charged_bp": 108.7524,
+   "hermee_unprotected_pnl": 13943.464,
+   "hermee_protected_pnl": 12855.9402
+  },
+  {
+   "friday": "2008-10-10",
+   "event": "G7 bank rescue rally",
+   "kind": "rally",
+   "ticker": "XLF",
+   "gap_open": 0.0583,
+   "gap_close": 0.0781,
+   "premium_charged_bp": 40.6329,
+   "hermee_unprotected_pnl": 5827.8055,
+   "hermee_protected_pnl": 5421.4768
+  },
+  {
+   "friday": "2010-05-07",
+   "event": "EU EUR750bn bailout",
+   "kind": "rally",
+   "ticker": "SPY",
+   "gap_open": 0.0409,
+   "gap_close": 0.044,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": 4089.4897,
+   "hermee_protected_pnl": 4079.4897
+  },
+  {
+   "friday": "2010-05-07",
+   "event": "EU EUR750bn bailout",
+   "kind": "rally",
+   "ticker": "EEM",
+   "gap_open": 0.0639,
+   "gap_close": 0.072,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": 6389.1406,
+   "hermee_protected_pnl": 6379.1406
+  },
+  {
+   "friday": "2010-05-07",
+   "event": "EU EUR750bn bailout",
+   "kind": "rally",
+   "ticker": "C",
+   "gap_open": 0.0825,
+   "gap_close": 0.055,
+   "premium_charged_bp": 6.101,
+   "hermee_unprotected_pnl": 8250.0445,
+   "hermee_protected_pnl": 8189.0346
+  },
+  {
+   "friday": "2011-08-05",
+   "event": "S&P downgrades the USA",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0264,
+   "gap_close": -0.0651,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -2639.9051,
+   "hermee_protected_pnl": -2649.9051
+  },
+  {
+   "friday": "2011-08-05",
+   "event": "S&P downgrades the USA",
+   "kind": "crash",
+   "ticker": "BAC",
+   "gap_open": -0.0942,
+   "gap_close": -0.2032,
+   "premium_charged_bp": 3.0977,
+   "hermee_unprotected_pnl": -9424.7161,
+   "hermee_protected_pnl": -5030.9772
+  },
+  {
+   "friday": "2011-08-05",
+   "event": "S&P downgrades the USA",
+   "kind": "crash",
+   "ticker": "C",
+   "gap_open": -0.0565,
+   "gap_close": -0.1642,
+   "premium_charged_bp": 2.3671,
+   "hermee_unprotected_pnl": -5651.9453,
+   "hermee_protected_pnl": -5023.6714
+  },
+  {
+   "friday": "2011-08-05",
+   "event": "S&P downgrades the USA",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0307,
+   "gap_close": -0.0602,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -3065.2031,
+   "hermee_protected_pnl": -3075.2031
+  },
+  {
+   "friday": "2013-04-12",
+   "event": "Gold crash weekend",
+   "kind": "crash",
+   "ticker": "GLD",
+   "gap_open": -0.0552,
+   "gap_close": -0.0878,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -5522.749,
+   "hermee_protected_pnl": -5010.0
+  },
+  {
+   "friday": "2015-08-21",
+   "event": "China Black Monday",
+   "kind": "crash",
+   "ticker": "AAPL",
+   "gap_open": -0.103,
+   "gap_close": -0.025,
+   "premium_charged_bp": 1.4862,
+   "hermee_unprotected_pnl": -10296.9175,
+   "hermee_protected_pnl": -5014.8619
+  },
+  {
+   "friday": "2015-08-21",
+   "event": "China Black Monday",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0523,
+   "gap_close": -0.0421,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -5226.7284,
+   "hermee_protected_pnl": -5010.0
+  },
+  {
+   "friday": "2015-08-21",
+   "event": "China Black Monday",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0798,
+   "gap_close": -0.0385,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -7978.468,
+   "hermee_protected_pnl": -5010.0
+  },
+  {
+   "friday": "2015-08-21",
+   "event": "China Black Monday",
+   "kind": "crash",
+   "ticker": "NFLX",
+   "gap_open": -0.1463,
+   "gap_close": -0.0681,
+   "premium_charged_bp": 5.6692,
+   "hermee_unprotected_pnl": -14630.6264,
+   "hermee_protected_pnl": -5056.6923
+  },
+  {
+   "friday": "2015-08-21",
+   "event": "China Black Monday",
+   "kind": "crash",
+   "ticker": "TSLA",
+   "gap_open": -0.1212,
+   "gap_close": -0.0516,
+   "premium_charged_bp": 4.9295,
+   "hermee_unprotected_pnl": -12124.6333,
+   "hermee_protected_pnl": -5049.2946
+  },
+  {
+   "friday": "2016-06-24",
+   "event": "Brexit Monday",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0081,
+   "gap_close": -0.0179,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -811.8831,
+   "hermee_protected_pnl": -821.8831
+  },
+  {
+   "friday": "2016-06-24",
+   "event": "Brexit Monday",
+   "kind": "crash",
+   "ticker": "BAC",
+   "gap_open": -0.0177,
+   "gap_close": -0.0631,
+   "premium_charged_bp": 2.0774,
+   "hermee_unprotected_pnl": -1769.2012,
+   "hermee_protected_pnl": -1789.9752
+  },
+  {
+   "friday": "2016-06-24",
+   "event": "Brexit Monday",
+   "kind": "crash",
+   "ticker": "C",
+   "gap_open": -0.0179,
+   "gap_close": -0.0452,
+   "premium_charged_bp": 3.1117,
+   "hermee_unprotected_pnl": -1786.591,
+   "hermee_protected_pnl": -1817.7085
+  },
+  {
+   "friday": "2018-02-02",
+   "event": "Volmageddon",
+   "kind": "basis",
+   "ticker": "SPY",
+   "gap_open": -0.0073,
+   "gap_close": -0.0418,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -726.0732,
+   "hermee_protected_pnl": -736.0732
+  },
+  {
+   "friday": "2018-02-02",
+   "event": "Volmageddon",
+   "kind": "basis",
+   "ticker": "QQQ",
+   "gap_open": -0.0094,
+   "gap_close": -0.0394,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -935.5271,
+   "hermee_protected_pnl": -945.5271
+  },
+  {
+   "friday": "2018-12-21",
+   "event": "Christmas Eve 2018",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0069,
+   "gap_close": -0.0264,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -689.6548,
+   "hermee_protected_pnl": -699.6548
+  },
+  {
+   "friday": "2018-12-21",
+   "event": "Christmas Eve 2018",
+   "kind": "crash",
+   "ticker": "AAPL",
+   "gap_open": -0.0171,
+   "gap_close": -0.0259,
+   "premium_charged_bp": 2.1555,
+   "hermee_unprotected_pnl": -1711.679,
+   "hermee_protected_pnl": -1733.2341
+  },
+  {
+   "friday": "2018-12-21",
+   "event": "Christmas Eve 2018",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0073,
+   "gap_close": -0.0248,
+   "premium_charged_bp": 1.3512,
+   "hermee_unprotected_pnl": -726.4695,
+   "hermee_protected_pnl": -739.9818
+  },
+  {
+   "friday": "2018-12-24",
+   "event": "Boxing Day rebound",
+   "kind": "rally",
+   "ticker": "SPY",
+   "gap_open": 0.007,
+   "gap_close": 0.0505,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": 695.5717,
+   "hermee_protected_pnl": 685.5717
+  },
+  {
+   "friday": "2018-12-24",
+   "event": "Boxing Day rebound",
+   "kind": "rally",
+   "ticker": "AAPL",
+   "gap_open": 0.01,
+   "gap_close": 0.0704,
+   "premium_charged_bp": 2.1582,
+   "hermee_unprotected_pnl": 1001.1885,
+   "hermee_protected_pnl": 979.6067
+  },
+  {
+   "friday": "2019-08-02",
+   "event": "Yuan breaks 7",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0155,
+   "gap_close": -0.0301,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -1548.0569,
+   "hermee_protected_pnl": -1558.0569
+  },
+  {
+   "friday": "2019-08-02",
+   "event": "Yuan breaks 7",
+   "kind": "crash",
+   "ticker": "AAPL",
+   "gap_open": -0.0296,
+   "gap_close": -0.0523,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -2955.5887,
+   "hermee_protected_pnl": -2965.5887
+  },
+  {
+   "friday": "2019-08-02",
+   "event": "Yuan breaks 7",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0209,
+   "gap_close": -0.0353,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -2092.378,
+   "hermee_protected_pnl": -2102.378
+  },
+  {
+   "friday": "2020-02-21",
+   "event": "COVID reaches Italy",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.031,
+   "gap_close": -0.0332,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -3100.624,
+   "hermee_protected_pnl": -3110.624
+  },
+  {
+   "friday": "2020-02-21",
+   "event": "COVID reaches Italy",
+   "kind": "crash",
+   "ticker": "AAPL",
+   "gap_open": -0.0504,
+   "gap_close": -0.0475,
+   "premium_charged_bp": 1.5511,
+   "hermee_unprotected_pnl": -5043.9393,
+   "hermee_protected_pnl": -5015.5113
+  },
+  {
+   "friday": "2020-02-21",
+   "event": "COVID reaches Italy",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0373,
+   "gap_close": -0.0386,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -3730.4132,
+   "hermee_protected_pnl": -3740.4132
+  },
+  {
+   "friday": "2020-03-06",
+   "event": "Oil war + COVID",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0745,
+   "gap_close": -0.0781,
+   "premium_charged_bp": 2.3837,
+   "hermee_unprotected_pnl": -7449.7164,
+   "hermee_protected_pnl": -5023.8369
+  },
+  {
+   "friday": "2020-03-06",
+   "event": "Oil war + COVID",
+   "kind": "crash",
+   "ticker": "XOM",
+   "gap_open": -0.1254,
+   "gap_close": -0.1222,
+   "premium_charged_bp": 4.9138,
+   "hermee_unprotected_pnl": -12539.3235,
+   "hermee_protected_pnl": -5049.138
+  },
+  {
+   "friday": "2020-03-06",
+   "event": "Oil war + COVID",
+   "kind": "crash",
+   "ticker": "AAL",
+   "gap_open": -0.0689,
+   "gap_close": -0.0764,
+   "premium_charged_bp": 15.8345,
+   "hermee_unprotected_pnl": -6887.9171,
+   "hermee_protected_pnl": -5158.3454
+  },
+  {
+   "friday": "2020-03-06",
+   "event": "Oil war + COVID",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0699,
+   "gap_close": -0.0695,
+   "premium_charged_bp": 3.1949,
+   "hermee_unprotected_pnl": -6989.721,
+   "hermee_protected_pnl": -5031.9494
+  },
+  {
+   "friday": "2020-03-13",
+   "event": "Fed emergency cut Sunday",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.1045,
+   "gap_close": -0.1094,
+   "premium_charged_bp": 14.5467,
+   "hermee_unprotected_pnl": -10448.5431,
+   "hermee_protected_pnl": -5145.4668
+  },
+  {
+   "friday": "2020-03-13",
+   "event": "Fed emergency cut Sunday",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0946,
+   "gap_close": -0.1198,
+   "premium_charged_bp": 14.5897,
+   "hermee_unprotected_pnl": -9457.2,
+   "hermee_protected_pnl": -5145.8968
+  },
+  {
+   "friday": "2020-03-13",
+   "event": "Fed emergency cut Sunday",
+   "kind": "crash",
+   "ticker": "AAPL",
+   "gap_open": -0.1296,
+   "gap_close": -0.1286,
+   "premium_charged_bp": 25.9598,
+   "hermee_unprotected_pnl": -12958.2558,
+   "hermee_protected_pnl": -5259.5977
+  },
+  {
+   "friday": "2020-03-13",
+   "event": "Fed emergency cut Sunday",
+   "kind": "crash",
+   "ticker": "BA",
+   "gap_open": -0.1221,
+   "gap_close": -0.2385,
+   "premium_charged_bp": 43.9862,
+   "hermee_unprotected_pnl": -12209.1652,
+   "hermee_protected_pnl": -5439.8615
+  },
+  {
+   "friday": "2020-03-13",
+   "event": "Fed emergency cut Sunday",
+   "kind": "crash",
+   "ticker": "AAL",
+   "gap_open": -0.1328,
+   "gap_close": 0.1125,
+   "premium_charged_bp": 44.9998,
+   "hermee_unprotected_pnl": -13277.432,
+   "hermee_protected_pnl": -5449.9985
+  },
+  {
+   "friday": "2020-03-13",
+   "event": "Fed emergency cut Sunday",
+   "kind": "crash",
+   "ticker": "TQQQ",
+   "gap_open": -0.2882,
+   "gap_close": -0.3447,
+   "premium_charged_bp": 151.3779,
+   "hermee_unprotected_pnl": -28817.7322,
+   "hermee_protected_pnl": -6513.7788
+  },
+  {
+   "friday": "2020-04-03",
+   "event": "Curve-flattening rally",
+   "kind": "rally",
+   "ticker": "SPY",
+   "gap_open": 0.0389,
+   "gap_close": 0.0672,
+   "premium_charged_bp": 29.65,
+   "hermee_unprotected_pnl": 3888.1493,
+   "hermee_protected_pnl": 3591.6495
+  },
+  {
+   "friday": "2020-04-03",
+   "event": "Curve-flattening rally",
+   "kind": "rally",
+   "ticker": "QQQ",
+   "gap_open": 0.0388,
+   "gap_close": 0.0715,
+   "premium_charged_bp": 28.5482,
+   "hermee_unprotected_pnl": 3877.4136,
+   "hermee_protected_pnl": 3591.9314
+  },
+  {
+   "friday": "2020-04-03",
+   "event": "Curve-flattening rally",
+   "kind": "rally",
+   "ticker": "AAPL",
+   "gap_open": 0.0393,
+   "gap_close": 0.0872,
+   "premium_charged_bp": 37.489,
+   "hermee_unprotected_pnl": 3931.0518,
+   "hermee_protected_pnl": 3556.1615
+  },
+  {
+   "friday": "2020-11-06",
+   "event": "Pfizer vaccine Monday",
+   "kind": "mixed",
+   "ticker": "SPY",
+   "gap_open": 0.0394,
+   "gap_close": 0.0126,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": 3943.9521,
+   "hermee_protected_pnl": 3933.9521
+  },
+  {
+   "friday": "2020-11-06",
+   "event": "Pfizer vaccine Monday",
+   "kind": "mixed",
+   "ticker": "BA",
+   "gap_open": 0.1348,
+   "gap_close": 0.1371,
+   "premium_charged_bp": 3.5815,
+   "hermee_unprotected_pnl": 13477.871,
+   "hermee_protected_pnl": 13442.0557
+  },
+  {
+   "friday": "2020-11-06",
+   "event": "Pfizer vaccine Monday",
+   "kind": "mixed",
+   "ticker": "AAL",
+   "gap_open": 0.2504,
+   "gap_close": 0.1518,
+   "premium_charged_bp": 6.0578,
+   "hermee_unprotected_pnl": 25043.6289,
+   "hermee_protected_pnl": 24983.0508
+  },
+  {
+   "friday": "2020-11-06",
+   "event": "Pfizer vaccine Monday",
+   "kind": "mixed",
+   "ticker": "ZM",
+   "gap_open": -0.1342,
+   "gap_close": -0.1737,
+   "premium_charged_bp": 12.0625,
+   "hermee_unprotected_pnl": -13419.0453,
+   "hermee_protected_pnl": -5120.6249
+  },
+  {
+   "friday": "2020-11-06",
+   "event": "Pfizer vaccine Monday",
+   "kind": "mixed",
+   "ticker": "AMZN",
+   "gap_open": -0.0243,
+   "gap_close": -0.0506,
+   "premium_charged_bp": 4.5449,
+   "hermee_unprotected_pnl": -2426.1852,
+   "hermee_protected_pnl": -2471.6338
+  },
+  {
+   "friday": "2020-11-06",
+   "event": "Pfizer vaccine Monday",
+   "kind": "mixed",
+   "ticker": "NFLX",
+   "gap_open": -0.0567,
+   "gap_close": -0.0859,
+   "premium_charged_bp": 4.1181,
+   "hermee_unprotected_pnl": -5670.9318,
+   "hermee_protected_pnl": -5041.181
+  },
+  {
+   "friday": "2021-01-22",
+   "event": "GameStop weekend",
+   "kind": "rally",
+   "ticker": "GME",
+   "gap_open": 0.4879,
+   "gap_close": 0.1812,
+   "premium_charged_bp": 277.389,
+   "hermee_unprotected_pnl": 48792.4937,
+   "hermee_protected_pnl": 46018.6037
+  },
+  {
+   "friday": "2021-01-22",
+   "event": "GameStop weekend",
+   "kind": "rally",
+   "ticker": "AMC",
+   "gap_open": 0.3419,
+   "gap_close": 0.2593,
+   "premium_charged_bp": 74.2347,
+   "hermee_unprotected_pnl": 34188.0357,
+   "hermee_protected_pnl": 33445.6884
+  },
+  {
+   "friday": "2022-06-10",
+   "event": "CPI + Celsius freeze",
+   "kind": "crash",
+   "ticker": "COIN",
+   "gap_open": -0.2134,
+   "gap_close": -0.1141,
+   "premium_charged_bp": 69.636,
+   "hermee_unprotected_pnl": -21342.1887,
+   "hermee_protected_pnl": -5696.3597
+  },
+  {
+   "friday": "2022-06-10",
+   "event": "CPI + Celsius freeze",
+   "kind": "crash",
+   "ticker": "MSTR",
+   "gap_open": -0.2658,
+   "gap_close": -0.2518,
+   "premium_charged_bp": 77.7194,
+   "hermee_unprotected_pnl": -26578.4843,
+   "hermee_protected_pnl": -5777.1939
+  },
+  {
+   "friday": "2022-06-10",
+   "event": "CPI + Celsius freeze",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0255,
+   "gap_close": -0.038,
+   "premium_charged_bp": 1.3641,
+   "hermee_unprotected_pnl": -2552.6316,
+   "hermee_protected_pnl": -2566.2729
+  },
+  {
+   "friday": "2022-06-10",
+   "event": "CPI + Celsius freeze",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0315,
+   "gap_close": -0.0465,
+   "premium_charged_bp": 3.1102,
+   "hermee_unprotected_pnl": -3147.0833,
+   "hermee_protected_pnl": -3178.185
+  },
+  {
+   "friday": "2022-08-19",
+   "event": "AMC / APE distribution",
+   "kind": "corporate",
+   "ticker": "AMC",
+   "gap_open": -0.3713,
+   "gap_close": -0.4195,
+   "premium_charged_bp": 57.9571,
+   "hermee_unprotected_pnl": -37125.4134,
+   "hermee_protected_pnl": -5579.5709
+  },
+  {
+   "friday": "2023-03-10",
+   "event": "SVB weekend",
+   "kind": "crash",
+   "ticker": "KRE",
+   "gap_open": -0.1257,
+   "gap_close": -0.1231,
+   "premium_charged_bp": 2.3761,
+   "hermee_unprotected_pnl": -12566.5771,
+   "hermee_protected_pnl": -5023.7606
+  },
+  {
+   "friday": "2023-03-10",
+   "event": "SVB weekend",
+   "kind": "crash",
+   "ticker": "SCHW",
+   "gap_open": -0.1182,
+   "gap_close": -0.1157,
+   "premium_charged_bp": 11.6938,
+   "hermee_unprotected_pnl": -11822.8324,
+   "hermee_protected_pnl": -5116.9379
+  },
+  {
+   "friday": "2023-03-10",
+   "event": "SVB weekend",
+   "kind": "crash",
+   "ticker": "WAL",
+   "gap_open": -0.7388,
+   "gap_close": -0.4706,
+   "premium_charged_bp": 26.7247,
+   "hermee_unprotected_pnl": -73875.1447,
+   "hermee_protected_pnl": -5267.247
+  },
+  {
+   "friday": "2023-03-10",
+   "event": "SVB weekend",
+   "kind": "crash",
+   "ticker": "BAC",
+   "gap_open": -0.0446,
+   "gap_close": -0.0581,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -4459.8823,
+   "hermee_protected_pnl": -4469.8823
+  },
+  {
+   "friday": "2023-03-10",
+   "event": "SVB weekend",
+   "kind": "crash",
+   "ticker": "C",
+   "gap_open": -0.0277,
+   "gap_close": -0.0745,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -2772.0551,
+   "hermee_protected_pnl": -2782.0551
+  },
+  {
+   "friday": "2024-05-10",
+   "event": "Roaring Kitty returns",
+   "kind": "rally",
+   "ticker": "GME",
+   "gap_open": 0.5086,
+   "gap_close": 0.744,
+   "premium_charged_bp": 69.5001,
+   "hermee_unprotected_pnl": 50859.1153,
+   "hermee_protected_pnl": 50164.1147
+  },
+  {
+   "friday": "2024-05-10",
+   "event": "Roaring Kitty returns",
+   "kind": "rally",
+   "ticker": "AMC",
+   "gap_open": 0.2096,
+   "gap_close": 0.7835,
+   "premium_charged_bp": 29.9216,
+   "hermee_unprotected_pnl": 20962.1951,
+   "hermee_protected_pnl": 20662.9793
+  },
+  {
+   "friday": "2024-08-02",
+   "event": "Yen carry unwind",
+   "kind": "crash",
+   "ticker": "NVDA",
+   "gap_open": -0.1418,
+   "gap_close": -0.0636,
+   "premium_charged_bp": 18.7411,
+   "hermee_unprotected_pnl": -14179.1702,
+   "hermee_protected_pnl": -5187.4111
+  },
+  {
+   "friday": "2024-08-02",
+   "event": "Yen carry unwind",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0399,
+   "gap_close": -0.0291,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -3989.496,
+   "hermee_protected_pnl": -3999.496
+  },
+  {
+   "friday": "2024-08-02",
+   "event": "Yen carry unwind",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0536,
+   "gap_close": -0.0298,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -5357.1045,
+   "hermee_protected_pnl": -5010.0
+  },
+  {
+   "friday": "2024-08-02",
+   "event": "Yen carry unwind",
+   "kind": "crash",
+   "ticker": "COIN",
+   "gap_open": -0.2075,
+   "gap_close": -0.0732,
+   "premium_charged_bp": 20.421,
+   "hermee_unprotected_pnl": -20754.2592,
+   "hermee_protected_pnl": -5204.2098
+  },
+  {
+   "friday": "2024-08-02",
+   "event": "Yen carry unwind",
+   "kind": "crash",
+   "ticker": "HOOD",
+   "gap_open": -0.1779,
+   "gap_close": -0.0817,
+   "premium_charged_bp": 11.5333,
+   "hermee_unprotected_pnl": -17785.2321,
+   "hermee_protected_pnl": -5115.333
+  },
+  {
+   "friday": "2024-08-02",
+   "event": "Yen carry unwind",
+   "kind": "crash",
+   "ticker": "SMCI",
+   "gap_open": -0.1426,
+   "gap_close": -0.0253,
+   "premium_charged_bp": 10.688,
+   "hermee_unprotected_pnl": -14257.5875,
+   "hermee_protected_pnl": -5106.8801
+  },
+  {
+   "friday": "2025-01-24",
+   "event": "DeepSeek Monday",
+   "kind": "crash",
+   "ticker": "NVDA",
+   "gap_open": -0.1249,
+   "gap_close": -0.1697,
+   "premium_charged_bp": 5.5073,
+   "hermee_unprotected_pnl": -12494.7377,
+   "hermee_protected_pnl": -5055.073
+  },
+  {
+   "friday": "2025-01-24",
+   "event": "DeepSeek Monday",
+   "kind": "crash",
+   "ticker": "AVGO",
+   "gap_open": -0.1279,
+   "gap_close": -0.174,
+   "premium_charged_bp": 1.3367,
+   "hermee_unprotected_pnl": -12791.1819,
+   "hermee_protected_pnl": -5013.3671
+  },
+  {
+   "friday": "2025-01-24",
+   "event": "DeepSeek Monday",
+   "kind": "crash",
+   "ticker": "SMCI",
+   "gap_open": -0.089,
+   "gap_close": -0.1262,
+   "premium_charged_bp": 18.9303,
+   "hermee_unprotected_pnl": -8896.907,
+   "hermee_protected_pnl": -5189.3033
+  },
+  {
+   "friday": "2025-01-24",
+   "event": "DeepSeek Monday",
+   "kind": "crash",
+   "ticker": "MU",
+   "gap_open": -0.0807,
+   "gap_close": -0.1171,
+   "premium_charged_bp": 9.7783,
+   "hermee_unprotected_pnl": -8072.486,
+   "hermee_protected_pnl": -5097.7835
+  },
+  {
+   "friday": "2025-01-24",
+   "event": "DeepSeek Monday",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0352,
+   "gap_close": -0.0291,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": -3517.5569,
+   "hermee_protected_pnl": -3527.5569
+  },
+  {
+   "friday": "2025-04-04",
+   "event": "Tariff Monday",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": -0.0318,
+   "gap_close": -0.0018,
+   "premium_charged_bp": 1.8824,
+   "hermee_unprotected_pnl": -3184.3735,
+   "hermee_protected_pnl": -3203.197
+  },
+  {
+   "friday": "2025-04-04",
+   "event": "Tariff Monday",
+   "kind": "crash",
+   "ticker": "AAPL",
+   "gap_open": -0.0593,
+   "gap_close": -0.0367,
+   "premium_charged_bp": 6.6701,
+   "hermee_unprotected_pnl": -5934.8273,
+   "hermee_protected_pnl": -5066.7005
+  },
+  {
+   "friday": "2025-04-04",
+   "event": "Tariff Monday",
+   "kind": "crash",
+   "ticker": "NVDA",
+   "gap_open": -0.0726,
+   "gap_close": 0.0353,
+   "premium_charged_bp": 11.0942,
+   "hermee_unprotected_pnl": -7263.2867,
+   "hermee_protected_pnl": -5110.9419
+  },
+  {
+   "friday": "2025-04-04",
+   "event": "Tariff Monday",
+   "kind": "crash",
+   "ticker": "QQQ",
+   "gap_open": -0.0331,
+   "gap_close": 0.0024,
+   "premium_charged_bp": 2.9948,
+   "hermee_unprotected_pnl": -3314.6441,
+   "hermee_protected_pnl": -3344.5924
+  },
+  {
+   "friday": "2025-04-11",
+   "event": "Smartphone tariff exemption",
+   "kind": "rally",
+   "ticker": "AAPL",
+   "gap_open": 0.0671,
+   "gap_close": 0.0221,
+   "premium_charged_bp": 21.8361,
+   "hermee_unprotected_pnl": 6707.0427,
+   "hermee_protected_pnl": 6488.6813
+  },
+  {
+   "friday": "2025-04-11",
+   "event": "Smartphone tariff exemption",
+   "kind": "rally",
+   "ticker": "NVDA",
+   "gap_open": 0.0287,
+   "gap_close": -0.002,
+   "premium_charged_bp": 29.074,
+   "hermee_unprotected_pnl": 2866.6691,
+   "hermee_protected_pnl": 2575.9289
+  },
+  {
+   "friday": "2025-04-11",
+   "event": "Smartphone tariff exemption",
+   "kind": "rally",
+   "ticker": "QQQ",
+   "gap_open": 0.0221,
+   "gap_close": 0.0068,
+   "premium_charged_bp": 10.3955,
+   "hermee_unprotected_pnl": 2213.907,
+   "hermee_protected_pnl": 2109.9518
+  },
+  {
+   "friday": "2025-10-03",
+   "event": "AMD-OpenAI deal",
+   "kind": "rally",
+   "ticker": "AMD",
+   "gap_open": 0.3752,
+   "gap_close": 0.2371,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": 37517.4588,
+   "hermee_protected_pnl": 37507.4588
+  },
+  {
+   "friday": "2025-10-10",
+   "event": "Crypto liquidation weekend",
+   "kind": "crash",
+   "ticker": "COIN",
+   "gap_open": 0.0173,
+   "gap_close": -0.0001,
+   "premium_charged_bp": 12.0629,
+   "hermee_unprotected_pnl": 1733.8456,
+   "hermee_protected_pnl": 1613.2162
+  },
+  {
+   "friday": "2025-10-10",
+   "event": "Crypto liquidation weekend",
+   "kind": "crash",
+   "ticker": "MSTR",
+   "gap_open": 0.0062,
+   "gap_close": 0.035,
+   "premium_charged_bp": 12.6985,
+   "hermee_unprotected_pnl": 616.8197,
+   "hermee_protected_pnl": 489.8347
+  },
+  {
+   "friday": "2025-10-10",
+   "event": "Crypto liquidation weekend",
+   "kind": "crash",
+   "ticker": "HOOD",
+   "gap_open": 0.0407,
+   "gap_close": 0.0124,
+   "premium_charged_bp": 13.7418,
+   "hermee_unprotected_pnl": 4073.106,
+   "hermee_protected_pnl": 3935.6883
+  },
+  {
+   "friday": "2025-10-10",
+   "event": "Crypto liquidation weekend",
+   "kind": "crash",
+   "ticker": "SPY",
+   "gap_open": 0.0117,
+   "gap_close": 0.0153,
+   "premium_charged_bp": 1.0,
+   "hermee_unprotected_pnl": 1168.4109,
+   "hermee_protected_pnl": 1158.4109
+  }
+ ],
+ "hermee": [
+  {
+   "scenario": "H1",
+   "ticker": "NVDA",
+   "start": "2024-01-05",
+   "end": "2026-09-18",
+   "invested": 100000,
+   "weekends": 142,
+   "avg_premium_bp": 6.419,
+   "premiums_paid": 24264.542,
+   "payouts": 46184.284,
+   "net_cost_pct_pa": -0.027,
+   "breaches": 3,
+   "worst_weekend_unprotected": -36305.775,
+   "worst_weekend_protected": -14689.493,
+   "ce_gain_bp_per_weekend": 12.945,
+   "worth_it_to_risk_averse": true,
+   "peace_of_mind_index": 47.66
+  },
+  {
+   "scenario": "H2",
+   "ticker": "AAPL",
+   "start": "2015-01-02",
+   "end": "2017-12-29",
+   "invested": 100000,
+   "weekends": 157,
+   "avg_premium_bp": 1.126,
+   "premiums_paid": 2041.376,
+   "payouts": 5189.047,
+   "net_cost_pct_pa": -0.009,
+   "breaches": 1,
+   "worst_weekend_unprotected": -10087.223,
+   "worst_weekend_protected": -4912.621,
+   "ce_gain_bp_per_weekend": 3.529,
+   "worth_it_to_risk_averse": true,
+   "peace_of_mind_index": 32.334
+  },
+  {
+   "scenario": "H3",
+   "ticker": "SPY",
+   "start": "2019-01-04",
+   "end": "2021-12-31",
+   "invested": 100000,
+   "weekends": 157,
+   "avg_premium_bp": 1.699,
+   "premiums_paid": 3367.211,
+   "payouts": 8865.959,
+   "net_cost_pct_pa": -0.013,
+   "breaches": 2,
+   "worst_weekend_unprotected": -11360.544,
+   "worst_weekend_protected": -6030.296,
+   "ce_gain_bp_per_weekend": 5.112,
+   "worth_it_to_risk_averse": true,
+   "peace_of_mind_index": 34.445
+  },
+  {
+   "scenario": "H4",
+   "ticker": "COIN",
+   "start": "2021-04-16",
+   "end": "2026-09-18",
+   "invested": 50000,
+   "weekends": 284,
+   "avg_premium_bp": 24.883,
+   "premiums_paid": 15825.648,
+   "payouts": 9604.311,
+   "net_cost_pct_pa": 0.043,
+   "breaches": 9,
+   "worst_weekend_unprotected": -6203.218,
+   "worst_weekend_protected": -2185.536,
+   "ce_gain_bp_per_weekend": 1.481,
+   "worth_it_to_risk_averse": true,
+   "peace_of_mind_index": 51.258
+  },
+  {
+   "scenario": "H5",
+   "ticker": "TSLA",
+   "start": "2020-01-03",
+   "end": "2026-09-18",
+   "invested": 50000,
+   "weekends": 351,
+   "avg_premium_bp": 12.508,
+   "premiums_paid": 161495.522,
+   "payouts": 86674.401,
+   "net_cost_pct_pa": 0.026,
+   "breaches": 9,
+   "worst_weekend_unprotected": -40800.443,
+   "worst_weekend_protected": -35054.285,
+   "ce_gain_bp_per_weekend": 4.719,
+   "worth_it_to_risk_averse": true,
+   "peace_of_mind_index": 44.931
+  },
+  {
+   "scenario": "H6",
+   "ticker": "QQQ",
+   "start": "2007-01-05",
+   "end": "2009-12-31",
+   "invested": 100000,
+   "weekends": 157,
+   "avg_premium_bp": 1.625,
+   "premiums_paid": 2206.03,
+   "payouts": 577.471,
+   "net_cost_pct_pa": 0.006,
+   "breaches": 1,
+   "worst_weekend_unprotected": -5763.903,
+   "worst_weekend_protected": -5196.805,
+   "ce_gain_bp_per_weekend": -1.178,
+   "worth_it_to_risk_averse": false,
+   "peace_of_mind_index": 3.948
+  },
+  {
+   "scenario": "H7",
+   "ticker": "ZM",
+   "start": "2020-01-03",
+   "end": "2021-12-31",
+   "invested": 50000,
+   "weekends": 105,
+   "avg_premium_bp": 14.545,
+   "premiums_paid": 34357.749,
+   "payouts": 41145.191,
+   "net_cost_pct_pa": -0.016,
+   "breaches": 5,
+   "worst_weekend_unprotected": -49873.652,
+   "worst_weekend_protected": -18944.469,
+   "ce_gain_bp_per_weekend": 10.009,
+   "worth_it_to_risk_averse": true,
+   "peace_of_mind_index": 44.242
+  },
+  {
+   "scenario": "H8",
+   "ticker": "GLD",
+   "start": "2012-01-06",
+   "end": "2013-12-27",
+   "invested": 100000,
+   "weekends": 104,
+   "avg_premium_bp": 1.037,
+   "premiums_paid": 1020.997,
+   "payouts": 478.688,
+   "net_cost_pct_pa": 0.003,
+   "breaches": 1,
+   "worst_weekend_unprotected": -5057.25,
+   "worst_weekend_protected": -4587.719,
+   "ce_gain_bp_per_weekend": -0.413,
+   "worth_it_to_risk_averse": false,
+   "peace_of_mind_index": 5.798
+  },
+  {
+   "scenario": "H9",
+   "ticker": "MSTR",
+   "start": "2024-01-05",
+   "end": "2026-09-18",
+   "invested": 50000,
+   "weekends": 142,
+   "avg_premium_bp": 30.442,
+   "premiums_paid": 72769.817,
+   "payouts": 58124.718,
+   "net_cost_pct_pa": 0.032,
+   "breaches": 11,
+   "worst_weekend_unprotected": -31401.719,
+   "worst_weekend_protected": -14447.266,
+   "ce_gain_bp_per_weekend": 18.802,
+   "worth_it_to_risk_averse": true,
+   "peace_of_mind_index": 57.539
+  },
+  {
+   "scenario": "H10",
+   "ticker": "GME",
+   "start": "2020-06-05",
+   "end": "2021-12-31",
+   "invested": 25000,
+   "weekends": 83,
+   "avg_premium_bp": 37.594,
+   "premiums_paid": 148474.144,
+   "payouts": 0.0,
+   "net_cost_pct_pa": 0.143,
+   "breaches": 1,
+   "worst_weekend_unprotected": -123490.324,
+   "worst_weekend_protected": -123490.324,
+   "ce_gain_bp_per_weekend": -32.259,
+   "worth_it_to_risk_averse": false,
+   "peace_of_mind_index": 0.0
+  },
+  {
+   "scenario": "H11",
+   "ticker": "SPY",
+   "start": "2005-01-07",
+   "end": "2026-09-18",
+   "invested": 100000,
+   "weekends": 1133,
+   "avg_premium_bp": 1.253,
+   "premiums_paid": 40796.081,
+   "payouts": 25515.398,
+   "net_cost_pct_pa": 0.002,
+   "breaches": 3,
+   "worst_weekend_unprotected": -32095.0,
+   "worst_weekend_protected": -26051.735,
+   "ce_gain_bp_per_weekend": -0.281,
+   "worth_it_to_risk_averse": false,
+   "peace_of_mind_index": 10.237
+  },
+  {
+   "scenario": "H12",
+   "ticker": "SMCI",
+   "start": "2023-01-06",
+   "end": "2026-09-18",
+   "invested": 50000,
+   "weekends": 194,
+   "avg_premium_bp": 33.825,
+   "premiums_paid": 166267.369,
+   "payouts": 75833.332,
+   "net_cost_pct_pa": 0.104,
+   "breaches": 8,
+   "worst_weekend_unprotected": -52766.927,
+   "worst_weekend_protected": -31573.519,
+   "ce_gain_bp_per_weekend": -8.899,
+   "worth_it_to_risk_averse": false,
+   "peace_of_mind_index": 45.413
+  }
+ ],
+ "keeper": [
+  {
+   "book": "diversified (all 50)",
+   "roc_annualised": 0.073,
+   "sharpe_weekly_ann": 0.902,
+   "max_drawdown_pct_of_peak": -0.316,
+   "worst_weekend_pct_capital": -0.617,
+   "loss_ratio": 0.566,
+   "share_weekends_losing": 0.062
+  },
+  {
+   "book": "ETFs only",
+   "roc_annualised": 0.065,
+   "sharpe_weekly_ann": 0.955,
+   "max_drawdown_pct_of_peak": -0.263,
+   "worst_weekend_pct_capital": -0.393,
+   "loss_ratio": 0.615,
+   "share_weekends_losing": 0.052
+  },
+  {
+   "book": "single names only",
+   "roc_annualised": 0.074,
+   "sharpe_weekly_ann": 0.849,
+   "max_drawdown_pct_of_peak": -0.331,
+   "worst_weekend_pct_capital": -0.685,
+   "loss_ratio": 0.554,
+   "share_weekends_losing": 0.049
+  },
+  {
+   "book": "crypto/meme beta",
+   "roc_annualised": 0.101,
+   "sharpe_weekly_ann": 0.935,
+   "max_drawdown_pct_of_peak": -0.351,
+   "worst_weekend_pct_capital": -0.798,
+   "loss_ratio": 0.563,
+   "share_weekends_losing": 0.06
+  },
+  {
+   "book": "NVDA only",
+   "roc_annualised": 0.04,
+   "sharpe_weekly_ann": 0.152,
+   "max_drawdown_pct_of_peak": -0.534,
+   "worst_weekend_pct_capital": -0.969,
+   "loss_ratio": 0.923,
+   "share_weekends_losing": 0.011
+  },
+  {
+   "book": "bStocks on Binance spot (15)",
+   "roc_annualised": 0.058,
+   "sharpe_weekly_ann": 0.445,
+   "max_drawdown_pct_of_peak": -0.394,
+   "worst_weekend_pct_capital": -0.636,
+   "loss_ratio": 0.737,
+   "share_weekends_losing": 0.044
+  }
+ ],
+ "ruin": [
+  {
+   "capital_ratio": 0.02,
+   "ETFs only": 0.0666,
+   "NVDA only": 0.2426,
+   "bStocks on Binance spot (15)": 0.1511,
+   "crypto/meme beta": 0.161,
+   "diversified (all 50)": 0.0832,
+   "single names only": 0.0925
+  },
+  {
+   "capital_ratio": 0.05,
+   "ETFs only": 0.0309,
+   "NVDA only": 0.1752,
+   "bStocks on Binance spot (15)": 0.077,
+   "crypto/meme beta": 0.0773,
+   "diversified (all 50)": 0.0432,
+   "single names only": 0.0431
+  },
+  {
+   "capital_ratio": 0.1,
+   "ETFs only": 0.0006,
+   "NVDA only": 0.0464,
+   "bStocks on Binance spot (15)": 0.0136,
+   "crypto/meme beta": 0.0236,
+   "diversified (all 50)": 0.0036,
+   "single names only": 0.0087
+  },
+  {
+   "capital_ratio": 0.15,
+   "ETFs only": 0.0,
+   "NVDA only": 0.0122,
+   "bStocks on Binance spot (15)": 0.0016,
+   "crypto/meme beta": 0.0026,
+   "diversified (all 50)": 0.0007,
+   "single names only": 0.0008
+  },
+  {
+   "capital_ratio": 0.2,
+   "ETFs only": 0.0,
+   "NVDA only": 0.0026,
+   "bStocks on Binance spot (15)": 0.0002,
+   "crypto/meme beta": 0.0004,
+   "diversified (all 50)": 0.0,
+   "single names only": 0.0
+  },
+  {
+   "capital_ratio": 0.3,
+   "ETFs only": 0.0,
+   "NVDA only": 0.0001,
+   "bStocks on Binance spot (15)": 0.0,
+   "crypto/meme beta": 0.0,
+   "diversified (all 50)": 0.0,
+   "single names only": 0.0
+  }
+ ],
+ "cppi": [
+  {
+   "m": 10,
+   "floor": 0.0,
+   "roc_pa": 0.1077,
+   "min_equity_pct": 1.0021,
+   "avg_covered_$M": 25.1683,
+   "min_covered_$M": 10.0,
+   "ruin_1y": 0.0,
+   "p_below_floor_1y": 0.0,
+   "median_ret_1y": 0.1927,
+   "p05_ret_1y": -0.286
+  },
+  {
+   "m": 10,
+   "floor": 0.5,
+   "roc_pa": 0.0909,
+   "min_equity_pct": 1.0013,
+   "avg_covered_$M": 17.4691,
+   "min_covered_$M": 5.0,
+   "ruin_1y": 0.0,
+   "p_below_floor_1y": 0.0,
+   "median_ret_1y": 0.1063,
+   "p05_ret_1y": -0.1261
+  },
+  {
+   "m": 10,
+   "floor": 0.7,
+   "roc_pa": 0.0822,
+   "min_equity_pct": 1.0009,
+   "avg_covered_$M": 13.082,
+   "min_covered_$M": 3.0,
+   "ruin_1y": 0.0,
+   "p_below_floor_1y": 0.0,
+   "median_ret_1y": 0.0704,
+   "p05_ret_1y": -0.0667
+  },
+  {
+   "m": 7,
+   "floor": 0.5,
+   "roc_pa": 0.0777,
+   "min_equity_pct": 1.001,
+   "avg_covered_$M": 10.3622,
+   "min_covered_$M": 3.5,
+   "ruin_1y": 0.0,
+   "p_below_floor_1y": 0.0,
+   "median_ret_1y": 0.0784,
+   "p05_ret_1y": -0.0747
+  },
+  {
+   "m": 15,
+   "floor": 0.7,
+   "roc_pa": 0.0948,
+   "min_equity_pct": 1.0012,
+   "avg_covered_$M": 22.292,
+   "min_covered_$M": 4.5,
+   "ruin_1y": 0.0,
+   "p_below_floor_1y": 0.0,
+   "median_ret_1y": 0.1001,
+   "p05_ret_1y": -0.1116
+  }
+ ],
+ "tranches": [
+  {
+   "J": 0.2,
+   "senior_impaired_1y": 0.0874,
+   "senior_median_return": 0.0532,
+   "junior_median_return": 0.6833,
+   "junior_p05_return": -0.4998
+  },
+  {
+   "J": 0.3,
+   "senior_impaired_1y": 0.0541,
+   "senior_median_return": 0.0534,
+   "junior_median_return": 0.4701,
+   "junior_p05_return": -0.4917
+  },
+  {
+   "J": 0.4,
+   "senior_impaired_1y": 0.0476,
+   "senior_median_return": 0.0535,
+   "junior_median_return": 0.361,
+   "junior_p05_return": -0.4604
+  },
+  {
+   "J": 0.5,
+   "senior_impaired_1y": 0.044,
+   "senior_median_return": 0.0535,
+   "junior_median_return": 0.3025,
+   "junior_p05_return": -0.4351
+  },
+  {
+   "J": 0.6,
+   "senior_impaired_1y": 0.0377,
+   "senior_median_return": 0.0535,
+   "junior_median_return": 0.2606,
+   "junior_p05_return": -0.3892
+  },
+  {
+   "J": 0.7,
+   "senior_impaired_1y": 0.0328,
+   "senior_median_return": 0.0535,
+   "junior_median_return": 0.2291,
+   "junior_p05_return": -0.3242
+  }
+ ],
+ "structures": [
+  {
+   "structure": "bare",
+   "high beta": 0.0,
+   "index ETFs": 0.0,
+   "mega caps": 0.0
+  },
+  {
+   "structure": "budget 10bp/wk",
+   "high beta": -0.17,
+   "index ETFs": -0.02,
+   "mega caps": 0.21
+  },
+  {
+   "structure": "budget 25bp/wk",
+   "high beta": -0.08,
+   "index ETFs": 0.08,
+   "mega caps": 0.37
+  },
+  {
+   "structure": "budget 2bp/wk",
+   "high beta": -0.21,
+   "index ETFs": -0.36,
+   "mega caps": 0.07
+  },
+  {
+   "structure": "budget 5bp/wk",
+   "high beta": 0.22,
+   "index ETFs": -0.14,
+   "mega caps": 0.12
+  },
+  {
+   "structure": "put 10%",
+   "high beta": -0.8,
+   "index ETFs": -1.02,
+   "mega caps": -0.8
+  },
+  {
+   "structure": "put 3%",
+   "high beta": -6.51,
+   "index ETFs": 0.06,
+   "mega caps": 0.13
+  },
+  {
+   "structure": "put 5%",
+   "high beta": -2.95,
+   "index ETFs": -0.54,
+   "mega caps": 0.03
+  },
+  {
+   "structure": "put 7%",
+   "high beta": -1.55,
+   "index ETFs": -0.86,
+   "mega caps": -0.34
+  },
+  {
+   "structure": "sleeve 10% T-bill",
+   "high beta": 0.01,
+   "index ETFs": -0.06,
+   "mega caps": -0.06
+  },
+  {
+   "structure": "sleeve 20% @4% fixed",
+   "high beta": -0.19,
+   "index ETFs": -0.32,
+   "mega caps": 0.03
+  },
+  {
+   "structure": "sleeve 20% T-bill",
+   "high beta": -0.12,
+   "index ETFs": -0.23,
+   "mega caps": -0.09
+  },
+  {
+   "structure": "sleeve 30% T-bill",
+   "high beta": -0.12,
+   "index ETFs": -0.19,
+   "mega caps": -0.07
+  },
+  {
+   "structure": "sleeve 50% T-bill",
+   "high beta": -0.23,
+   "index ETFs": -0.13,
+   "mega caps": -0.11
+  },
+  {
+   "structure": "spread 3-18%",
+   "high beta": -7.02,
+   "index ETFs": 0.1,
+   "mega caps": 0.26
+  },
+  {
+   "structure": "spread 5-20%",
+   "high beta": -3.35,
+   "index ETFs": -0.49,
+   "mega caps": 0.13
+  }
+ ],
+ "token": {
+  "n_token_weekends": 165,
+  "tokens": 15,
+  "median_abs_under_gap": 0.008092797757337955,
+  "median_abs_tok_preopen_move": 0.008287412678439798,
+  "beta_preopen_on_gap": 0.9477204595749056,
+  "corr_preopen_gap": 0.9640114836018714,
+  "beta_sunday_on_gap": 0.01999491011059284,
+  "median_abs_tok_preopen_vs_monopen": 0.003080386683602443,
+  "p90_abs_tok_preopen_vs_monopen": 0.008368402780787586,
+  "median_wk_range": 0.0300653165720286,
+  "median_wk_vol_share": 0.20827214066572364,
+  "median_hours_with_trades_share": 1.0,
+  "largest_under_gap": -0.05797797528714721,
+  "largest_under_gap_row": {
+   "symbol": "CRCLBUSDT",
+   "friday": "2026-07-31",
+   "tok_move_preopen": -0.060393034030995385
+  }
+ },
+ "normal_vs_empirical": [
+  {
+   "drop": 3,
+   "empirical": 0.0247,
+   "normal": 0.0477903522728147,
+   "ratio": 0.5168407183734125
+  },
+  {
+   "drop": 5,
+   "empirical": 0.0085,
+   "normal": 0.002736601786244141,
+   "ratio": 3.106041968811932
+  },
+  {
+   "drop": 7,
+   "empirical": 0.0041,
+   "normal": 5.0352102926784644e-05,
+   "ratio": 81.4265891925443
+  },
+  {
+   "drop": 10,
+   "empirical": 0.0019,
+   "normal": 1.3836508957768746e-08,
+   "ratio": 137317.8744580086
+  }
+ ]
+}

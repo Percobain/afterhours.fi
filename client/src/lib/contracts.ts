@@ -8,7 +8,7 @@ export { CoverMarketAbi, KeeperVaultAbi, MockERC20Abi, ReferenceOracleAbi } from
 
 export const SEPOLIA = 11155111;
 export const BSC_TESTNET = 97;
-export const SUPPORTED_CHAIN_IDS = [SEPOLIA, BSC_TESTNET] as const;
+export const SUPPORTED_CHAIN_IDS = [BSC_TESTNET, SEPOLIA] as const;
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number];
 
 export const CHAIN_META: Record<number, { name: string; short: string; network: "sepolia" | "bscTestnet"; explorer: string; gasFaucet: string }> = {
@@ -16,7 +16,8 @@ export const CHAIN_META: Record<number, { name: string; short: string; network: 
   [BSC_TESTNET]: { name: "BSC Testnet", short: "BSC Testnet", network: "bscTestnet", explorer: "https://testnet.bscscan.com", gasFaucet: "https://www.bnbchain.org/en/testnet-faucet" },
 };
 
-export const DEFAULT_CHAIN_ID: number = Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID ?? SEPOLIA) || SEPOLIA;
+// BSC Testnet is the home network; Sepolia stays supported for wallets connected there.
+export const DEFAULT_CHAIN_ID: number = Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID ?? BSC_TESTNET) || BSC_TESTNET;
 
 export const BARRIER_MENU = [100, 200, 300, 500, 700, 1000] as const;
 export const BUDGET_MENU = [2, 5, 10, 25] as const;

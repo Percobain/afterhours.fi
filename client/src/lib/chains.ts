@@ -1,7 +1,8 @@
 import { http, type Transport } from "viem";
 import { bscTestnet, sepolia } from "wagmi/chains";
 
-export const chains = [sepolia, bscTestnet] as const;
+// First entry is the initial chain RainbowKit offers when connecting: BSC Testnet is the home network.
+export const chains = [bscTestnet, sepolia] as const;
 
 const key = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY?.trim() ?? "";
 

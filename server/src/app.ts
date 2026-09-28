@@ -3,6 +3,7 @@ import express, { type NextFunction, type Request, type Response } from "express
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import { config } from "./config";
+import { storeMode } from "./db";
 import { logger } from "./logger";
 import { apiRouter } from "./routes";
 import { ApiError } from "./util/errors";
@@ -13,6 +14,12 @@ export function createApp() {
   app.disable("x-powered-by");
   app.set("json replacer", jsonReplacer);
   if (config.trustProxy) app.set("trust proxy", 1);
+
+  // Keep-alive probe for uptime pingers (cron-job.org) so the Render free instance never idles out.
+  // Registered before helmet/cors/rate limiting and touches no DB or RPC, so frequent pings cost nothing.
+  app.all("/health", (_req, res) => {
+    res.set("cache-control", "no-store").json({ ok: true, service: "afterhours-server", store: storeMode(), uptimeSeconds: Math.round(process.uptime()), now: new Date().toISOString() });
+  });
 
   app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
   const origins = config.clientOrigin
@@ -38,12 +45,12 @@ export function createApp() {
       const ms = Number(process.hrtime.bigint() - t0) / 1e6;
       const line = { method: req.method, path: req.originalUrl.split("?")[0], status: res.statusCode, ms: Math.round(ms) };
       if (res.statusCode >= 500) logger.error(line, "request");
-      else if (req.originalUrl !== "/api/health") logger.debug(line, "request");
+      else if (req.originalUrl !== "/api/health" && req.originalUrl !== "/health") logger.debug(line, "request");
     });
     next();
   });
 
-  app.get("/", (_req, res) => res.json({ service: "afterhours-server", docs: "/api/health, /api/config, /api/quote, /api/market-status, /api/tokens, /api/policies/:address, /api/vault, /api/stats, /api/famous, /api/learn" }));
+  app.get("/", (_req, res) => res.json({ service: "afterhours-server", docs: "/health, /api/health, /api/config, /api/quote, /api/market-status, /api/tokens, /api/policies/:address, /api/vault, /api/stats, /api/famous, /api/learn" }));
   app.use("/api", apiRouter());
 
   app.use((req, res) => {

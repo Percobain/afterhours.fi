@@ -47,7 +47,7 @@ export const GLOSSARY = {
   testnet: {
     term: "Test network",
     short: "A practice version of the blockchain. The money is not real.",
-    long: "Everything here runs on Ethereum Sepolia or BNB Chain testnet. Tokens come free from the faucet buttons. Gas comes from a public faucet.",
+    long: "Everything here runs on BSC Testnet (BNB Chain). Tokens come free from the faucet buttons. Gas comes from a public faucet.",
   },
   gas: {
     term: "Gas",

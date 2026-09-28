@@ -478,11 +478,11 @@ fee        = max( 1.5 × fair(b) ,  0.01% )     refuse if fee > 2% of the amount
               rows={[
                 ["Research pipeline", "Python: pandas, NumPy, SciPy, Matplotlib", "Data pulls, the four engines, backtests, bootstrap, all charts on this page"],
                 ["Market data", "Binance Web3 RWA API, Binance spot API, Yahoo Finance", "Which tokens exist, live prices and volatility, market open/closed status"],
-                ["Contracts", "Solidity, OpenZeppelin, Hardhat", "Pool, protection market and price oracle; verified on Etherscan"],
+                ["Contracts", "Solidity, OpenZeppelin, Hardhat", "Pool, protection market and price oracle; verified on BscScan"],
                 ["Pricing server", "Node.js, TypeScript, viem, MongoDB", "Runs the shipped engine live, signs each price, posts Friday and Monday prices, settles"],
                 ["App", "Next.js, wagmi, RainbowKit", "The interface you’re reading"],
                 ["Research log", "RecurOS", "Every decision and rejected idea, with its reason, in order"],
-                ["Networks", "BNB Chain testnet, Ethereum Sepolia (via Alchemy)", "Where it runs today"],
+                ["Networks", "BSC Testnet (via Alchemy)", "Where it runs today"],
               ]}
             />
             <P>

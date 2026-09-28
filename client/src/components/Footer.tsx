@@ -53,7 +53,7 @@ export function Footer() {
                 </li>
               </ul>
             ) : (
-              <p className="text-ink-3">BSC Testnet · Ethereum Sepolia</p>
+              <p className="text-ink-3">BSC Testnet</p>
             )}
           </div>
         </div>

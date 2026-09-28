@@ -51,7 +51,7 @@ function Hero() {
           <div>
             <Link href="/protect" className="glass inline-flex items-center gap-2 rounded-full py-1.5 pl-1.5 pr-4 text-xs font-medium text-ink hover:bg-white/[0.06]">
               <span className="rounded-full bg-floor px-2 py-0.5 text-[11px] font-bold text-[#1A0E00]">LIVE</span>
-              On Ethereum Sepolia · BNB Hack: Tokenized Stocks <ArrowRight weight="bold" className="h-3.5 w-3.5" />
+              On BSC Testnet · BNB Hack: Tokenized Stocks <ArrowRight weight="bold" className="h-3.5 w-3.5" />
             </Link>
           </div>
 
@@ -91,7 +91,7 @@ function Hero() {
                 <IssuerPill issuer="ondo" short size="lg" className="!text-[15px] font-bold" />
               </a>
               <span className="text-xs text-ink-3">
-                on <span className="text-ink-2">BNB Chain</span> · <span className="text-ink-2">Ethereum</span>
+                on <span className="text-ink-2">BSC Testnet</span>
               </span>
             </div>
           </div>

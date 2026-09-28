@@ -1,5 +1,8 @@
 import { http, type Transport } from "viem";
-import { bscTestnet, sepolia } from "wagmi/chains";
+import { bscTestnet as bscTestnetBase, sepolia } from "wagmi/chains";
+
+// Short display name: "Binance Smart Chain Testnet" wraps onto two lines in the wallet modals.
+export const bscTestnet = { ...bscTestnetBase, name: "BSC Testnet" } as const;
 
 // First entry is the initial chain RainbowKit offers when connecting: BSC Testnet is the home network.
 export const chains = [bscTestnet, sepolia] as const;

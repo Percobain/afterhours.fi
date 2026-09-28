@@ -101,3 +101,8 @@ input[type="range"].slider::-webkit-slider-runnable-track { height: 8px; border-
 .strip { scrollbar-width: none; }
 .strip::-webkit-scrollbar { display: none; }
 .scroll-thin { scrollbar-width: thin; scrollbar-color: #2a3142 transparent; }
+
+/* RainbowKit "Switch networks": the connected chain is a disabled <button>, and disabled buttons ignore the theme's
+   accent foreground, leaving white text on the amber row. Force the dark foreground so the row stays readable. */
+[data-rk] button[data-testid^="rk-chain-option-"]:disabled,
+[data-rk] button[data-testid^="rk-chain-option-"]:disabled * { color: #09090b; }

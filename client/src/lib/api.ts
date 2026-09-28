@@ -10,7 +10,9 @@ import type {
   VaultResponse,
 } from "./types";
 
-export const API_BASE = `${(process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000").replace(/\/$/, "")}/api`;
+// localhost is only a sensible default in dev; a production build without NEXT_PUBLIC_API_URL runs on static fallbacks.
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:4000" : "");
+export const API_BASE = API_URL ? `${API_URL.replace(/\/$/, "")}/api` : "";
 const TIMEOUT_MS = 5000;
 
 export class ApiError extends Error {
@@ -24,6 +26,7 @@ export class ApiError extends Error {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  if (!API_BASE) throw new ApiError(503, "The pricing server is not connected to this deployment yet");
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {

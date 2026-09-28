@@ -5,5 +5,6 @@ out
 .env
 *.tsbuildinfo
 next-env.d.ts
-# deployment files are produced by contracts/scripts/deploy.ts
-src/deployments/*.json
+
+.vercel
+.env*

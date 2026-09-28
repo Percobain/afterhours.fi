@@ -14,3 +14,7 @@ backtest/results/10_all_weekend_gaps.csv
 .cursor/
 *.log
 .DS_Store
+
+# The server ships precompiled so Render only runs `npm ci --omit=dev` (no tsc on deploy).
+# Rebuild with `npm run build` in server/ before pushing server changes.
+!server/dist/

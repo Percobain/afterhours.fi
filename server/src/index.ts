@@ -18,13 +18,15 @@ async function main(): Promise<void> {
     if (!isDeployed(c)) logger.warn({ chainId: id }, `not deployed on ${c.name} yet: add server/deployments/${c.key}.json or CONTRACT_*_${id} env vars`);
   }
 
-  await connectMongo();
-
+  // Open the port first so platform health checks (Render) pass while Mongo is still connecting;
+  // requests are served from the in-memory store until the connection is up.
   const app = createApp();
-  const server = app.listen(config.port, () => {
-    logger.info({ port: config.port, env: config.nodeEnv, clientOrigin: config.clientOrigin }, `afterhours.fi server listening on http://localhost:${config.port}/api/health`);
-    startJobs();
+  const server = app.listen(config.port, config.host, () => {
+    logger.info({ host: config.host, port: config.port, env: config.nodeEnv, clientOrigin: config.clientOrigin }, `afterhours.fi server listening on http://localhost:${config.port}/api/health`);
   });
+
+  await connectMongo();
+  startJobs();
 
   const shutdown = (sig: string) => {
     logger.info({ sig }, "shutting down");

@@ -212,6 +212,8 @@ const alchemyKey = env("ALCHEMY_API_KEY");
 
 export const config = {
   port: envNum("PORT", 4000),
+  // Bind on all IPv4 interfaces; hosts like Render only route to 0.0.0.0.
+  host: env("HOST", "0.0.0.0"),
   nodeEnv: env("NODE_ENV", "development"),
   mongoUri: env("MONGODB_URI"),
   mongoDbName: env("MONGODB_DB", "afterhours"),

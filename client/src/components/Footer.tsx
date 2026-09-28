@@ -3,11 +3,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowSquareOut } from "@phosphor-icons/react";
 import { Logo } from "./Logo";
-import { getStaticDeployment, SEPOLIA, explorerAddress } from "@/lib/contracts";
+import { useAccount } from "wagmi";
+import { BSC_TESTNET, CHAIN_META, getStaticDeployment, SEPOLIA, explorerAddress } from "@/lib/contracts";
+import { useMounted } from "@/hooks/useNow";
+
+/**
+ * BSC Testnet is the home network: its contracts are shown when a wallet is on BSC or when nothing is connected.
+ * Only a wallet connected to Ethereum Sepolia switches the links to Sepolia. Until BSC is deployed, Sepolia fills in.
+ */
+function useFooterChain(): { chainId: number; fallback: boolean } {
+  const { chainId, isConnected } = useAccount();
+  const mounted = useMounted();
+  const wanted = mounted && isConnected && chainId === SEPOLIA ? SEPOLIA : BSC_TESTNET;
+  if (getStaticDeployment(wanted)) return { chainId: wanted, fallback: false };
+  return { chainId: SEPOLIA, fallback: wanted === BSC_TESTNET };
+}
 
 export function Footer() {
   const path = usePathname() ?? "/";
-  const dep = getStaticDeployment(SEPOLIA);
+  const { chainId, fallback } = useFooterChain();
+  const dep = getStaticDeployment(chainId);
   const inApp = path !== "/";
   return (
     <footer className={inApp ? "mt-8 border-t border-line/60 pb-28 lg:pb-0" : "relative mt-0 border-t border-line/60"}>
@@ -27,15 +42,18 @@ export function Footer() {
               <ul className="space-y-2 text-ink-2">
                 {(["CoverMarket", "KeeperVault", "ReferenceOracle"] as const).map((k) => (
                   <li key={k}>
-                    <a href={explorerAddress(SEPOLIA, dep.contracts[k])} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-ink">
+                    <a href={explorerAddress(chainId, dep.contracts[k])} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-ink">
                       {k === "CoverMarket" ? "Protection market" : k === "KeeperVault" ? "Protection pool" : "Price oracle"} <ArrowSquareOut weight="bold" className="h-3 w-3" />
                     </a>
                   </li>
                 ))}
-                <li className="text-xs text-ink-3">Ethereum Sepolia · BSC Testnet</li>
+                <li className="text-xs text-ink-3">
+                  {CHAIN_META[chainId]?.name ?? "Testnet"}
+                  {fallback && " · BSC Testnet deploy coming soon"}
+                </li>
               </ul>
             ) : (
-              <p className="text-ink-3">Ethereum Sepolia · BSC Testnet</p>
+              <p className="text-ink-3">BSC Testnet · Ethereum Sepolia</p>
             )}
           </div>
         </div>

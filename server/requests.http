@@ -1,0 +1,115 @@
+# afterhours.fi server sample requests (VS Code REST Client / IntelliJ HTTP client).
+# Set @base and @admin, then click "Send Request" above any block.
+@base = http://localhost:4000/api
+@admin = change-me
+@chain = 11155111
+@buyer = 0x0000000000000000000000000000000000000001
+@token = 0x0000000000000000000000000000000000000002
+
+### Health
+GET {{base}}/health
+
+### Config: networks, contracts, tokens, epochs, quoter
+GET {{base}}/config
+
+### Market status (Binance RWA status proxy + epoch clock)
+GET {{base}}/market-status
+
+### Force-refresh market status
+GET {{base}}/market-status?refresh=1
+
+### Tokens on a chain with prices, vol and breach stats
+GET {{base}}/tokens?chainId={{chain}}
+
+### Quote by barrier: $1,000 notional, 3% floor
+GET {{base}}/quote?chainId={{chain}}&buyer={{buyer}}&token={{token}}&notionalUsd=1000000000&barrierBps=300
+
+### Quote by budget: tightest floor that costs <= 10bp this week
+GET {{base}}/quote?chainId={{chain}}&buyer={{buyer}}&token={{token}}&notionalUsd=1000000000&budgetBps=10
+
+### Quote that should be priced out (1% floor on a volatile name usually exceeds 2%)
+GET {{base}}/quote?chainId={{chain}}&buyer={{buyer}}&token={{token}}&notionalUsd=1000000000&barrierBps=100
+
+### Policies + stats for an address
+GET {{base}}/policies/{{buyer}}?chainId={{chain}}
+
+### Keeper pool
+GET {{base}}/vault?chainId={{chain}}
+
+### Backtest summary
+GET {{base}}/stats
+
+### Famous weekends (optional ?kind=crash|rally, ?ticker=SPY)
+GET {{base}}/famous?kind=crash
+
+### Learn page content
+GET {{base}}/learn
+
+### ---------------------------------------------------------------- admin (x-admin-secret) -----------------
+
+### Admin status: store mode, indexer cursors, job clock, overrides, recent quotes
+GET {{base}}/admin/status
+x-admin-secret: {{admin}}
+
+### Push live prices to the oracle (setLastPrices); optional per-symbol override
+POST {{base}}/admin/prices
+Content-Type: application/json
+x-admin-secret: {{admin}}
+
+{ "chainId": {{chain}}, "prices": { "NVDAB": 224.5 } }
+
+### Demo override for a ticker's live price (null clears)
+POST {{base}}/admin/overrides
+Content-Type: application/json
+x-admin-secret: {{admin}}
+
+{ "ticker": "NVDA", "price": 210.0 }
+
+### Friday: post closes for an epoch
+POST {{base}}/admin/close/1759521600
+Content-Type: application/json
+x-admin-secret: {{admin}}
+
+{ "chainId": {{chain}} }
+
+### Monday: post opens (allowFallback uses spot/last-known when stockInfo.price is still null)
+POST {{base}}/admin/open/1759521600
+Content-Type: application/json
+x-admin-secret: {{admin}}
+
+{ "chainId": {{chain}}, "allowFallback": true }
+
+### Void an epoch for a token (refunds its policies on settle)
+POST {{base}}/admin/void
+Content-Type: application/json
+x-admin-secret: {{admin}}
+
+{ "chainId": {{chain}}, "token": "{{token}}", "epochId": 1759521600, "reason": "stock_split" }
+
+### Settle everything settleable (optionally one epoch)
+POST {{base}}/admin/settle
+Content-Type: application/json
+x-admin-secret: {{admin}}
+
+{ "chainId": {{chain}} }
+
+### Open the next two epochs (owner-only on-chain; logs the contracts/ command if the quoter is not the owner)
+POST {{base}}/admin/epochs
+Content-Type: application/json
+x-admin-secret: {{admin}}
+
+{ "chainId": {{chain}} }
+
+### Reindex from scratch (optionally from a block)
+POST {{base}}/admin/reindex
+Content-Type: application/json
+x-admin-secret: {{admin}}
+
+{ "chainId": {{chain}}, "fromBlock": 0 }
+
+### Run one indexer pass now
+POST {{base}}/admin/index
+Content-Type: application/json
+x-admin-secret: {{admin}}
+
+{ "chainId": {{chain}} }

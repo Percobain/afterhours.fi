@@ -1,0 +1,43 @@
+{
+  "name": "afterhours-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "afterhours.fi weekend-floor server: v4 pricing engine, EIP-712 quote signer, policy indexer, oracle keeper jobs",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "copy-abi": "node scripts/copy-abi.mjs",
+    "predev": "npm run copy-abi",
+    "dev": "tsx watch src/index.ts",
+    "pretypecheck": "npm run copy-abi",
+    "typecheck": "tsc --noEmit",
+    "prebuild": "npm run copy-abi",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "seed:prices": "tsx src/scripts/seedPrices.ts",
+    "settle": "tsx src/scripts/settle.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "mongoose": "^8.9.5",
+    "node-cron": "^3.0.3",
+    "pino": "^9.6.0",
+    "viem": "^2.22.8",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.17.12",
+    "@types/node-cron": "^3.0.11",
+    "pino-pretty": "^13.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "AMZNon",
+  "ticker": "AMZN",
+  "tokenInfo": {
+   "price": "249.625",
+   "priceHigh24h": "251.413333",
+   "priceLow24h": "247.173",
+   "priceChange24h": "-1.170",
+   "priceChangePct24h": "-0.466516477601228095",
+   "totalHolders": "3040",
+   "sharesMultiplier": "1",
+   "volume24h": "8552955318.67982674",
+   "marketCap": "2418632.796036187790381162125",
+   "fdv": "2418632.796036187790381162125",
+   "circulatingSupply": "9689.064781316726250901",
+   "maxSupply": "9689.064781316726250901",
+   "bnTrader": "3210",
+   "bnHolder": "361"
+  },
+  "stockInfo": {
+   "price": "249.62",
+   "priceHigh52w": "287.2",
+   "priceLow52w": "196",
+   "volume": "34263902.406377",
+   "averageVolume": "46630653",
+   "avgVolume30d": null,
+   "sharesOutstanding": "10786313572",
+   "marketCap": "2693209740981",
+   "turnoverRate": "0.3177",
+   "amplitude": "0.383900",
+   "priceToEarnings": "19.88",
+   "dividendYield": "0",
+   "priceToBook": "4.88",
+   "lastCashAmount": "0.000000",
+   "apy": null,
+   "wso": "10786313572",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

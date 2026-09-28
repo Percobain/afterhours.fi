@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "GOOGLon",
+  "ticker": "GOOGL",
+  "tokenInfo": {
+   "price": "344.249888468928438633",
+   "priceHigh24h": "347.85039214292135",
+   "priceLow24h": "341.98265702936334",
+   "priceChange24h": "-0.491205560052361367",
+   "priceChangePct24h": "-0.142485351633498028",
+   "totalHolders": "26210",
+   "sharesMultiplier": "1.002460326637435211",
+   "volume24h": "7517274330.78285218",
+   "marketCap": "9332496.315119542179475677465626828573070075",
+   "fdv": "9332496.315119542179475677465626828573070075",
+   "circulatingSupply": "27109.656757265388462275",
+   "maxSupply": "27109.656757265388462275",
+   "bnTrader": "6650",
+   "bnHolder": "3038"
+  },
+  "stockInfo": {
+   "price": "343.555",
+   "priceHigh52w": "408.61",
+   "priceLow52w": "235.84",
+   "volume": "21880846.824476",
+   "averageVolume": "32128002",
+   "avgVolume30d": null,
+   "sharesOutstanding": "12229934831",
+   "marketCap": "4205235916724",
+   "turnoverRate": "0.1789",
+   "amplitude": "0.403600",
+   "priceToEarnings": "17.15",
+   "dividendYield": "0.25",
+   "priceToBook": "6.54",
+   "lastCashAmount": "0.220000",
+   "apy": null,
+   "wso": "12229934831",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

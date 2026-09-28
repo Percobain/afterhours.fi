@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "SPYon",
+  "ticker": "SPY",
+  "tokenInfo": {
+   "price": "777.995849829297807173",
+   "priceHigh24h": "780.1258380128721",
+   "priceLow24h": "773.5730959291627",
+   "priceChange24h": "0.898134249694307173",
+   "priceChangePct24h": "0.115575458747093056",
+   "totalHolders": "24344",
+   "sharesMultiplier": "1.009473072784042724",
+   "volume24h": "28258868547.892134095",
+   "marketCap": "3783258.442592436428487821222508923136557811",
+   "fdv": "3783258.442592436428487821222508923136557811",
+   "circulatingSupply": "4862.825995051942101207",
+   "maxSupply": "4862.825995051942101207",
+   "bnTrader": "3009",
+   "bnHolder": "1820"
+  },
+  "stockInfo": {
+   "price": "770.695",
+   "priceHigh52w": "779.37",
+   "priceLow52w": "629.28",
+   "volume": "36666733.984121",
+   "averageVolume": "67488571",
+   "avgVolume30d": null,
+   "sharesOutstanding": "1031882116",
+   "marketCap": "795809093407",
+   "turnoverRate": "3.5534",
+   "amplitude": "0.365000",
+   "priceToEarnings": null,
+   "dividendYield": null,
+   "priceToBook": null,
+   "lastCashAmount": "1.903516",
+   "apy": null,
+   "wso": null,
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "QQQon",
+  "ticker": "QQQ",
+  "tokenInfo": {
+   "price": "747.695002045843052593",
+   "priceHigh24h": "750.0852764995032",
+   "priceLow24h": "742.679610307093",
+   "priceChange24h": "-0.695829124114847407",
+   "priceChangePct24h": "-0.0929767034995684166",
+   "totalHolders": "22977",
+   "sharesMultiplier": "1.004082430180208355",
+   "volume24h": "22550961478.406711715",
+   "marketCap": "6238043.711972818690954868862519319313407695",
+   "fdv": "6238043.711972818690954868862519319313407695",
+   "circulatingSupply": "8343.032513129395791615",
+   "maxSupply": "8343.032513129395791615",
+   "bnTrader": "5601",
+   "bnHolder": "2196"
+  },
+  "stockInfo": {
+   "price": "744.655",
+   "priceHigh52w": "748.65",
+   "priceLow52w": "555.6",
+   "volume": "30283770.979053",
+   "averageVolume": "50927807",
+   "avgVolume30d": null,
+   "sharesOutstanding": "674450000",
+   "marketCap": "502045251775",
+   "turnoverRate": "4.4901",
+   "amplitude": "0.580400",
+   "priceToEarnings": null,
+   "dividendYield": null,
+   "priceToBook": null,
+   "lastCashAmount": "0.813490",
+   "apy": null,
+   "wso": null,
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

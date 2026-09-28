@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "COINon",
+  "ticker": "COIN",
+  "tokenInfo": {
+   "price": "194.99",
+   "priceHigh24h": "201.64",
+   "priceLow24h": "192.61",
+   "priceChange24h": "-4.565",
+   "priceChangePct24h": "-2.28758988749968680",
+   "totalHolders": "1493",
+   "sharesMultiplier": "1",
+   "volume24h": "1223974519.6750109",
+   "marketCap": "7149850.94568645203164261695",
+   "fdv": "7149850.94568645203164261695",
+   "circulatingSupply": "36667.782684683583935805",
+   "maxSupply": "36667.782684683583935805",
+   "bnTrader": "1001",
+   "bnHolder": "205"
+  },
+  "stockInfo": {
+   "price": "194.98",
+   "priceHigh52w": "402.16",
+   "priceLow52w": "139.11",
+   "volume": "6277436.248205",
+   "averageVolume": "10048331",
+   "avgVolume30d": null,
+   "sharesOutstanding": "263836923",
+   "marketCap": "51463150832",
+   "turnoverRate": "2.3793",
+   "amplitude": "0.640200",
+   "priceToEarnings": null,
+   "dividendYield": "0",
+   "priceToBook": "4.02",
+   "lastCashAmount": "0.000000",
+   "apy": null,
+   "wso": "263836923",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

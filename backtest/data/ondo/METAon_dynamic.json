@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "METAon",
+  "ticker": "META",
+  "tokenInfo": {
+   "price": "747.858174326214430641",
+   "priceHigh24h": "781.3158227429996",
+   "priceLow24h": "745.4463755876901",
+   "priceChange24h": "-33.0698893435917694",
+   "priceChangePct24h": "-4.23469086104894497",
+   "totalHolders": "2256",
+   "sharesMultiplier": "1.002826918305349555",
+   "volume24h": "19259250797.18748738",
+   "marketCap": "1593029.900652079834627934247878705265108447",
+   "fdv": "1593029.900652079834627934247878705265108447",
+   "circulatingSupply": "2130.123003719690535567",
+   "maxSupply": "2130.123003719690535567",
+   "bnTrader": "2770",
+   "bnHolder": "331"
+  },
+  "stockInfo": {
+   "price": "745.71",
+   "priceHigh52w": "779.8192",
+   "priceLow52w": "520.26",
+   "volume": "25826729.958278",
+   "averageVolume": "17603030",
+   "avgVolume30d": null,
+   "sharesOutstanding": "2547506225",
+   "marketCap": "1913546280604",
+   "turnoverRate": "1.0138",
+   "amplitude": "0.799600",
+   "priceToEarnings": "29.09",
+   "dividendYield": "0.27",
+   "priceToBook": "7.58",
+   "lastCashAmount": "0.525000",
+   "apy": null,
+   "wso": "2547506225",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

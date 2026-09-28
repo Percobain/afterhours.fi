@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "NVDAon",
+  "ticker": "NVDA",
+  "tokenInfo": {
+   "price": "224.950184845871449437",
+   "priceHigh24h": "227.28918995181007",
+   "priceLow24h": "223.52162771069575",
+   "priceChange24h": "-1.56267578812175056",
+   "priceChangePct24h": "-0.689883913764513617",
+   "totalHolders": "57517",
+   "sharesMultiplier": "1.0017152487959898",
+   "volume24h": "20193711272.74447164",
+   "marketCap": "16218282.420998649273090897741112972664232663",
+   "fdv": "16218282.420998649273090897741112972664232663",
+   "circulatingSupply": "72097.217577797897423299",
+   "maxSupply": "72097.217577797897423299",
+   "bnTrader": "22710",
+   "bnHolder": "6166"
+  },
+  "stockInfo": {
+   "price": "224.505",
+   "priceHigh52w": "236.54",
+   "priceLow52w": "164.27",
+   "volume": "89947712.847128",
+   "averageVolume": "162872803",
+   "avgVolume30d": null,
+   "sharesOutstanding": "24147000000",
+   "marketCap": "5432687175033",
+   "turnoverRate": "0.3725",
+   "amplitude": "0.408600",
+   "priceToEarnings": "28.12",
+   "dividendYield": "0.12",
+   "priceToBook": "23.68",
+   "lastCashAmount": "0.250000",
+   "apy": null,
+   "wso": "24147000000",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "TSLAon",
+  "ticker": "TSLA",
+  "tokenInfo": {
+   "price": "372.015",
+   "priceHigh24h": "386.654444",
+   "priceLow24h": "367.736667",
+   "priceChange24h": "-9.240",
+   "priceChangePct24h": "-2.42357477278986505",
+   "totalHolders": "29719",
+   "sharesMultiplier": "1",
+   "volume24h": "17112032934.253954455",
+   "marketCap": "9735555.15166482317669121333",
+   "fdv": "9735555.15166482317669121333",
+   "circulatingSupply": "26169.791948348381588622",
+   "maxSupply": "26169.791948348381588622",
+   "bnTrader": "14592",
+   "bnHolder": "4119"
+  },
+  "stockInfo": {
+   "price": "372.005",
+   "priceHigh52w": "498.83",
+   "priceLow52w": "297.38",
+   "volume": "45999470.260491",
+   "averageVolume": "60328063",
+   "avgVolume30d": null,
+   "sharesOutstanding": "3949547394",
+   "marketCap": "1469400209099",
+   "turnoverRate": "1.1647",
+   "amplitude": "0.455900",
+   "priceToEarnings": "392.4",
+   "dividendYield": "0",
+   "priceToBook": "17.19",
+   "lastCashAmount": "0.000000",
+   "apy": null,
+   "wso": "3949547394",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

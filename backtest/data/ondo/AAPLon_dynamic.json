@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "AAPLon",
+  "ticker": "AAPL",
+  "tokenInfo": {
+   "price": "341.353557166791905037",
+   "priceHigh24h": "342.8134693540839",
+   "priceLow24h": "335.67946546979096",
+   "priceChange24h": "4.31395923998590504",
+   "priceChangePct24h": "1.27995620292745429",
+   "totalHolders": "33664",
+   "sharesMultiplier": "1.003376073740221058",
+   "volume24h": "10207003014.386961685",
+   "marketCap": "3275155.076355987284122322929771459144489092",
+   "fdv": "3275155.076355987284122322929771459144489092",
+   "circulatingSupply": "9594.612411657639770516",
+   "maxSupply": "9594.612411657639770516",
+   "bnTrader": "19619",
+   "bnHolder": "3379"
+  },
+  "stockInfo": {
+   "price": "340.205",
+   "priceHigh52w": "345.34",
+   "priceLow52w": "243.42",
+   "volume": "30002507.354057",
+   "averageVolume": "48293794",
+   "avgVolume30d": null,
+   "sharesOutstanding": "14594180000",
+   "marketCap": "4976262551104",
+   "turnoverRate": "0.2056",
+   "amplitude": "0.404100",
+   "priceToEarnings": "38.02",
+   "dividendYield": "0.32",
+   "priceToBook": "45.6",
+   "lastCashAmount": "0.270000",
+   "apy": null,
+   "wso": "14594180000",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

@@ -1,0 +1,17 @@
+{
+  "barriers": [
+    0.03,
+    0.05,
+    0.07,
+    0.1
+  ],
+  "default_barrier": 0.05,
+  "risk_load": 0.5,
+  "premium_floor": 0.0001,
+  "backtest_start_year": 2005,
+  "keeper_capital_ratio": 0.1,
+  "keeper_idle_yield_apy": 0.04,
+  "bootstrap_paths": 20000,
+  "settlement": "open",
+  "notes": "premium_floor 1bp: even a ticker with no breach history pays 1bp. risk_load 50% multiplicative on fair expected payout. All premiums are per $1 of covered notional per weekend."
+}

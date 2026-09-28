@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "CRCLon",
+  "ticker": "CRCL",
+  "tokenInfo": {
+   "price": "87.785",
+   "priceHigh24h": "94.091667",
+   "priceLow24h": "86.273333",
+   "priceChange24h": "-4.940",
+   "priceChangePct24h": "-5.32758155837152871",
+   "totalHolders": "4682",
+   "sharesMultiplier": "1",
+   "volume24h": "983702780.061236655",
+   "marketCap": "88459041.230661167280642212595",
+   "fdv": "88459041.230661167280642212595",
+   "circulatingSupply": "1007678.318968629803276667",
+   "maxSupply": "1007678.318968629803276667",
+   "bnTrader": "6914",
+   "bnHolder": "1917"
+  },
+  "stockInfo": {
+   "price": "87.745",
+   "priceHigh52w": "159.47",
+   "priceLow52w": "49.9",
+   "volume": "11210926.891119",
+   "averageVolume": "14531858",
+   "avgVolume30d": null,
+   "sharesOutstanding": "253875881",
+   "marketCap": "22584644525",
+   "turnoverRate": "4.4159",
+   "amplitude": "0.937500",
+   "priceToEarnings": "18.38",
+   "dividendYield": null,
+   "priceToBook": "6.64",
+   "lastCashAmount": "0.000000",
+   "apy": null,
+   "wso": "253875881",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1200000"
+  },
+  "type": 1
+ },
+ "success": true
+}

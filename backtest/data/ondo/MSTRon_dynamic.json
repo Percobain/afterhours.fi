@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "MSTRon",
+  "ticker": "MSTR",
+  "tokenInfo": {
+   "price": "158.725",
+   "priceHigh24h": "165.087129",
+   "priceLow24h": "156.8025",
+   "priceChange24h": "-3.995",
+   "priceChangePct24h": "-2.45513765978367748",
+   "totalHolders": "1800",
+   "sharesMultiplier": "1",
+   "volume24h": "2940660700.15479305",
+   "marketCap": "21337131.791618607509447088375",
+   "fdv": "21337131.791618607509447088375",
+   "circulatingSupply": "134428.299206921452256715",
+   "maxSupply": "134428.299206921452256715",
+   "bnTrader": "1613",
+   "bnHolder": "411"
+  },
+  "stockInfo": {
+   "price": "158.705",
+   "priceHigh52w": "365.21",
+   "priceLow52w": "81.81",
+   "volume": "18529099.27321",
+   "averageVolume": "20352107",
+   "avgVolume30d": null,
+   "sharesOutstanding": "397281660",
+   "marketCap": "63009438991",
+   "turnoverRate": "4.664",
+   "amplitude": "0.910800",
+   "priceToEarnings": null,
+   "dividendYield": "0",
+   "priceToBook": "1.75",
+   "lastCashAmount": "0.000000",
+   "apy": null,
+   "wso": "397281660",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

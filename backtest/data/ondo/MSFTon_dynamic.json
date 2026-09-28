@@ -1,0 +1,71 @@
+{
+ "code": "000000",
+ "message": null,
+ "messageDetail": null,
+ "data": {
+  "symbol": "MSFTon",
+  "ticker": "MSFT",
+  "tokenInfo": {
+   "price": "520.018168210698380966",
+   "priceHigh24h": "522.3549838566888",
+   "priceLow24h": "499.83482646619865",
+   "priceChange24h": "19.9607403167510810",
+   "priceChangePct24h": "3.99168959469678662",
+   "totalHolders": "19474",
+   "sharesMultiplier": "1.005730856892783903",
+   "volume24h": "19749085749.82473518",
+   "marketCap": "2817497.32452471376235813811938356470053737",
+   "fdv": "2817497.32452471376235813811938356470053737",
+   "circulatingSupply": "5418.074784231642801695",
+   "maxSupply": "5418.074784231642801695",
+   "bnTrader": "5438",
+   "bnHolder": "1791"
+  },
+  "stockInfo": {
+   "price": "517.085",
+   "priceHigh52w": "553.72",
+   "priceLow52w": "349.2",
+   "volume": "38193112.834108",
+   "averageVolume": "31687137",
+   "avgVolume30d": null,
+   "sharesOutstanding": "7425545491",
+   "marketCap": "3831613960118",
+   "turnoverRate": "0.5143",
+   "amplitude": "0.353500",
+   "priceToEarnings": "27.64",
+   "dividendYield": "0.72",
+   "priceToBook": "8.36",
+   "lastCashAmount": "0.910000",
+   "apy": null,
+   "wso": "7425545491",
+   "perShareValuation": null,
+   "positionMarketValue": null,
+   "discount": null,
+   "shareHeld": null,
+   "valuation": null,
+   "marketReferenceValuation": null,
+   "eps": null,
+   "priceToSales": null,
+   "enterpriseValue": null,
+   "evToEbitda": null,
+   "returnOnEquity": null,
+   "returnOnAssets": null,
+   "freeCashFlow": null,
+   "debtToEquity": null
+  },
+  "statusInfo": {
+   "openState": true,
+   "marketStatus": "offhours",
+   "reasonCode": "TRADING",
+   "reasonMsg": null,
+   "nextOpenTime": 1790553900000,
+   "nextCloseTime": 1790553300000
+  },
+  "limitInfo": {
+   "maxAttestationCount": "1500",
+   "maxActiveNotionalValue": "1000000"
+  },
+  "type": 1
+ },
+ "success": true
+}

@@ -1,0 +1,82 @@
+{
+  "network": "bscTestnet",
+  "chainId": 97,
+  "deployer": "0x1d83F122EF31885B83139ABCb4f8fB4eF319DDF9",
+  "quoter": "0x1d83F122EF31885B83139ABCb4f8fB4eF319DDF9",
+  "deployedAt": "2026-09-28T14:34:31.789Z",
+  "deployBlock": 133686889,
+  "contracts": {
+    "USDT": "0xB5297E51C700EcE40912C0857F866eCd09348484",
+    "ReferenceOracle": "0x67faAb9FA857c5f3B564D950474A0e58c6073721",
+    "KeeperVault": "0xd2f6f89b8880a621D2b2e26E4b725cD3Cc3F6924",
+    "CoverMarket": "0x73A30DAf8e3561848bC5561d30dFc50830aa5d00"
+  },
+  "stocks": {
+    "NVDAB": {
+      "address": "0x59205D7a546Bd28bbE3A8C8BE4Eec256d9c34bC4",
+      "ticker": "NVDA",
+      "name": "NVIDIA bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "TSLAB": {
+      "address": "0x6ea034B50D2053A83c0d8193F907F91691a03601",
+      "ticker": "TSLA",
+      "name": "Tesla bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "AAPLB": {
+      "address": "0x7A0aA73824cE1E523c903af8fDF8D67a249FD2a8",
+      "ticker": "AAPL",
+      "name": "Apple bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "SPYB": {
+      "address": "0x167a116213EfE0Be71A3CB1d31802559b65db71b",
+      "ticker": "SPY",
+      "name": "SPDR S&P 500 bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "COINB": {
+      "address": "0x1019DE31d6710DfE1B33A87c31a4b65f4B803306",
+      "ticker": "COIN",
+      "name": "Coinbase bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "MSTRB": {
+      "address": "0xA64f0E730399de66fA6278c64BBb4A708d6d17f3",
+      "ticker": "MSTR",
+      "name": "Strategy bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "NVDAon": {
+      "address": "0xa0DaaFe98808145f717a764C940e4F3c26248651",
+      "ticker": "NVDA",
+      "name": "NVIDIA Ondo Stock (test)",
+      "decimals": 18,
+      "wrapper": "ondo"
+    },
+    "SPYon": {
+      "address": "0x474c99BFa66Eb98B7e3EFbb9430fFC9CDc209C5f",
+      "ticker": "SPY",
+      "name": "SPDR S&P 500 Ondo Stock (test)",
+      "decimals": 18,
+      "wrapper": "ondo"
+    }
+  },
+  "epochs": [
+    {
+      "epochId": 1790971200,
+      "expectedOpen": 1791207000
+    },
+    {
+      "epochId": 1791576000,
+      "expectedOpen": 1791811800
+    }
+  ]
+}

@@ -35,8 +35,16 @@ The client also runs with no server and no deployment: every server call has a 5
 - **Keep-alive.** Render's free tier sleeps after 15 idle minutes, which would also pause the indexer and the Friday/Monday jobs. An uptime pinger (cron-job.org) hits `GET /health` every 10 minutes; that route skips the rate limiter and touches no DB or RPC.
 
 ## Deployments
-- **Ethereum Sepolia (11155111)**: `contracts/deployments/sepolia.json`. Deployer/admin/quoter `0x1d83F122EF31885B83139ABCb4f8fB4eF319DDF9`.
-- **BSC Testnet (97)**: `cd contracts; npm run deploy:bscTestnet` once the deployer holds test BNB.
+BSC Testnet is the home network; Ethereum Sepolia runs the same stack. The deployer `0x1d83F122EF31885B83139ABCb4f8fB4eF319DDF9` is admin and quoter on both.
+
+| contract | BSC Testnet (97) | Ethereum Sepolia (11155111) |
+|---|---|---|
+| CoverMarket | [`0x73A30DAf8e3561848bC5561d30dFc50830aa5d00`](https://testnet.bscscan.com/address/0x73A30DAf8e3561848bC5561d30dFc50830aa5d00) | [`0x8f80d31BaF2AbFC91fF4837107871Ed0930B091C`](https://sepolia.etherscan.io/address/0x8f80d31BaF2AbFC91fF4837107871Ed0930B091C) |
+| KeeperVault | [`0xd2f6f89b8880a621D2b2e26E4b725cD3Cc3F6924`](https://testnet.bscscan.com/address/0xd2f6f89b8880a621D2b2e26E4b725cD3Cc3F6924) | [`0x3eD15ce2936909016D6767d9D109D839E4E40B52`](https://sepolia.etherscan.io/address/0x3eD15ce2936909016D6767d9D109D839E4E40B52) |
+| ReferenceOracle | [`0x67faAb9FA857c5f3B564D950474A0e58c6073721`](https://testnet.bscscan.com/address/0x67faAb9FA857c5f3B564D950474A0e58c6073721) | [`0x0fC24edC4A70A37E8EB5f953132550696d9F18fB`](https://sepolia.etherscan.io/address/0x0fC24edC4A70A37E8EB5f953132550696d9F18fB) |
+| USDT (test) | [`0xB5297E51C700EcE40912C0857F866eCd09348484`](https://testnet.bscscan.com/address/0xB5297E51C700EcE40912C0857F866eCd09348484) | [`0x4513E017E0C77D82e920DAEDD47F653510Bb52c5`](https://sepolia.etherscan.io/address/0x4513E017E0C77D82e920DAEDD47F653510Bb52c5) |
+
+Full address books, including the bStock/Ondo test tokens and the deploy blocks, live in `contracts/deployments/<network>.json`. All contracts are source-verified.
 
 ## How a weekend works
 1. **Friday, before the bell.** The holder picks a token and a weekly budget (or a floor). The server prices it with the pooled vol-scaled engine, signs an EIP-712 quote, and the holder calls `buyCover`. The premium goes into the Keeper vault; the vault locks 20% of the notional as the policy's maximum payout.

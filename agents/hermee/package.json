@@ -1,0 +1,25 @@
+{
+  "name": "afterhours-hermee-agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hermee's agent: buys afterhours.fi weekend cover from Kip's underwriting agent over x402 (local key on BSC testnet, Binance Agentic Wallet on BSC mainnet).",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "sync": "node ../../shared/hermee/sync.mjs src",
+    "hermee": "tsx src/cli.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "dotenv": "^16.4.5",
+    "viem": "2.57.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}

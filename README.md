@@ -1,6 +1,6 @@
 # afterhours.fi - weekend floors for tokenized stocks
 
-**Live app:** https://afterhoursfi.vercel.app · **API:** https://afterhours-fi.onrender.com/api/health
+**Live app:** https://afterhoursfi.vercel.app · **Agents demo:** https://afterhoursfi.vercel.app/agents · **API:** https://afterhours-fi.onrender.com/api/health · **Kip's agent:** https://afterhours-kip.onrender.com
 
 The US market closes Friday at 4pm New York and reopens Monday at 9:30. Tokenized stocks (bStocks, Ondo) keep trading through the weekend on BNB Chain, priced off a reference that has not moved. afterhours.fi lets a holder set a **floor** under that weekend for a few basis points, and lets a **Keeper pool** earn those premiums for carrying the risk, fully collateralised and CPPI-sized.
 
@@ -9,10 +9,12 @@ The US market closes Friday at 4pm New York and reopens Monday at 9:30. Tokenize
 | folder | what |
 |---|---|
 | `backtest/` | the research: 61,815 ticker-weekends 2005-2026, four pricing engines, Hermee (buyer) and Kip (Keeper) case studies, principal-protection structures, market research, literature, hackathon strategy. Start with `backtest/CONCLUSIONS.md` and `backtest/report/index.html`. |
-| `contracts/` | Hardhat project: `KeeperVault` (ERC-4626, CPPI floor), `CoverMarket` (EIP-712 signed quotes, Friday bell, Monday-open settlement, 20% payout cap), `ReferenceOracle`, test tokens. Deployed on Ethereum Sepolia; BSC Testnet deploy script ready. |
+| `contracts/` | Hardhat project: `KeeperVault` (ERC-4626, CPPI floor), `CoverMarket` (EIP-712 signed quotes, Friday bell, Monday-open settlement, 20% payout cap, `coverFor` for agents), `ReferenceOracle`, test tokens. Deployed on BSC Testnet (home) and Ethereum Sepolia. |
 | `server/` | Node + TypeScript + Express + MongoDB: the v4 pricing engine (pooled vol-scaled tail), quote signing, Binance market-status and price feeds, event indexer, Friday/Monday epoch jobs, admin routes. Ships precompiled in `server/dist/`. |
-| `client/` | Next.js + wagmi + viem + RainbowKit: landing page, the app (Protect / Earn / My activity) and `/docs`. Dark, calm, gamified-not-gambling. |
-| `shared/` | `INTERFACE.md` (the contract between the three apps) and exported ABIs. |
+| `client/` | Next.js + wagmi + viem + RainbowKit: landing page, the app (Protect / Earn / My activity / Agents) and `/docs`. Dark, calm, gamified-not-gambling. |
+| `agents/` | Two AI agents that trade cover over x402: `kip` (underwriter, BNB Agent Studio, ERC-8004) and `hermee` (buyer, Binance Agentic Wallet on mainnet). See [Agents](#agents-two-ai-agents-trade-weekend-cover). |
+| `skills/` | `afterhours-weekend-cover`, the Binance Agentic Wallet skill. |
+| `shared/` | `INTERFACE.md` (the contract between the apps), exported ABIs, and the shared x402 and Hermee agent code. |
 
 ## Quick start
 ```powershell
@@ -35,32 +37,112 @@ The client also runs with no server and no deployment: every server call has a 5
 - **Kip's agent → Render** (`afterhours-kip`, root `agents/kip/app/agent`). It ships as one prebuilt bundle (`npm run bundle`, commit `bundle/kip.mjs`), so Render runs `node bundle/kip.mjs` with no install or build. The keystore comes from `WALLET_KEYSTORE_JSON` + `WALLET_PASSWORD`.
 - **Keep-alive.** Render's free tier sleeps after 15 idle minutes, which would pause the indexer, the Friday/Monday jobs and Kip's keeper. An uptime pinger (cron-job.org) hits `GET /health` on both services every 10 minutes: `https://afterhours-fi.onrender.com/health` and `https://afterhours-kip.onrender.com/health`. Neither route touches a DB or RPC.
 
-## Agent-to-agent: x402, Agent Studio and the Agentic Wallet
-Two agents trade weekend cover with each other on BSC Testnet. Watch or run one live at **[afterhoursfi.vercel.app/agents](https://afterhoursfi.vercel.app/agents)**.
+## Agents: two AI agents trade weekend cover
 
-| | Hermee's agent (buyer) | Kip's agent (underwriter) |
+> **Try it:** [afterhoursfi.vercel.app/agents](https://afterhoursfi.vercel.app/agents). Press **Start the agents** to watch a real trade between the two agents on BSC Testnet, with every step linked on BscScan.
+
+### In plain words
+Buying weekend protection by hand means remembering to do it before 4pm New York every Friday. That is exactly the kind of chore an AI agent should do. So afterhours.fi has **two agents that trade with each other**:
+
+- **Hermee's agent** works for a stock holder. Every Friday it looks at what she holds, asks for a price, checks the price against the budget she set, and pays.
+- **Kip's agent** works for the protection pool. It prices the risk, collects the fee, writes the policy on-chain and, on Monday, settles it.
+
+They pay each other with **x402**, a standard that lets one piece of software pay another over the web the way a browser loads a page: ask, get told the price, pay with a signature, get the goods.
+
+**One weekend in numbers (a real trade from the live demo):**
+1. Friday: Hermee's agent asks Kip's agent to protect **$1,000 of NVDA** below **-5%**.
+2. Kip's agent answers "that costs **$0.16**" (1.6 basis points, priced from 21 years of weekends).
+3. Hermee's budget allows up to 1% ($10), so her agent signs one payment. Kip's agent collects it and writes **policy #0** on-chain, in Hermee's name.
+4. Monday: if NVDA opens at -8%, the pool pays Hermee **$30** (the 3% below her floor), straight to her wallet. If it opens anywhere above -5%, nothing happens and the $0.16 was the cost of sleeping well.
+
+Kip's agent never holds a payout. It only passes the fee into the pool, and the pool pays Hermee by rule.
+
+### What each piece is
+
+| Term | What it means here |
+|---|---|
+| **Agent** | A program that acts on someone's behalf with its own wallet: it decides, pays and signs within limits its owner set. |
+| **x402** | The HTTP "402 Payment Required" status turned into a real payment standard (v2). The seller answers a request with a price in a `PAYMENT-REQUIRED` header; the buyer retries with a `PAYMENT-SIGNATURE` header; the seller settles the payment on-chain, does the work and returns a `PAYMENT-RESPONSE` receipt. |
+| **Binance Agentic Wallet** and **Wallet Skills** | Binance's wallet built for AI agents. The key is held by Binance (MPC) and never given to the agent; spending limits and allowed tokens are set by the human in the Binance App. Agents drive it with the `baw` CLI and "skills" (instruction packs). Hermee's agent pays with `baw x402-payment preview` / `sign`. **Mainnet only.** |
+| **BNB Agent Studio** | BNB Chain's toolkit for "seller" agents (`bag` CLI): scaffolds the agent, gives it a wallet it alone controls, an on-chain identity, an MCP server and payment rails. Kip's agent is built with it. |
+| **ERC-8004** | An on-chain registry of agent identities. Kip's agent is **agent #2530** on BSC Testnet, pointing at its public agent card, so any other agent can look up who it is and how to reach it. |
+| **MCP** | Model Context Protocol, the standard way AI agents call tools. Kip's agent offers free tools (`quote_cover`, `market_status`, `gap_history`, `pool_health`, `my_book`) any agent can use to check weekend risk. |
+| **A2A agent card** | A small public JSON file describing the agent and its skills: [`/.well-known/agent-card.json`](https://afterhours-kip.onrender.com/.well-known/agent-card.json). |
+| **Permit2** | A standard contract that lets a wallet authorise one exact token transfer with a signature instead of a transaction. x402 uses it on BNB Chain because USDT has no built-in signed transfers. |
+| **Facilitator** | The service that checks an x402 payment and submits it on-chain, paying the gas. On mainnet that is Binance's **b402**. On testnet afterhours.fi runs a stand-in with the same API (see below). |
+| **Binder / `coverFor`** | A new CoverMarket function: an agent the market owner has authorised (a "binder") can write a policy **for** a buyer after collecting the fee off-chain. The policy, payouts and refunds all stay the buyer's. |
+
+### One trade, step by step
+
+```
+Hermee's agent                 Kip's agent                 Facilitator             BNB Chain
+     | 1. POST /cover/bind  ------->|                            |                      |
+     |<------- 2. 402 + price ------|                            |                      |
+     | 3. check budget, sign once   |                            |                      |
+     | 4. retry + PAYMENT-SIGNATURE>|                            |                      |
+     |                              | 5. verify + settle ------->| 6. USDT Hermee -> Kip|
+     |                              | 7. coverFor(quote) ------------------------------>| policy for Hermee,
+     |<-- 8. 200 + policy + tx ids -|                            |                      | fee -> pool
+   Monday:                          | 9. settleBatch ---------------------------------->| pool pays Hermee
+```
+
+On-chain that is three kinds of transactions: a one-time Permit2 approval by Hermee, the x402 settlement (through the standard `x402ExactPermit2Proxy`), and Kip's `coverFor`. Then on Monday, Kip's `settleBatch`.
+
+### Who can move what
+- **Hermee's signature fixes the recipient and the amount.** The payment can only go to Kip's address, for the quoted fee, before a deadline. The facilitator only pays gas and cannot redirect it.
+- **Hermee's agent refuses bad offers.** It won't pay above its budget, won't pay a different amount, token, network or recipient than offered, asks before signing when a person is in the loop, and retries at most once. On mainnet, the Agentic Wallet also enforces the owner's own daily limit.
+- **Kip's agent cannot pick the buyer.** Each quote is signed by the pricing engine for a specific buyer, and the contract checks that buyer really holds the stock. Kip cannot re-point a quote at itself.
+- **Kip's agent never touches payouts.** Payouts and refunds go from the pool to the buyer. If binding fails after Kip was paid, Kip refunds the fee before answering.
+- **Nothing that moves money is an AI decision.** Kip signs with fixed code using its Studio key; its LLM-facing tools are read-only. The market owner can revoke Kip's binder permission at any time.
+
+### Testnet today, mainnet by configuration
+Two parts of the stack have no public testnet: the **Binance Agentic Wallet** (BSC, Base and Solana mainnets only) and **b402** (BSC testnet only inside Binance's internal QA environment). So on BSC Testnet:
+
+| Piece | BSC Testnet (live now) | BSC Mainnet (same code) |
 |---|---|---|
-| Code | `agents/hermee` (CLI) + `shared/hermee` (shared with the server demo and the site) | `agents/kip` (scaffolded with BNB Agent Studio, `bag init`) |
-| Wallet | Binance Agentic Wallet via `baw x402-payment` on mainnet; a local test key on testnet (the Agentic Wallet has no testnet) | Agent Studio keystore, the sole signer; ERC-8004 agent #2530 on BSC Testnet |
-| Does | asks for cover, checks the price against its budget, pays with one signature | prices cover, sells it over x402 (`POST /cover/bind`), binds it on-chain with `coverFor`, settles its book at the Monday open |
-| Live | server demo `POST /api/agents/demo/protect` (streams each step) | https://afterhours-kip.onrender.com (`/health`, `/mcp`, `/.well-known/agent-card.json`) |
+| Hermee's wallet | a local test key signs the **identical** x402 payment | Binance Agentic Wallet, `HERMEE_WALLET=baw` |
+| Facilitator | afterhours.fi stand-in (`server/src/x402/facilitator.ts`), same verify/settle API, only settles our marketplace's payments | Binance b402, `X402_FACILITATOR_URL` |
+| Kip's agent | Agent Studio, `network = bsc-testnet` | Agent Studio, `AFTERHOURS_CHAIN_ID=56` |
+| Payment contracts | Permit2 `0x000000000022D473030F116dDEE9F6B43aC78BA3`, proxy `0x402085c248EeA27D92E8b30b2C58ed07f9E20001` | the same contracts at the same addresses |
 
-**The handshake (x402 v2, `exact` scheme, Permit2):**
-1. `POST /cover/bind` with the terms returns `402` + `PAYMENT-REQUIRED` (price, pay-to, USDT, network).
-2. Hermee's agent signs a Permit2 witness transfer and retries with `PAYMENT-SIGNATURE`.
-3. The facilitator verifies it and settles through the canonical `x402ExactPermit2Proxy`, so USDT goes Hermee → Kip.
-4. Kip calls `CoverMarket.coverFor`: the policy is Hermee's and the premium goes into the pool.
-5. Kip returns `200` + `PAYMENT-RESPONSE`.
+### Try it
+1. **In the browser:** [afterhoursfi.vercel.app/agents](https://afterhoursfi.vercel.app/agents). Pick a stock, amount and floor, then press **Start the agents**. The server runs Hermee's agent against Kip's live agent and streams each step.
+2. **From the command line** (your own testnet key):
+   ```bash
+   cd agents/hermee && npm install
+   echo "HERMEE_PRIVATE_KEY=0x<throwaway testnet key with a little tBNB>" > .env
+   export KIP_AGENT_URL=https://afterhours-kip.onrender.com
+   npm run hermee -- quote   --token NVDAB --amount 1000 --floor 5   # free, over MCP
+   npm run hermee -- protect --token NVDAB --amount 1000 --floor 5   # pays over x402, asks y/N first
+   ```
+3. **As another agent:** call Kip's MCP tools at `https://afterhours-kip.onrender.com/mcp`, or follow the raw x402 exchange in [`skills/afterhours-weekend-cover/references/x402-cover-flow.md`](skills/afterhours-weekend-cover/references/x402-cover-flow.md).
+4. **With the Binance Agentic Wallet (mainnet):** install the skill in [`skills/afterhours-weekend-cover`](skills/afterhours-weekend-cover/SKILL.md). It tells the agent exactly which `baw` commands to run and which guardrails to keep.
 
-Payouts and refunds always go from the pool to Hermee; Kip can only relay the premium, and only because the market owner authorised it as a binder.
+### Proof on BSC Testnet
 
-**Testnet vs mainnet.** b402, Binance's facilitator, serves BSC testnet only inside Binance's QA environment, so `server/src/x402/facilitator.ts` implements the same verify/settle API for chain 97, limited to our marketplace's payments. Mainnet is configuration only:
-- Hermee: `HERMEE_WALLET=baw`.
-- Kip: `AFTERHOURS_CHAIN_ID=56`, with `X402_FACILITATOR_URL` pointing at b402.
+| Policy | Trade | x402 payment (Hermee → Kip) | Policy bound by Kip |
+|---|---|---|---|
+| #0 | $1,000 NVDA below -5% for $0.16, from the CLI | [`0x45463fbb…`](https://testnet.bscscan.com/tx/0x45463fbb8701ff88564de27e8d819434af78cb981d78b652b86870fd61483c07) | [`0x34e252d8…`](https://testnet.bscscan.com/tx/0x34e252d8a686cc2073c95fcecad00ea86d6e7cc67a64366298ebbb05aa695f74) |
+| #1 | $1,000 NVDA below -5% for $0.16, from the live server | [`0x59008f37…`](https://testnet.bscscan.com/tx/0x59008f375034947b528d27436f4d730bfdcca275b2e687f5514f4dd9836d7649) | [`0x63eb4c39…`](https://testnet.bscscan.com/tx/0x63eb4c391c1310ff74250858cbf2677ec3c0b27603ff2e42e978c62eba70fc10) |
+| #2 | $1,000 TSLA below -5% for $0.44, from the website | [`0x79498ec0…`](https://testnet.bscscan.com/tx/0x79498ec09f9e54c3021fb9a3d69315aa9c39747c6986b23b9b5fbbf49216983e) | [`0x72df0a07…`](https://testnet.bscscan.com/tx/0x72df0a07c6f4eaba362213914d50021e9293a528e997c684b11b4630255ce149) |
 
-The Permit2 and proxy contracts share one address on every chain. The Binance Agentic Wallet skill lives in [`skills/afterhours-weekend-cover`](skills/afterhours-weekend-cover/SKILL.md).
+- Hermee's agent: [`0x7bc4Db58435b586C16a11cB477C257433349844A`](https://testnet.bscscan.com/address/0x7bc4Db58435b586C16a11cB477C257433349844A)
+- Kip's agent: [`0x6513a00FB8341ee24Af029EFAf67B19b5914ed4C`](https://testnet.bscscan.com/address/0x6513a00FB8341ee24Af029EFAf67B19b5914ed4C), ERC-8004 agent #2530 in registry [`0x8004A818BFB912233c491871b3d84c89A494BD9e`](https://testnet.bscscan.com/address/0x8004A818BFB912233c491871b3d84c89A494BD9e)
 
-**Other agents** get free MCP tools on Kip (`quote_cover`, `market_status`, `gap_history`, `pool_health`, `my_book`) and can buy cover through the same x402 route.
+These policies belong to the weekend closing Friday 2 October 2026. Kip's agent settles them at the Monday open on 5 October.
+
+### Where the code lives
+
+| Path | What |
+|---|---|
+| `agents/kip/` | Kip's agent, scaffolded with Agent Studio. afterhours.fi logic is in `app/agent/src/afterhours/`: the x402 seller route, MCP tools, keeper loop and fixed-code signing. It ships as `app/agent/bundle/kip.mjs`. |
+| `agents/hermee/` | Hermee's agent CLI: `status`, `quote` (MCP), `protect` (x402). Payers: `bawPayer.ts` for the Agentic Wallet, and the local testnet key. |
+| `shared/hermee/` | The buyer flow and guardrails, shared by the CLI, the server's live demo and the website. |
+| `shared/x402/` | x402 v2 exact/Permit2: headers, the signed payload, and the facilitator's seven checks. Used everywhere. |
+| `server/src/x402/`, `server/src/routes/x402.ts`, `server/src/routes/agentsDemo.ts` | The testnet facilitator, the agent activity feed, and the streaming live demo. |
+| `contracts/contracts/CoverMarket.sol` | `coverFor` and `setBinder` (5 dedicated tests). |
+| `skills/afterhours-weekend-cover/` | The Binance Agentic Wallet skill (`SKILL.md` and references). |
+| `client/src/components/agents/` | The `/agents` page. |
 
 ## Deployments
 **BSC Testnet is the home network**: the app connects to it by default. Ethereum Sepolia runs the same stack. The deployer `0x1d83F122EF31885B83139ABCb4f8fB4eF319DDF9` is owner, admin and quoter on both.

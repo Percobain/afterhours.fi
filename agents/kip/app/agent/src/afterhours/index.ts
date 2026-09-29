@@ -9,6 +9,12 @@ import { deployment } from "./market.js";
 export { registerAfterhoursTools } from "./tools.js";
 
 export function mountAfterhours(app: Express): void {
+  // keep-alive probe for uptime pingers (cron-job.org) so the Render free instance never idles out:
+  // no RPC, no keystore access, so frequent pings cost nothing
+  app.all("/health", (_req, res) => {
+    res.set("cache-control", "no-store").json({ ok: true, agent: "kip", chainId: AH.chainId, uptimeSeconds: Math.round(process.uptime()), now: new Date().toISOString() });
+  });
+
   // the afterhours.fi site reads this agent's status and can buy cover from the browser
   app.use(["/cover", "/afterhours"], (req, res, next) => {
     const origin = req.header("origin");

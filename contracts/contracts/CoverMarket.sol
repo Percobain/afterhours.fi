@@ -77,6 +77,9 @@ contract CoverMarket is Ownable, Pausable, ReentrancyGuard, EIP712 {
     uint16 public protocolFeeBps = 0;    // share of premium kept by the treasury (0 for the hackathon)
     address public treasury;
 
+    /// @notice agents allowed to bind cover on a buyer's behalf after collecting the premium off-chain (x402)
+    mapping(address => bool) public isBinder;
+
     mapping(uint64 => Epoch) public epochs;
     mapping(uint256 => bool) public nonceUsed;
     mapping(address => bool) public tokenAllowed;
@@ -95,6 +98,8 @@ contract CoverMarket is Ownable, Pausable, ReentrancyGuard, EIP712 {
     event CoverBought(uint256 indexed policyId, address indexed buyer, address indexed token, uint64 epochId, uint256 notionalUsd, uint16 barrierBps, uint256 premiumUsd, uint256 lockedUsd);
     event CoverSettled(uint256 indexed policyId, address indexed buyer, int256 gapBps, uint256 payoutUsd);
     event CoverRefunded(uint256 indexed policyId, address indexed buyer, uint256 premiumUsd, string reason);
+    event CoverBoundFor(uint256 indexed policyId, address indexed binder, address indexed buyer, uint256 premiumUsd);
+    event BinderSet(address indexed binder, bool allowed);
     event QuoterSet(address quoter);
     event ParamsSet(uint16 payoutCapBps, uint16 minBarrierBps, uint16 maxBarrierBps, uint256 minNotionalUsd, uint256 maxNotionalUsd, bool requireHolding, uint16 maxTokenShareBps);
     event FeeSet(uint16 protocolFeeBps, address treasury);
@@ -104,6 +109,7 @@ contract CoverMarket is Ownable, Pausable, ReentrancyGuard, EIP712 {
     error QuoteExpired();
     error NonceUsed();
     error NotBuyer();
+    error NotBinder();
     error EpochClosed();
     error EpochUnknown();
     error TokenNotAllowed();
@@ -162,6 +168,21 @@ contract CoverMarket is Ownable, Pausable, ReentrancyGuard, EIP712 {
     /// @notice buy a weekend floor with a quote signed by the pricing engine
     function buyCover(Quote calldata q, bytes calldata signature) external whenNotPaused nonReentrant returns (uint256 policyId) {
         if (q.buyer != msg.sender) revert NotBuyer();
+        policyId = _bind(q, signature);
+    }
+
+    /// @notice bind a weekend floor for `q.buyer` on their behalf. Used by an underwriting agent that collected the
+    ///         premium from the buyer's agent over x402: the binder pays the premium into the vault from its own USDT.
+    ///         Everything else is the buyer's: the quote must be signed for q.buyer, q.buyer must hold the position,
+    ///         the policy is recorded under q.buyer, and any payout or refund goes to q.buyer from the vault.
+    function coverFor(Quote calldata q, bytes calldata signature) external whenNotPaused nonReentrant returns (uint256 policyId) {
+        if (!isBinder[msg.sender]) revert NotBinder();
+        policyId = _bind(q, signature);
+        emit CoverBoundFor(policyId, msg.sender, q.buyer, q.premiumUsd);
+    }
+
+    /// @dev shared checks and effects; the premium is pulled from msg.sender (the buyer, or an authorised binder)
+    function _bind(Quote calldata q, bytes calldata signature) internal returns (uint256 policyId) {
         if (block.timestamp > q.expiry) revert QuoteExpired();
         if (nonceUsed[q.nonce]) revert NonceUsed();
         if (!tokenAllowed[q.token]) revert TokenNotAllowed();
@@ -178,7 +199,7 @@ contract CoverMarket is Ownable, Pausable, ReentrancyGuard, EIP712 {
 
         if (requireHolding) {
             uint256 req = requiredTokenBalance(q.token, q.notionalUsd);
-            uint256 held = IERC20(q.token).balanceOf(msg.sender);
+            uint256 held = IERC20(q.token).balanceOf(q.buyer);
             if (held < req) revert NotHoldingPosition(req, held);
         }
 
@@ -190,23 +211,23 @@ contract CoverMarket is Ownable, Pausable, ReentrancyGuard, EIP712 {
         uint256 locked = lockFor(q.notionalUsd);
         vault.lock(locked); // reverts if the cushion cannot back it
 
-        // premium: fee to treasury, the rest to the vault
+        // premium: fee to treasury, the rest to the vault (credited to the buyer, whose money it is)
         uint256 fee = q.premiumUsd.mulDiv(protocolFeeBps, 10_000);
         if (fee > 0) usdt.safeTransferFrom(msg.sender, treasury, fee);
         usdt.safeTransferFrom(msg.sender, address(vault), q.premiumUsd - fee);
-        vault.notePremium(msg.sender, q.premiumUsd - fee);
+        vault.notePremium(q.buyer, q.premiumUsd - fee);
 
         policyId = _policies.length;
         _policies.push(Policy({
-            buyer: msg.sender, token: q.token, epochId: q.epochId, notionalUsd: q.notionalUsd, barrierBps: q.barrierBps,
+            buyer: q.buyer, token: q.token, epochId: q.epochId, notionalUsd: q.notionalUsd, barrierBps: q.barrierBps,
             premiumUsd: q.premiumUsd, lockedUsd: locked, payoutUsd: 0, gapBps: 0, status: Status.Open,
             boughtAt: uint64(block.timestamp), settledAt: 0
         }));
-        _policiesOf[msg.sender].push(policyId);
+        _policiesOf[q.buyer].push(policyId);
         openNotionalByToken[q.token] = newTokenNotional;
         totalOpenNotional = newTotal;
 
-        emit CoverBought(policyId, msg.sender, q.token, q.epochId, q.notionalUsd, q.barrierBps, q.premiumUsd, locked);
+        emit CoverBought(policyId, q.buyer, q.token, q.epochId, q.notionalUsd, q.barrierBps, q.premiumUsd, locked);
     }
 
     // ------------------------------------------------------------------ settle
@@ -277,6 +298,11 @@ contract CoverMarket is Ownable, Pausable, ReentrancyGuard, EIP712 {
         if (allowed && !tokenAllowed[token]) tokenList.push(token);
         tokenAllowed[token] = allowed;
         emit TokenAllowed(token, allowed);
+    }
+
+    function setBinder(address binder, bool allowed) external onlyOwner {
+        isBinder[binder] = allowed;
+        emit BinderSet(binder, allowed);
     }
 
     function setQuoter(address quoter_) external onlyOwner {

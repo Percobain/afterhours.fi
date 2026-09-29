@@ -172,4 +172,82 @@ describe("afterhours.fi", () => {
     await market.forceRefund(1, "oracle outage");
     expect((await usdt.balanceOf(hermee.address)) - b).to.equal(USD(506));
   });
+
+  describe("coverFor (agent binds on the buyer's behalf after an x402 payment)", () => {
+    async function withAgent() {
+      const ctx = await setup();
+      const [, , , , , agent] = await ethers.getSigners();
+      await ctx.usdt.mint(agent.address, USD(1_000));
+      await ctx.usdt.connect(agent).approve(await ctx.market.getAddress(), USD(1_000));
+      return { ...ctx, agent };
+    }
+
+    it("only an authorised binder can bind, and only the owner can authorise", async () => {
+      const { agent, other, market, signQuote } = await withAgent();
+      const { q, sig } = await signQuote();
+      await expect(market.connect(agent).coverFor(q, sig)).to.be.revertedWithCustomError(market, "NotBinder");
+      await expect(market.connect(other).setBinder(agent.address, true)).to.be.revertedWithCustomError(market, "OwnableUnauthorizedAccount");
+      await expect(market.setBinder(agent.address, true)).to.emit(market, "BinderSet").withArgs(agent.address, true);
+      await expect(market.connect(agent).coverFor(q, sig)).to.emit(market, "CoverBoundFor").withArgs(0n, agent.address, q.buyer, q.premiumUsd);
+    });
+
+    it("records the policy under the buyer, pulls the premium from the agent, and pays the buyer on settlement", async () => {
+      const { agent, hermee, quoter, market, vault, usdt, oracle, nvdab, epochId, signQuote } = await withAgent();
+      await market.setBinder(agent.address, true);
+      const { q, sig } = await signQuote();
+      const agentBefore = await usdt.balanceOf(agent.address);
+      const hermeeBefore = await usdt.balanceOf(hermee.address);
+      await market.connect(agent).coverFor(q, sig);
+
+      const p = await market.getPolicy(0);
+      expect(p.buyer).to.equal(hermee.address);
+      expect(await market.policiesOf(hermee.address)).to.deep.equal([0n]);
+      expect(await market.policiesOf(agent.address)).to.deep.equal([]);
+      expect(agentBefore - (await usdt.balanceOf(agent.address))).to.equal(q.premiumUsd); // agent relayed the premium
+      expect(await usdt.balanceOf(hermee.address)).to.equal(hermeeBefore);              // hermee paid off-chain (x402)
+      expect(await vault.lockedAssets()).to.equal(USD(2_000));
+
+      // Monday opens -8%: 5% below the 3% line on $10k = $500, paid to Hermee, never to the agent
+      const t = await nvdab.getAddress();
+      await oracle.connect(quoter).postClose(t, epochId, PX(200));
+      await time.increaseTo(Number(epochId) + 65 * 3600);
+      await oracle.connect(quoter).postOpen(t, epochId, PX(184));
+      await market.settle(0);
+      expect((await usdt.balanceOf(hermee.address)) - hermeeBefore).to.equal(USD(500));
+      expect(agentBefore - (await usdt.balanceOf(agent.address))).to.equal(q.premiumUsd);
+    });
+
+    it("still enforces the buyer's quote, holding and the sale window", async () => {
+      const { agent, other, market, signQuote, epochId } = await withAgent();
+      await market.setBinder(agent.address, true);
+      // quote signed for someone who does not hold NVDAB
+      const { q, sig } = await signQuote({ buyer: other.address });
+      await expect(market.connect(agent).coverFor(q, sig)).to.be.revertedWithCustomError(market, "NotHoldingPosition");
+      // agent cannot re-point a quote at a different buyer: the signature no longer matches
+      const { q: q2, sig: s2 } = await signQuote();
+      await expect(market.connect(agent).coverFor({ ...q2, buyer: agent.address }, s2)).to.be.revertedWithCustomError(market, "BadSignature");
+      await time.increaseTo(Number(epochId) + 1);
+      const { q: q3, sig: s3 } = await signQuote({ expiry: BigInt((await time.latest()) + 600) });
+      await expect(market.connect(agent).coverFor(q3, s3)).to.be.revertedWithCustomError(market, "EpochClosed");
+    });
+
+    it("refunds a voided epoch to the buyer, not the agent", async () => {
+      const { agent, hermee, quoter, market, usdt, oracle, nvdab, epochId, signQuote } = await withAgent();
+      await market.setBinder(agent.address, true);
+      const { q, sig } = await signQuote();
+      await market.connect(agent).coverFor(q, sig);
+      const hermeeBefore = await usdt.balanceOf(hermee.address);
+      await oracle.connect(quoter).voidEpoch(await nvdab.getAddress(), epochId, "stock_split");
+      await market.settle(0);
+      expect((await usdt.balanceOf(hermee.address)) - hermeeBefore).to.equal(q.premiumUsd);
+    });
+
+    it("a revoked binder can no longer bind", async () => {
+      const { agent, market, signQuote } = await withAgent();
+      await market.setBinder(agent.address, true);
+      await market.setBinder(agent.address, false);
+      const { q, sig } = await signQuote();
+      await expect(market.connect(agent).coverFor(q, sig)).to.be.revertedWithCustomError(market, "NotBinder");
+    });
+  });
 });

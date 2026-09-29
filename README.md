@@ -32,7 +32,35 @@ The client also runs with no server and no deployment: every server call has a 5
 ## Hosting
 - **Client → Vercel** (`afterhoursfi`, root directory `client`). Every push to `main` deploys production. Env: `NEXT_PUBLIC_API_URL` (the Render URL), `NEXT_PUBLIC_DEFAULT_CHAIN_ID`. `NEXT_PUBLIC_*` values are baked in at build time, so change them and redeploy.
 - **Server → Render** web service. Build `npm ci --omit=dev`, start `node dist/index.js`, health check `/health`. The server is committed precompiled, so after changing anything in `server/src` run `npm run build` in `server/` and commit `server/dist/` in the same commit.
-- **Keep-alive.** Render's free tier sleeps after 15 idle minutes, which would also pause the indexer and the Friday/Monday jobs. An uptime pinger (cron-job.org) hits `GET /health` every 10 minutes; that route skips the rate limiter and touches no DB or RPC.
+- **Kip's agent → Render** (`afterhours-kip`, root `agents/kip/app/agent`). It ships as one prebuilt bundle (`npm run bundle`, commit `bundle/kip.mjs`), so Render runs `node bundle/kip.mjs` with no install or build. The keystore comes from `WALLET_KEYSTORE_JSON` + `WALLET_PASSWORD`.
+- **Keep-alive.** Render's free tier sleeps after 15 idle minutes, which would pause the indexer, the Friday/Monday jobs and Kip's keeper. An uptime pinger (cron-job.org) hits `GET /health` on both services every 10 minutes: `https://afterhours-fi.onrender.com/health` and `https://afterhours-kip.onrender.com/health`. Neither route touches a DB or RPC.
+
+## Agent-to-agent: x402, Agent Studio and the Agentic Wallet
+Two agents trade weekend cover with each other on BSC Testnet. Watch or run one live at **[afterhoursfi.vercel.app/agents](https://afterhoursfi.vercel.app/agents)**.
+
+| | Hermee's agent (buyer) | Kip's agent (underwriter) |
+|---|---|---|
+| Code | `agents/hermee` (CLI) + `shared/hermee` (shared with the server demo and the site) | `agents/kip` (scaffolded with BNB Agent Studio, `bag init`) |
+| Wallet | Binance Agentic Wallet via `baw x402-payment` on mainnet; a local test key on testnet (the Agentic Wallet has no testnet) | Agent Studio keystore, the sole signer; ERC-8004 agent #2530 on BSC Testnet |
+| Does | asks for cover, checks the price against its budget, pays with one signature | prices cover, sells it over x402 (`POST /cover/bind`), binds it on-chain with `coverFor`, settles its book at the Monday open |
+| Live | server demo `POST /api/agents/demo/protect` (streams each step) | https://afterhours-kip.onrender.com (`/health`, `/mcp`, `/.well-known/agent-card.json`) |
+
+**The handshake (x402 v2, `exact` scheme, Permit2):**
+1. `POST /cover/bind` with the terms returns `402` + `PAYMENT-REQUIRED` (price, pay-to, USDT, network).
+2. Hermee's agent signs a Permit2 witness transfer and retries with `PAYMENT-SIGNATURE`.
+3. The facilitator verifies it and settles through the canonical `x402ExactPermit2Proxy`, so USDT goes Hermee → Kip.
+4. Kip calls `CoverMarket.coverFor`: the policy is Hermee's and the premium goes into the pool.
+5. Kip returns `200` + `PAYMENT-RESPONSE`.
+
+Payouts and refunds always go from the pool to Hermee; Kip can only relay the premium, and only because the market owner authorised it as a binder.
+
+**Testnet vs mainnet.** b402, Binance's facilitator, serves BSC testnet only inside Binance's QA environment, so `server/src/x402/facilitator.ts` implements the same verify/settle API for chain 97, limited to our marketplace's payments. Mainnet is configuration only:
+- Hermee: `HERMEE_WALLET=baw`.
+- Kip: `AFTERHOURS_CHAIN_ID=56`, with `X402_FACILITATOR_URL` pointing at b402.
+
+The Permit2 and proxy contracts share one address on every chain. The Binance Agentic Wallet skill lives in [`skills/afterhours-weekend-cover`](skills/afterhours-weekend-cover/SKILL.md).
+
+**Other agents** get free MCP tools on Kip (`quote_cover`, `market_status`, `gap_history`, `pool_health`, `my_book`) and can buy cover through the same x402 route.
 
 ## Deployments
 **BSC Testnet is the home network**: the app connects to it by default. Ethereum Sepolia runs the same stack. The deployer `0x1d83F122EF31885B83139ABCb4f8fB4eF319DDF9` is owner, admin and quoter on both.

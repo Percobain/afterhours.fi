@@ -16,6 +16,7 @@ const quote_1 = require("./quote");
 const stats_1 = require("./stats");
 const vault_1 = require("./vault");
 const x402_1 = require("./x402");
+const agentsDemo_1 = require("./agentsDemo");
 function apiRouter() {
     const r = (0, express_1.Router)();
     const quoteLimiter = (0, express_rate_limit_1.default)({ windowMs: 60_000, limit: 60, standardHeaders: "draft-7", legacyHeaders: false, message: { error: "too many quote requests, slow down", code: "rate_limited" } });
@@ -29,6 +30,7 @@ function apiRouter() {
     r.use(stats_1.statsRouter);
     r.use(learn_1.learnRouter);
     r.use(x402_1.x402Router);
+    r.use(agentsDemo_1.agentsDemoRouter);
     r.use("/admin", routes_1.adminRouter);
     return r;
 }

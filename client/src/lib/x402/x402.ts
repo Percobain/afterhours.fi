@@ -1,4 +1,4 @@
-// GENERATED from shared/x402/x402.ts by shared/x402/sync.mjs; do not edit this copy.
+// GENERATED from shared/x402/x402.ts by shared/hermee/sync.mjs; do not edit this copy.
 /**
  * x402 v2, "exact" scheme, Permit2 transfer method, for EVM chains. Single source of truth, copied into
  * server/src/x402, agents/kip and agents/hermee by their build scripts (do not edit the copies).

@@ -182,6 +182,13 @@ exports.config = {
     // Comma-separated resolvers used when the OS resolver refuses the SRV lookup behind mongodb+srv:// URIs.
     dnsFallbackServers: env("DNS_FALLBACK_SERVERS", "8.8.8.8,1.1.1.1").split(",").map((x) => x.trim()).filter(Boolean),
     quoterPrivateKey: env("QUOTER_PRIVATE_KEY"),
+    agents: {
+        // public URL of Kip's Agent Studio agent (the underwriter that sells cover over x402)
+        kipUrl: env("KIP_AGENT_URL", "https://afterhours-kip.onrender.com").replace(/\/+$/, ""),
+        // TESTNET-ONLY key for the site's live demo buyer (Hermee's agent); empty disables the demo
+        hermeeDemoKey: env("HERMEE_DEMO_PRIVATE_KEY"),
+        demoCooldownMs: envNum("AGENT_DEMO_COOLDOWN_MS", 45_000),
+    },
     x402: {
         // testnet stand-in for Binance's b402 facilitator; on mainnet agents point at b402 instead
         facilitatorEnabled: envBool("X402_FACILITATOR_ENABLED", true),

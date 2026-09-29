@@ -6,7 +6,8 @@
  */
 import { Router } from "express";
 import { bscTestnet } from "viem/chains";
-import type { Hex } from "viem";
+import type { Address, Hex } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
 import { z } from "zod";
 import { config, getChain } from "../config";
 import { logger } from "../logger";
@@ -24,12 +25,24 @@ const Body = z.object({
   floorPct: z.coerce.number().refine((v) => [1, 2, 3, 5, 7, 10].includes(v), "floor must be one of 1, 2, 3, 5, 7, 10").default(5),
 });
 
+let hermeeAddr: Address | null | undefined;
+function hermeeAddress(): Address | null {
+  if (hermeeAddr !== undefined) return hermeeAddr;
+  try {
+    hermeeAddr = config.agents.hermeeDemoKey ? privateKeyToAccount(config.agents.hermeeDemoKey as Hex).address : null;
+  } catch {
+    hermeeAddr = null;
+  }
+  return hermeeAddr;
+}
+
 export const agentsDemoRouter = Router();
 
 agentsDemoRouter.get("/agents/demo", (_req, res) => {
   res.json({
     enabled: !!config.agents.hermeeDemoKey && !!config.agents.kipUrl,
     kipUrl: config.agents.kipUrl || null,
+    hermee: hermeeAddress(),
     chainId: CHAIN_ID,
     busy: running,
     cooldownSeconds: Math.max(0, Math.ceil((lastRunAt + config.agents.demoCooldownMs - Date.now()) / 1000)),

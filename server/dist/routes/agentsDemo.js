@@ -9,6 +9,7 @@ exports.agentsDemoRouter = void 0;
  */
 const express_1 = require("express");
 const chains_1 = require("viem/chains");
+const accounts_1 = require("viem/accounts");
 const zod_1 = require("zod");
 const config_1 = require("../config");
 const logger_1 = require("../logger");
@@ -23,11 +24,24 @@ const Body = zod_1.z.object({
     amountUsd: zod_1.z.coerce.number().min(10).max(5_000).default(1_000),
     floorPct: zod_1.z.coerce.number().refine((v) => [1, 2, 3, 5, 7, 10].includes(v), "floor must be one of 1, 2, 3, 5, 7, 10").default(5),
 });
+let hermeeAddr;
+function hermeeAddress() {
+    if (hermeeAddr !== undefined)
+        return hermeeAddr;
+    try {
+        hermeeAddr = config_1.config.agents.hermeeDemoKey ? (0, accounts_1.privateKeyToAccount)(config_1.config.agents.hermeeDemoKey).address : null;
+    }
+    catch {
+        hermeeAddr = null;
+    }
+    return hermeeAddr;
+}
 exports.agentsDemoRouter = (0, express_1.Router)();
 exports.agentsDemoRouter.get("/agents/demo", (_req, res) => {
     res.json({
         enabled: !!config_1.config.agents.hermeeDemoKey && !!config_1.config.agents.kipUrl,
         kipUrl: config_1.config.agents.kipUrl || null,
+        hermee: hermeeAddress(),
         chainId: CHAIN_ID,
         busy: running,
         cooldownSeconds: Math.max(0, Math.ceil((lastRunAt + config_1.config.agents.demoCooldownMs - Date.now()) / 1000)),

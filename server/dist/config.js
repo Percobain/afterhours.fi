@@ -199,6 +199,8 @@ exports.config = {
     },
     adminSecret: env("ADMIN_SECRET"),
     clientOrigin: env("CLIENT_ORIGIN", "http://localhost:3000"),
+    // also accept this Vercel project's own preview / alias domains (e.g. afterhoursfi-git-main-percobains-projects.vercel.app)
+    clientOriginPattern: env("CLIENT_ORIGIN_PATTERN", "^https://afterhoursfi(-[a-z0-9-]+)?-percobains-projects\\.vercel\\.app$"),
     alchemyApiKey: alchemyKey,
     binanceWeb3ApiKey: env("BINANCE_WEB3_API_KEY"),
     binanceWeb3ApiSecret: env("BINANCE_WEB3_API_SECRET"),

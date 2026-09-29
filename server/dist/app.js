@@ -30,9 +30,16 @@ function createApp() {
         .split(",")
         .map((s) => s.trim())
         .filter(Boolean);
+    let originPattern = null;
+    try {
+        originPattern = config_1.config.clientOriginPattern ? new RegExp(config_1.config.clientOriginPattern) : null;
+    }
+    catch {
+        logger_1.logger.warn({ pattern: config_1.config.clientOriginPattern }, "CLIENT_ORIGIN_PATTERN is not a valid regex; ignoring it");
+    }
     app.use((0, cors_1.default)({
         origin: (origin, cb) => {
-            if (!origin || origins.includes("*") || origins.includes(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin))
+            if (!origin || origins.includes("*") || origins.includes(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin) || originPattern?.test(origin))
                 cb(null, true);
             else
                 cb(null, false);

@@ -26,10 +26,16 @@ export function createApp() {
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
+  let originPattern: RegExp | null = null;
+  try {
+    originPattern = config.clientOriginPattern ? new RegExp(config.clientOriginPattern) : null;
+  } catch {
+    logger.warn({ pattern: config.clientOriginPattern }, "CLIENT_ORIGIN_PATTERN is not a valid regex; ignoring it");
+  }
   app.use(
     cors({
       origin: (origin, cb) => {
-        if (!origin || origins.includes("*") || origins.includes(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin)) cb(null, true);
+        if (!origin || origins.includes("*") || origins.includes(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin) || originPattern?.test(origin)) cb(null, true);
         else cb(null, false);
       },
       credentials: false,

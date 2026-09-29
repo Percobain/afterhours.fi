@@ -105,6 +105,11 @@ export const CoverMarketAbi = [
   },
   {
     "inputs": [],
+    "name": "NotBinder",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "NotBuyer",
     "type": "error"
   },
@@ -203,6 +208,25 @@ export const CoverMarketAbi = [
     "inputs": [
       {
         "indexed": true,
+        "internalType": "address",
+        "name": "binder",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "allowed",
+        "type": "bool"
+      }
+    ],
+    "name": "BinderSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
         "internalType": "uint256",
         "name": "policyId",
         "type": "uint256"
@@ -251,6 +275,37 @@ export const CoverMarketAbi = [
       }
     ],
     "name": "CoverBought",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "policyId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "binder",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "premiumUsd",
+        "type": "uint256"
+      }
+    ],
+    "name": "CoverBoundFor",
     "type": "event"
   },
   {
@@ -609,6 +664,72 @@ export const CoverMarketAbi = [
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "buyer",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64",
+            "name": "epochId",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint256",
+            "name": "notionalUsd",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint16",
+            "name": "barrierBps",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint256",
+            "name": "premiumUsd",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint64",
+            "name": "expiry",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint256",
+            "name": "nonce",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct CoverMarket.Quote",
+        "name": "q",
+        "type": "tuple"
+      },
+      {
+        "internalType": "bytes",
+        "name": "signature",
+        "type": "bytes"
+      }
+    ],
+    "name": "coverFor",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "policyId",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "eip712Domain",
     "outputs": [
@@ -858,6 +979,25 @@ export const CoverMarketAbi = [
         "internalType": "bytes32",
         "name": "",
         "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isBinder",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -1188,6 +1328,24 @@ export const CoverMarketAbi = [
       }
     ],
     "name": "rescue",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "binder",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "allowed",
+        "type": "bool"
+      }
+    ],
+    "name": "setBinder",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

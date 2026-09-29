@@ -3,66 +3,66 @@
   "chainId": 97,
   "deployer": "0x1d83F122EF31885B83139ABCb4f8fB4eF319DDF9",
   "quoter": "0x1d83F122EF31885B83139ABCb4f8fB4eF319DDF9",
-  "deployedAt": "2026-09-28T14:34:31.789Z",
-  "deployBlock": 133686889,
+  "deployedAt": "2026-09-29T19:14:54.743Z",
+  "deployBlock": 133916239,
   "contracts": {
-    "USDT": "0xB5297E51C700EcE40912C0857F866eCd09348484",
-    "ReferenceOracle": "0x67faAb9FA857c5f3B564D950474A0e58c6073721",
-    "KeeperVault": "0xd2f6f89b8880a621D2b2e26E4b725cD3Cc3F6924",
-    "CoverMarket": "0x73A30DAf8e3561848bC5561d30dFc50830aa5d00"
+    "USDT": "0x029bcCb1dfeAc2f846D43a9ca318C18083EEf108",
+    "ReferenceOracle": "0x3Db10b1c68B09803b19bd7fc538C848C20158701",
+    "KeeperVault": "0x721380dc07a44f6B783825aCecb0b626F8177275",
+    "CoverMarket": "0xDF7DE17d60876a32b902dc4f4698633C7d849e1f"
   },
   "stocks": {
     "NVDAB": {
-      "address": "0x59205D7a546Bd28bbE3A8C8BE4Eec256d9c34bC4",
+      "address": "0x05C366016264E82dA6b4582e0554Be8568C8dE36",
       "ticker": "NVDA",
       "name": "NVIDIA bStock (test)",
       "decimals": 18,
       "wrapper": "bstock"
     },
     "TSLAB": {
-      "address": "0x6ea034B50D2053A83c0d8193F907F91691a03601",
+      "address": "0xf37b92a7dD0824D0A1b1Fb761A380E0065Fc8Cf1",
       "ticker": "TSLA",
       "name": "Tesla bStock (test)",
       "decimals": 18,
       "wrapper": "bstock"
     },
     "AAPLB": {
-      "address": "0x7A0aA73824cE1E523c903af8fDF8D67a249FD2a8",
+      "address": "0xb737520d65DC1a8D20353f960d2cB4E7E0Fe53f1",
       "ticker": "AAPL",
       "name": "Apple bStock (test)",
       "decimals": 18,
       "wrapper": "bstock"
     },
     "SPYB": {
-      "address": "0x167a116213EfE0Be71A3CB1d31802559b65db71b",
+      "address": "0x0fC24edC4A70A37E8EB5f953132550696d9F18fB",
       "ticker": "SPY",
       "name": "SPDR S&P 500 bStock (test)",
       "decimals": 18,
       "wrapper": "bstock"
     },
     "COINB": {
-      "address": "0x1019DE31d6710DfE1B33A87c31a4b65f4B803306",
+      "address": "0x3eD15ce2936909016D6767d9D109D839E4E40B52",
       "ticker": "COIN",
       "name": "Coinbase bStock (test)",
       "decimals": 18,
       "wrapper": "bstock"
     },
     "MSTRB": {
-      "address": "0xA64f0E730399de66fA6278c64BBb4A708d6d17f3",
+      "address": "0x8f80d31BaF2AbFC91fF4837107871Ed0930B091C",
       "ticker": "MSTR",
       "name": "Strategy bStock (test)",
       "decimals": 18,
       "wrapper": "bstock"
     },
     "NVDAon": {
-      "address": "0xa0DaaFe98808145f717a764C940e4F3c26248651",
+      "address": "0x6a1D6a53D8886c4F94ddc5BBC975ef1B1850B4Ba",
       "ticker": "NVDA",
       "name": "NVIDIA Ondo Stock (test)",
       "decimals": 18,
       "wrapper": "ondo"
     },
     "SPYon": {
-      "address": "0x474c99BFa66Eb98B7e3EFbb9430fFC9CDc209C5f",
+      "address": "0x4597b0f5Ae9fd15f374726C5F916f2F841a38F20",
       "ticker": "SPY",
       "name": "SPDR S&P 500 Ondo Stock (test)",
       "decimals": 18,
@@ -78,5 +78,12 @@
       "epochId": 1791576000,
       "expectedOpen": 1791811800
     }
-  ]
+  ],
+  "binders": [
+    "0x6513a00FB8341ee24Af029EFAf67B19b5914ed4C"
+  ],
+  "x402": {
+    "permit2": "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+    "exactPermit2Proxy": "0x402085c248EeA27D92E8b30b2C58ed07f9E20001"
+  }
 }

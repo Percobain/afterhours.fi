@@ -76,6 +76,11 @@ async function main() {
   const prices = STOCKS.map((s) => BigInt(Math.round(s.price * 1e8)));
   await (await oracle.setLastPrices(addrs, prices)).wait();
 
+  // agent-to-agent flow: authorise the underwriting agent (Kip's Agent Studio wallet) to bind cover for buyers
+  const binders = (process.env.BINDER_ADDRESSES ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+  for (const b of binders) await (await market.setBinder(b, true)).wait();
+  if (binders.length) console.log("binders", binders.join(", "));
+
   // seed the vault with 50k test USDT from the deployer so the demo has capacity
   await (await usdt.mint(deployer.address, 50_000n * 10n ** 6n)).wait();
   await (await usdt.approve(await vault.getAddress(), 50_000n * 10n ** 6n)).wait();
@@ -103,6 +108,12 @@ async function main() {
     },
     stocks,
     epochs: [e1, e2],
+    binders,
+    // x402 v2 "exact" scheme, Permit2 transfer method: canonical, chain-independent addresses
+    x402: {
+      permit2: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+      exactPermit2Proxy: "0x402085c248EeA27D92E8b30b2C58ed07f9E20001",
+    },
   };
   const dir = path.join(__dirname, "..", "deployments");
   fs.mkdirSync(dir, { recursive: true });

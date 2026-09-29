@@ -8,7 +8,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "copy-abi": "node scripts/copy-abi.mjs",
+    "copy-abi": "node scripts/copy-abi.mjs && node ../shared/x402/sync.mjs src/x402",
     "predev": "npm run copy-abi",
     "dev": "tsx watch src/index.ts",
     "pretypecheck": "npm run copy-abi",

@@ -17,7 +17,11 @@ const EVENTS = [
   getAbiItem({ abi: CoverMarketAbi, name: "CoverSettled" }),
   getAbiItem({ abi: CoverMarketAbi, name: "CoverRefunded" }),
   getAbiItem({ abi: CoverMarketAbi, name: "EpochOpened" }),
+  getAbiItem({ abi: CoverMarketAbi, name: "CoverBoundFor" }),
 ] as const;
+
+/** one scan position per market contract, so a redeployed market is read from its own deploy block */
+const cursorKey = (c: ChainConfig) => `indexer:${(c.contracts.CoverMarket ?? "none").toLowerCase()}`;
 
 const STATUS = ["None", "Open", "Settled", "Refunded"] as const;
 
@@ -83,8 +87,10 @@ function rangeCapFrom(msg: string): bigint | null {
 }
 
 async function startBlock(c: ChainConfig, latest: bigint): Promise<bigint> {
-  const cur = await store.cursors.get(c.chainId);
+  const cur = await store.cursors.get(c.chainId, cursorKey(c));
   if (cur !== null) return BigInt(cur + 1);
+  // first pass over this market contract: policy ids restart at 0, so drop the retired market's book for the chain
+  await store.policies.clear(c.chainId);
   if (c.deployBlock && c.deployBlock > 0) return BigInt(c.deployBlock);
   const lb = BigInt(config.indexerLookbackBlocks);
   return latest > lb ? latest - lb : 0n;
@@ -177,6 +183,28 @@ export async function runIndexerOnce(chainId: number): Promise<RunResult> {
             buyers.add(doc.buyer);
             break;
           }
+          case "CoverBoundFor": {
+            // an underwriting agent bound this policy for the buyer after an x402 payment
+            const id = Number(log.args.policyId);
+            const doc = (await store.policies.get(chainId, id)) ?? (await fetchPolicyFromChain(c, id, bn));
+            if (doc) {
+              doc.boundBy = log.args.binder.toLowerCase();
+              await store.policies.upsert(doc);
+            }
+            await store.agentEvents.add({
+              chainId,
+              kind: "cover_bound",
+              payer: log.args.buyer,
+              payee: log.args.binder,
+              amount: log.args.premiumUsd.toString(),
+              tx,
+              policyId: id,
+              note: `Underwriting agent bound policy #${id}${doc?.ticker ? ` on ${doc.ticker}` : ""} for the buyer`,
+              meta: { block: bn },
+              at: new Date(),
+            });
+            break;
+          }
           case "CoverSettled":
           case "CoverRefunded": {
             const id = Number(log.args.policyId);
@@ -201,6 +229,26 @@ export async function runIndexerOnce(chainId: number): Promise<RunResult> {
             }
             doc.settledAt = settledAt;
             doc.settleTx = tx;
+            if (doc.boundBy) {
+              const paid = log.eventName === "CoverSettled" ? log.args.payoutUsd : 0n;
+              await store.agentEvents.add({
+                chainId,
+                kind: "policy_settled",
+                payer: doc.boundBy,
+                payee: doc.buyer,
+                amount: log.eventName === "CoverSettled" ? paid.toString() : doc.premiumUsd,
+                tx,
+                policyId: id,
+                note:
+                  log.eventName === "CoverRefunded"
+                    ? `Policy #${id} refunded to the buyer (${doc.refundReason ?? "voided"})`
+                    : paid > 0n
+                      ? `Policy #${id} settled: the pool paid the buyer ${(Number(paid) / 1e6).toFixed(2)} USDT`
+                      : `Policy #${id} settled: the floor held, nothing to pay`,
+                meta: { gapBps: doc.gapBps },
+                at: new Date(),
+              });
+            }
             doc.blockNumber = Math.max(doc.blockNumber, bn);
             await store.policies.upsert(doc);
             touched.add(`${id}`);
@@ -209,7 +257,7 @@ export async function runIndexerOnce(chainId: number): Promise<RunResult> {
           }
         }
       }
-      await store.cursors.set(chainId, Number(to));
+      await store.cursors.set(chainId, Number(to), cursorKey(c));
       from = to + 1n;
     }
     for (const b of buyers) await recomputeStats(chainId, b);
@@ -281,8 +329,9 @@ export async function recomputeStats(chainId: number, address: string): Promise<
 
 export async function resetCursor(chainId: number, fromBlock?: number): Promise<void> {
   await store.policies.clear(chainId);
-  if (fromBlock !== undefined && fromBlock >= 0) await store.cursors.set(chainId, fromBlock - 1);
-  else await store.cursors.clear(chainId);
+  const c = getChain(chainId);
+  if (fromBlock !== undefined && fromBlock >= 0 && c) await store.cursors.set(chainId, fromBlock - 1, cursorKey(c));
+  else if (c) await store.cursors.clear(chainId, cursorKey(c));
 }
 
 export async function runIndexerAll(): Promise<RunResult[]> {

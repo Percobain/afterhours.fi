@@ -27,7 +27,10 @@ const EVENTS = [
     (0, viem_1.getAbiItem)({ abi: abi_1.CoverMarketAbi, name: "CoverSettled" }),
     (0, viem_1.getAbiItem)({ abi: abi_1.CoverMarketAbi, name: "CoverRefunded" }),
     (0, viem_1.getAbiItem)({ abi: abi_1.CoverMarketAbi, name: "EpochOpened" }),
+    (0, viem_1.getAbiItem)({ abi: abi_1.CoverMarketAbi, name: "CoverBoundFor" }),
 ];
+/** one scan position per market contract, so a redeployed market is read from its own deploy block */
+const cursorKey = (c) => `indexer:${(c.contracts.CoverMarket ?? "none").toLowerCase()}`;
 const STATUS = ["None", "Open", "Settled", "Refunded"];
 const running = new Set();
 const lastRun = new Map();
@@ -82,9 +85,11 @@ function rangeCapFrom(msg) {
     return BigInt(Math.max(1, Math.min(n, 5000)));
 }
 async function startBlock(c, latest) {
-    const cur = await store_1.store.cursors.get(c.chainId);
+    const cur = await store_1.store.cursors.get(c.chainId, cursorKey(c));
     if (cur !== null)
         return BigInt(cur + 1);
+    // first pass over this market contract: policy ids restart at 0, so drop the retired market's book for the chain
+    await store_1.store.policies.clear(c.chainId);
     if (c.deployBlock && c.deployBlock > 0)
         return BigInt(c.deployBlock);
     const lb = BigInt(config_1.config.indexerLookbackBlocks);
@@ -182,6 +187,28 @@ async function runIndexerOnce(chainId) {
                         buyers.add(doc.buyer);
                         break;
                     }
+                    case "CoverBoundFor": {
+                        // an underwriting agent bound this policy for the buyer after an x402 payment
+                        const id = Number(log.args.policyId);
+                        const doc = (await store_1.store.policies.get(chainId, id)) ?? (await fetchPolicyFromChain(c, id, bn));
+                        if (doc) {
+                            doc.boundBy = log.args.binder.toLowerCase();
+                            await store_1.store.policies.upsert(doc);
+                        }
+                        await store_1.store.agentEvents.add({
+                            chainId,
+                            kind: "cover_bound",
+                            payer: log.args.buyer,
+                            payee: log.args.binder,
+                            amount: log.args.premiumUsd.toString(),
+                            tx,
+                            policyId: id,
+                            note: `Underwriting agent bound policy #${id}${doc?.ticker ? ` on ${doc.ticker}` : ""} for the buyer`,
+                            meta: { block: bn },
+                            at: new Date(),
+                        });
+                        break;
+                    }
                     case "CoverSettled":
                     case "CoverRefunded": {
                         const id = Number(log.args.policyId);
@@ -210,6 +237,25 @@ async function runIndexerOnce(chainId) {
                         }
                         doc.settledAt = settledAt;
                         doc.settleTx = tx;
+                        if (doc.boundBy) {
+                            const paid = log.eventName === "CoverSettled" ? log.args.payoutUsd : 0n;
+                            await store_1.store.agentEvents.add({
+                                chainId,
+                                kind: "policy_settled",
+                                payer: doc.boundBy,
+                                payee: doc.buyer,
+                                amount: log.eventName === "CoverSettled" ? paid.toString() : doc.premiumUsd,
+                                tx,
+                                policyId: id,
+                                note: log.eventName === "CoverRefunded"
+                                    ? `Policy #${id} refunded to the buyer (${doc.refundReason ?? "voided"})`
+                                    : paid > 0n
+                                        ? `Policy #${id} settled: the pool paid the buyer ${(Number(paid) / 1e6).toFixed(2)} USDT`
+                                        : `Policy #${id} settled: the floor held, nothing to pay`,
+                                meta: { gapBps: doc.gapBps },
+                                at: new Date(),
+                            });
+                        }
                         doc.blockNumber = Math.max(doc.blockNumber, bn);
                         await store_1.store.policies.upsert(doc);
                         touched.add(`${id}`);
@@ -218,7 +264,7 @@ async function runIndexerOnce(chainId) {
                     }
                 }
             }
-            await store_1.store.cursors.set(chainId, Number(to));
+            await store_1.store.cursors.set(chainId, Number(to), cursorKey(c));
             from = to + 1n;
         }
         for (const b of buyers)
@@ -295,10 +341,11 @@ async function recomputeStats(chainId, address) {
 }
 async function resetCursor(chainId, fromBlock) {
     await store_1.store.policies.clear(chainId);
-    if (fromBlock !== undefined && fromBlock >= 0)
-        await store_1.store.cursors.set(chainId, fromBlock - 1);
-    else
-        await store_1.store.cursors.clear(chainId);
+    const c = (0, config_1.getChain)(chainId);
+    if (fromBlock !== undefined && fromBlock >= 0 && c)
+        await store_1.store.cursors.set(chainId, fromBlock - 1, cursorKey(c));
+    else if (c)
+        await store_1.store.cursors.clear(chainId, cursorKey(c));
 }
 async function runIndexerAll() {
     const out = [];

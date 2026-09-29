@@ -61,6 +61,8 @@ export interface DeploymentFile {
   contracts: { USDT?: string; ReferenceOracle?: string; KeeperVault?: string; CoverMarket?: string };
   stocks?: Record<string, { address: string; ticker: string; name?: string; decimals?: number; wrapper?: string }>;
   epochs?: { epochId: number; expectedOpen: number; bindDeadline?: number }[];
+  binders?: string[];
+  x402?: { permit2?: string; exactPermit2Proxy?: string };
 }
 
 export interface ChainConfig {
@@ -77,6 +79,8 @@ export interface ChainConfig {
   deployBlock?: number;
   tokens: TokenInfo[];
   epochs: EpochInfo[];
+  /** agents allowed to bind cover for buyers (CoverMarket.setBinder); also the only x402 payTo addresses we settle for */
+  binders: Address[];
   deploymentFile: string | null;
 }
 
@@ -204,6 +208,7 @@ function buildChain(spec: ChainSpec, alchemyKey: string): ChainConfig {
     deployBlock: Number.isFinite(deployBlockEnv) ? deployBlockEnv : d?.deployBlock,
     tokens,
     epochs,
+    binders: (d?.binders ?? []).filter((b) => isAddress(b)).map((b) => getAddress(b)),
     deploymentFile: dep?.file ?? null,
   };
 }
@@ -220,6 +225,14 @@ export const config = {
   // Comma-separated resolvers used when the OS resolver refuses the SRV lookup behind mongodb+srv:// URIs.
   dnsFallbackServers: env("DNS_FALLBACK_SERVERS", "8.8.8.8,1.1.1.1").split(",").map((x) => x.trim()).filter(Boolean),
   quoterPrivateKey: env("QUOTER_PRIVATE_KEY"),
+  x402: {
+    // testnet stand-in for Binance's b402 facilitator; on mainnet agents point at b402 instead
+    facilitatorEnabled: envBool("X402_FACILITATOR_ENABLED", true),
+    // chains the facilitator settles on; the canonical x402 Permit2 proxy must exist there (BSC testnet does)
+    networks: env("X402_NETWORKS", "97").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0),
+    // gas payer for settlements; falls back to the quoter key
+    facilitatorPrivateKey: env("FACILITATOR_PRIVATE_KEY"),
+  },
   adminSecret: env("ADMIN_SECRET"),
   clientOrigin: env("CLIENT_ORIGIN", "http://localhost:3000"),
   alchemyApiKey: alchemyKey,

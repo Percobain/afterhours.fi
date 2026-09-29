@@ -19,6 +19,8 @@ export interface PolicyDoc {
   boughtAt: number | null;
   settledAt: number | null;
   buyTx: string | null;
+  /** set when an underwriting agent bound the policy for the buyer (CoverBoundFor) */
+  boundBy?: string | null;
   settleTx: string | null;
   blockNumber: number;
   updatedAt: Date;
@@ -81,4 +83,27 @@ export interface QuoteLogDoc {
   chargedBp: number;
   mode: "barrier" | "budget";
   createdAt: Date;
+}
+
+/**
+ * One step of the agent-to-agent flow, for the activity feed:
+ * x402 payment verified/settled (facilitator), cover bound for a buyer (CoverBoundFor), policy settled, reputation feedback.
+ */
+export type AgentEventKind = "x402_verified" | "x402_settled" | "x402_failed" | "cover_bound" | "policy_settled" | "feedback";
+
+export interface AgentEventDoc {
+  chainId: number;
+  kind: AgentEventKind;
+  /** buyer side (Hermee's agent / wallet) */
+  payer: string | null;
+  /** seller side (Kip's agent) */
+  payee: string | null;
+  /** USDT atomic units as a decimal string */
+  amount: string | null;
+  tx: string | null;
+  policyId: number | null;
+  /** short human-readable line for the feed */
+  note: string;
+  meta: Record<string, unknown>;
+  at: Date;
 }

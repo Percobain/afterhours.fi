@@ -21,6 +21,7 @@ const PolicySchema = new Schema<PolicyDoc>(
     boughtAt: { type: Number, default: null },
     settledAt: { type: Number, default: null },
     buyTx: { type: String, default: null },
+    boundBy: { type: String, default: null, lowercase: true },
     settleTx: { type: String, default: null },
     blockNumber: { type: Number, default: 0 },
     updatedAt: { type: Date, default: () => new Date() },

@@ -9,6 +9,7 @@ import { policiesRouter } from "./policies";
 import { quoteRouter } from "./quote";
 import { statsRouter } from "./stats";
 import { vaultRouter } from "./vault";
+import { x402Router } from "./x402";
 
 export function apiRouter(): Router {
   const r = Router();
@@ -22,6 +23,7 @@ export function apiRouter(): Router {
   r.use(vaultRouter);
   r.use(statsRouter);
   r.use(learnRouter);
+  r.use(x402Router);
   r.use("/admin", adminRouter);
   return r;
 }

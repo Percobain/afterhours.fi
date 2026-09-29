@@ -14,6 +14,7 @@ const mem = {
     cursors: new Map(),
     epochPrices: new Map(),
     quoteLogs: [],
+    agentEvents: [],
 };
 const pk = (chainId, policyId) => `${chainId}:${policyId}`;
 const sk = (chainId, address) => `${chainId}:${address.toLowerCase()}`;
@@ -134,6 +135,28 @@ exports.store = {
         },
         async list(chainId, epochId) {
             return withMongo("epochPrices.list", async () => models_1.EpochPriceModel.find({ chainId, epochId }).lean(), () => [...mem.epochPrices.values()].filter((e) => e.chainId === chainId && e.epochId === epochId));
+        },
+    },
+    agentEvents: {
+        /** idempotent on (tx, kind): replays from the indexer or a retried settlement add nothing */
+        async add(doc) {
+            doc.payer = doc.payer?.toLowerCase() ?? null;
+            doc.payee = doc.payee?.toLowerCase() ?? null;
+            const dup = doc.tx ? mem.agentEvents.find((e) => e.tx === doc.tx && e.kind === doc.kind) : undefined;
+            if (!dup) {
+                mem.agentEvents.push(doc);
+                if (mem.agentEvents.length > 2_000)
+                    mem.agentEvents.splice(0, mem.agentEvents.length - 2_000);
+            }
+            await withMongo("agentEvents.add", async () => {
+                if (doc.tx)
+                    await models_1.AgentEventModel.updateOne({ tx: doc.tx, kind: doc.kind }, { $setOnInsert: doc }, { upsert: true });
+                else
+                    await models_1.AgentEventModel.create(doc);
+            }, () => undefined);
+        },
+        async recent(chainId, limit = 50) {
+            return withMongo("agentEvents.recent", async () => models_1.AgentEventModel.find({ chainId }).sort({ at: -1 }).limit(limit).lean(), () => mem.agentEvents.filter((e) => e.chainId === chainId).sort((a, b) => +b.at - +a.at).slice(0, limit));
         },
     },
     quoteLogs: {

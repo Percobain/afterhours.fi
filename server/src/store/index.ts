@@ -4,8 +4,8 @@
  */
 import { mongoReady } from "../db";
 import { logger } from "../logger";
-import { CursorModel, EpochPriceModel, PolicyModel, QuoteLogModel, UserStatsModel } from "../models";
-import type { CursorDoc, EpochPriceDoc, PolicyDoc, QuoteLogDoc, UserStatsDoc } from "../models/types";
+import { AgentEventModel, CursorModel, EpochPriceModel, PolicyModel, QuoteLogModel, UserStatsModel } from "../models";
+import type { AgentEventDoc, CursorDoc, EpochPriceDoc, PolicyDoc, QuoteLogDoc, UserStatsDoc } from "../models/types";
 
 const mem = {
   policies: new Map<string, PolicyDoc>(),
@@ -13,6 +13,7 @@ const mem = {
   cursors: new Map<string, CursorDoc>(),
   epochPrices: new Map<string, EpochPriceDoc>(),
   quoteLogs: [] as QuoteLogDoc[],
+  agentEvents: [] as AgentEventDoc[],
 };
 
 const pk = (chainId: number, policyId: number) => `${chainId}:${policyId}`;
@@ -194,6 +195,34 @@ export const store = {
         "epochPrices.list",
         async () => EpochPriceModel.find({ chainId, epochId }).lean<EpochPriceDoc[]>(),
         () => [...mem.epochPrices.values()].filter((e) => e.chainId === chainId && e.epochId === epochId),
+      );
+    },
+  },
+
+  agentEvents: {
+    /** idempotent on (tx, kind): replays from the indexer or a retried settlement add nothing */
+    async add(doc: AgentEventDoc): Promise<void> {
+      doc.payer = doc.payer?.toLowerCase() ?? null;
+      doc.payee = doc.payee?.toLowerCase() ?? null;
+      const dup = doc.tx ? mem.agentEvents.find((e) => e.tx === doc.tx && e.kind === doc.kind) : undefined;
+      if (!dup) {
+        mem.agentEvents.push(doc);
+        if (mem.agentEvents.length > 2_000) mem.agentEvents.splice(0, mem.agentEvents.length - 2_000);
+      }
+      await withMongo(
+        "agentEvents.add",
+        async () => {
+          if (doc.tx) await AgentEventModel.updateOne({ tx: doc.tx, kind: doc.kind }, { $setOnInsert: doc }, { upsert: true });
+          else await AgentEventModel.create(doc);
+        },
+        () => undefined,
+      );
+    },
+    async recent(chainId: number, limit = 50): Promise<AgentEventDoc[]> {
+      return withMongo(
+        "agentEvents.recent",
+        async () => AgentEventModel.find({ chainId }).sort({ at: -1 }).limit(limit).lean<AgentEventDoc[]>(),
+        () => mem.agentEvents.filter((e) => e.chainId === chainId).sort((a, b) => +b.at - +a.at).slice(0, limit),
       );
     },
   },

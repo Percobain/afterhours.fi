@@ -14,7 +14,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.QuoteLogModel = exports.CursorModel = exports.EpochPriceModel = exports.UserStatsModel = exports.PolicyModel = void 0;
+exports.AgentEventModel = exports.QuoteLogModel = exports.CursorModel = exports.EpochPriceModel = exports.UserStatsModel = exports.PolicyModel = void 0;
 var Policy_1 = require("./Policy");
 Object.defineProperty(exports, "PolicyModel", { enumerable: true, get: function () { return Policy_1.PolicyModel; } });
 var UserStats_1 = require("./UserStats");
@@ -25,5 +25,7 @@ var Cursor_1 = require("./Cursor");
 Object.defineProperty(exports, "CursorModel", { enumerable: true, get: function () { return Cursor_1.CursorModel; } });
 var QuoteLog_1 = require("./QuoteLog");
 Object.defineProperty(exports, "QuoteLogModel", { enumerable: true, get: function () { return QuoteLog_1.QuoteLogModel; } });
+var AgentEvent_1 = require("./AgentEvent");
+Object.defineProperty(exports, "AgentEventModel", { enumerable: true, get: function () { return AgentEvent_1.AgentEventModel; } });
 __exportStar(require("./types"), exports);
 //# sourceMappingURL=index.js.map

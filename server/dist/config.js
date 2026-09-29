@@ -167,6 +167,7 @@ function buildChain(spec, alchemyKey) {
         deployBlock: Number.isFinite(deployBlockEnv) ? deployBlockEnv : d?.deployBlock,
         tokens,
         epochs,
+        binders: (d?.binders ?? []).filter((b) => (0, viem_1.isAddress)(b)).map((b) => (0, viem_1.getAddress)(b)),
         deploymentFile: dep?.file ?? null,
     };
 }
@@ -181,6 +182,14 @@ exports.config = {
     // Comma-separated resolvers used when the OS resolver refuses the SRV lookup behind mongodb+srv:// URIs.
     dnsFallbackServers: env("DNS_FALLBACK_SERVERS", "8.8.8.8,1.1.1.1").split(",").map((x) => x.trim()).filter(Boolean),
     quoterPrivateKey: env("QUOTER_PRIVATE_KEY"),
+    x402: {
+        // testnet stand-in for Binance's b402 facilitator; on mainnet agents point at b402 instead
+        facilitatorEnabled: envBool("X402_FACILITATOR_ENABLED", true),
+        // chains the facilitator settles on; the canonical x402 Permit2 proxy must exist there (BSC testnet does)
+        networks: env("X402_NETWORKS", "97").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0),
+        // gas payer for settlements; falls back to the quoter key
+        facilitatorPrivateKey: env("FACILITATOR_PRIVATE_KEY"),
+    },
     adminSecret: env("ADMIN_SECRET"),
     clientOrigin: env("CLIENT_ORIGIN", "http://localhost:3000"),
     alchemyApiKey: alchemyKey,

@@ -83,3 +83,8 @@ acknowledged_at = "2026-09-29T19:11:53Z"
 max_per_topup_usd = 1.0
 max_per_day_usd = 3.0
 max_per_month_usd = 15.0
+
+[identity]
+endpoint = "https://afterhours-kip.onrender.com"
+registered_at = "2026-09-29T19:48:20.426Z"
+agent_id = 2530

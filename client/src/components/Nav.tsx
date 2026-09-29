@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
-import { ArrowRight, BookOpenText, CaretDown, Coins, Pulse, ShieldCheck, Wallet } from "@phosphor-icons/react";
+import { ArrowRight, BookOpenText, CaretDown, Coins, Pulse, Robot, ShieldCheck, Wallet } from "@phosphor-icons/react";
 import { useMounted } from "@/hooks/useNow";
 import { Logo } from "./Logo";
 
@@ -11,6 +11,7 @@ const APP_LINKS = [
   { href: "/protect", label: "Protect", icon: ShieldCheck },
   { href: "/earn", label: "Earn", icon: Coins },
   { href: "/activity", label: "My activity", icon: Pulse },
+  { href: "/agents", label: "Agents", icon: Robot },
   { href: "/docs", label: "Docs", icon: BookOpenText },
 ];
 
@@ -19,6 +20,7 @@ const LANDING_LINKS = [
   { href: "/#try", label: "Try it" },
   { href: "/#earn", label: "Earn" },
   { href: "/#faq", label: "FAQ" },
+  { href: "/agents", label: "Agents" },
   { href: "/docs", label: "Docs" },
 ];
 
@@ -64,12 +66,12 @@ export function Nav() {
 
       {/* phone: bottom tab bar inside the app */}
       {!onLanding && (
-        <nav className="glass fixed !bg-surface/90 inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 grid grid-cols-4 rounded-2xl p-1.5 shadow-pop lg:hidden" aria-label="App">
+        <nav className="glass fixed !bg-surface/90 inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 grid grid-cols-5 rounded-2xl p-1.5 shadow-pop lg:hidden" aria-label="App">
           {APP_LINKS.map((l) => {
             const active = path.startsWith(l.href);
             return (
               <Link key={l.href} href={l.href} className={clsx("flex flex-col items-center gap-1 rounded-xl py-2 text-[11px] font-medium transition", active ? "bg-white/[0.08] text-ink" : "text-ink-3")}>
-                <l.icon weight="duotone" className={clsx("h-5 w-5", active && (l.href === "/earn" ? "text-keeper" : "text-floor"))} />
+                <l.icon weight="duotone" className={clsx("h-5 w-5", active && (l.href === "/earn" || l.href === "/agents" ? "text-keeper" : "text-floor"))} />
                 {l.label === "How it works" ? "Guide" : l.label === "My activity" ? "Activity" : l.label}
               </Link>
             );

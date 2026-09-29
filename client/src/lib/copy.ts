@@ -109,6 +109,16 @@ export const PAGE_HELP: Record<string, { title: string; steps: { h: string; p: s
       { h: "Built-in safety", p: "Half the pool is a safety reserve that is never put at risk, and every protection is fully paid for before it is sold. You can withdraw anything that isn’t set aside for this weekend." },
     ],
   },
+  agents: {
+    title: "What the agents do",
+    steps: [
+      { h: "Hermee's agent", p: "Works for a stock holder. It asks for cover, checks the price against its owner's budget and pays with a single signature. On mainnet that signature comes from the Binance Agentic Wallet." },
+      { h: "Kip's agent", p: "An underwriter built on BNB Agent Studio, with an on-chain ERC-8004 identity. It prices cover, gets paid over x402, binds the policy on-chain and settles its book when Monday opens." },
+      { h: "x402", p: "An internet payment standard: the seller answers 402 Payment Required with a price, the buyer retries with a signed payment, and the seller settles it on-chain before doing the work." },
+      { h: "Who gets paid on Monday", p: "Always the stock holder, straight from the pool. Kip's agent relays the fee but can never touch a payout." },
+      { h: "Test tokens only", p: "Everything here runs on BSC Testnet with free test tokens. The same code runs on mainnet by changing configuration." },
+    ],
+  },
   activity: {
     title: "What you see here",
     steps: [

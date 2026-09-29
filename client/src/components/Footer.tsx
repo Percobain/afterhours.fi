@@ -34,7 +34,7 @@ export function Footer() {
             </div>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-2">Weekend protection for tokenized US stocks. Priced from 21 years of real weekends. Built for the BNB Hack: Tokenized Stocks Edition.</p>
           </div>
-          <FooterCol title="Use it" links={[{ href: "/protect", label: "Protect a weekend" }, { href: "/earn", label: "Earn with the pool" }, { href: "/activity", label: "My activity" }]} />
+          <FooterCol title="Use it" links={[{ href: "/protect", label: "Protect a weekend" }, { href: "/earn", label: "Earn with the pool" }, { href: "/activity", label: "My activity" }, { href: "/agents", label: "Agents: live x402 trades" }]} />
           <FooterCol title="Understand it" links={[{ href: "/docs", label: "Docs: how it works" }, { href: "/docs#part-2", label: "Research & methodology" }, { href: "/#try", label: "Try the Monday simulator" }, { href: "/#faq", label: "FAQ" }]} />
           <div className="text-sm">
             <div className="mb-3 font-medium text-ink">Verified contracts</div>

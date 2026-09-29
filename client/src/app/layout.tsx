@@ -11,7 +11,7 @@ import { Footer } from "@/components/Footer";
 export const metadata: Metadata = {
   title: { default: "afterhours.fi - Weekend protection for tokenized stocks", template: "%s · afterhours.fi" },
   description: "The US stock market shuts for 65 hours every weekend. If your stock opens lower on Monday, afterhours.fi pays you the difference.",
-  metadataBase: new URL("https://afterhoursfi.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.afterhoursfi.xyz"),
   openGraph: { title: "afterhours.fi - Weekend protection for tokenized stocks", description: "If your stock opens lower on Monday, afterhours.fi pays you the difference.", type: "website" },
 };
 

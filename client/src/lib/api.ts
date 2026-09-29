@@ -14,6 +14,8 @@ import type {
 const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:4000" : "");
 export const API_BASE = API_URL ? `${API_URL.replace(/\/$/, "")}/api` : "";
 const TIMEOUT_MS = 5000;
+/** Quotes wait out a cold start: the free Render instance sleeps when idle and takes up to ~50s to wake. */
+const QUOTE_TIMEOUT_MS = 60_000;
 
 export class ApiError extends Error {
   status: number;
@@ -25,10 +27,10 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function request<T>(path: string, init?: RequestInit, timeoutMs = TIMEOUT_MS): Promise<T> {
   if (!API_BASE) throw new ApiError(503, "The pricing server is not connected to this deployment yet");
   const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  const t = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
     const res = await fetch(`${API_BASE}${path}`, { ...init, signal: ctrl.signal, headers: { accept: "application/json", ...(init?.headers ?? {}) } });
     const text = await res.text();
@@ -71,7 +73,7 @@ export const api = {
   tokens: (chainId: number) => safe(request<ApiToken[] | { tokens: ApiToken[] }>(`/tokens?${qs({ chainId })}`)),
   /** Throws ApiError (e.g. 422 priced_out) so the quote card can say why. */
   quote: (p: { chainId: number; buyer: string; token: string; notionalUsd: string; barrierBps?: number; budgetBps?: number }) =>
-    request<QuoteResponse>(`/quote?${qs(p)}`),
+    request<QuoteResponse>(`/quote?${qs(p)}`, undefined, QUOTE_TIMEOUT_MS),
   policies: (address: string, chainId: number) => safe(request<PoliciesResponse>(`/policies/${address}?${qs({ chainId })}`)),
   vault: (chainId: number) => safe(request<VaultResponse>(`/vault?${qs({ chainId })}`)),
   stats: () => safe(request<BacktestSummary>("/stats")),

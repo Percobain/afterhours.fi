@@ -126,6 +126,17 @@ export function ProtectFlow() {
   const quoteErr = quoteQ.error;
   const pricedOut = quoteErr instanceof ApiError && (quoteErr.status === 422 || /priced_out/i.test(quoteErr.message));
   const serverDown = !!quoteErr && !(quoteErr instanceof ApiError);
+  // the free server can take up to a minute to wake; say so instead of looking stuck
+  const [slowQuote, setSlowQuote] = useState(false);
+  const waitingForFirstQuote = quoteQ.isFetching && !q;
+  useEffect(() => {
+    if (!waitingForFirstQuote) {
+      setSlowQuote(false);
+      return;
+    }
+    const t = setTimeout(() => setSlowQuote(true), 6_000);
+    return () => clearTimeout(t);
+  }, [waitingForFirstQuote]);
 
   const chosenLine = q ? Number(q.quote.barrierBps) : mode === "line" ? lineBps : 500;
   const premium = q ? toBig(q.quote.premiumUsd) : 0n;
@@ -387,7 +398,12 @@ export function ProtectFlow() {
               )}
 
               {pricedOut && <Hint tone="warn">{token.ticker} is too jumpy this week to protect at a fair price with this line (it would cost over 2% of the amount). Try a looser line, like 10%.</Hint>}
-              {serverDown && <Hint tone="warn">The pricing service isn’t reachable, so we can’t give you a firm price right now. The numbers above are estimates.</Hint>}
+              {slowQuote && !serverDown && <Hint tone="info">Waking up the pricing server. It sleeps when nobody has used it for a while, so the first price can take up to a minute.</Hint>}
+              {serverDown && (
+                <Hint tone="warn" action={<button type="button" className="btn-soft !h-9 !px-3 !text-xs" onClick={() => quoteQ.refetch()}>Try again</button>}>
+                  The pricing service isn’t reachable right now, so we can’t give you a firm price. The numbers above are estimates.
+                </Hint>
+              )}
 
               <MondaySimulator className="mt-5" ticker={token.ticker} amount={toNum(notional, 6)} lineBps={chosenLine} cost={q ? toNum(premium, 6) : undefined} />
             </div>

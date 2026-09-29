@@ -11,7 +11,9 @@
     "dev": "tsx src/dualMain.ts",
     "build": "tsc -p tsconfig.json",
     "sync:x402": "node ../../../../shared/x402/sync.mjs src/afterhours",
-    "predev": "npm run sync:x402"
+    "predev": "npm run sync:x402",
+    "bundle": "npm run sync:x402 && npx -y esbuild@0.24.2 src/bundleEntry.ts --bundle --platform=node --format=esm --target=node22 --minify-whitespace --minify-syntax --legal-comments=none --outfile=bundle/kip.mjs --log-level=warning \"--banner:js=import { createRequire as __cr } from 'module'; const require = __cr(import.meta.url);\"",
+    "start:bundle": "node bundle/kip.mjs"
   },
   "dependencies": {
     "@a2a-js/sdk": ">=0.3.14 <1.0",

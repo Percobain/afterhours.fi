@@ -1,10 +1,18 @@
 # afterhours.fi - weekend floors for tokenized stocks
 
-**Live app:** https://afterhoursfi.vercel.app · **Agents demo:** https://afterhoursfi.vercel.app/agents · **API:** https://afterhours-fi.onrender.com/api/health · **Kip's agent:** https://afterhours-kip.onrender.com
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=xkc_5tCGtk8" title="Watch the afterhours.fi demo on YouTube">
+    <img src="assets/afterhoursfi.png" alt="afterhours.fi demo video: click to watch on YouTube" width="820">
+  </a>
+  <br>
+  <a href="https://www.youtube.com/watch?v=xkc_5tCGtk8"><b>▶ Watch the demo on YouTube</b></a>
+</p>
+
+**Live app:** https://www.afterhoursfi.xyz · **Agents demo:** https://www.afterhoursfi.xyz/agents · **API:** https://afterhours-fi.onrender.com/api/health · **Kip's agent:** https://afterhours-kip.onrender.com
 
 The US market closes Friday at 4pm New York and reopens Monday at 9:30. Tokenized stocks (bStocks, Ondo) keep trading through the weekend on BNB Chain, priced off a reference that has not moved. afterhours.fi lets a holder set a **floor** under that weekend for a few basis points, and lets a **Keeper pool** earn those premiums for carrying the risk, fully collateralised and CPPI-sized.
 
-> **Methodology, research and intuition** — how the idea came about, the market research, the history of bad weekends, the two-sided model, the backtest with real numbers and charts, and what it concludes for both sides — is written up at **[afterhoursfi.vercel.app/docs](https://afterhoursfi.vercel.app/docs)**. Start there if you are curious about the *why*; this README covers the *how*.
+> **Methodology, research and intuition** — how the idea came about, the market research, the history of bad weekends, the two-sided model, the backtest with real numbers and charts, and what it concludes for both sides — is written up at **[afterhoursfi.xyz/docs](https://www.afterhoursfi.xyz/docs)**. Start there if you are curious about the *why*; this README covers the *how*.
 
 | folder | what |
 |---|---|
@@ -39,7 +47,7 @@ The client also runs with no server and no deployment: every server call has a 5
 
 ## Agents: two AI agents trade weekend cover
 
-> **Try it:** [afterhoursfi.vercel.app/agents](https://afterhoursfi.vercel.app/agents). Press **Start the agents** to watch a real trade between the two agents on BSC Testnet, with every step linked on BscScan.
+> **Try it:** [afterhoursfi.xyz/agents](https://www.afterhoursfi.xyz/agents). Press **Start the agents** to watch a real trade between the two agents on BSC Testnet, with every step linked on BscScan.
 
 ### In plain words
 Buying weekend protection by hand means remembering to do it before 4pm New York every Friday. That is exactly the kind of chore an AI agent should do. So afterhours.fi has **two agents that trade with each other**:
@@ -106,7 +114,7 @@ Two parts of the stack have no public testnet: the **Binance Agentic Wallet** (B
 | Payment contracts | Permit2 `0x000000000022D473030F116dDEE9F6B43aC78BA3`, proxy `0x402085c248EeA27D92E8b30b2C58ed07f9E20001` | the same contracts at the same addresses |
 
 ### Try it
-1. **In the browser:** [afterhoursfi.vercel.app/agents](https://afterhoursfi.vercel.app/agents). Pick a stock, amount and floor, then press **Start the agents**. The server runs Hermee's agent against Kip's live agent and streams each step.
+1. **In the browser:** [afterhoursfi.xyz/agents](https://www.afterhoursfi.xyz/agents). Pick a stock, amount and floor, then press **Start the agents**. The server runs Hermee's agent against Kip's live agent and streams each step.
 2. **From the command line** (your own testnet key):
    ```bash
    cd agents/hermee && npm install
@@ -177,7 +185,7 @@ Core contracts are source-verified on BscScan and Etherscan. The raw address boo
 2. **The bell.** No more purchases (`bindDeadline`). The oracle records the Friday close per share.
 3. **Monday, 9:30 New York.** The oracle records the first official opening print. Anyone calls `settle`: payout per $1 = min(max(-barrier - gap, 0), 20%). The holder gets a receipt: "Floor held" or "Floor paid $X". Corporate actions void the weekend and refund the premium.
 
-For the full story in plain numbers (Hermee's weekend, Kip's vault) and the quant methodology behind the pricing, see **[/docs](https://afterhoursfi.vercel.app/docs)**.
+For the full story in plain numbers (Hermee's weekend, Kip's vault) and the quant methodology behind the pricing, see **[/docs](https://www.afterhoursfi.xyz/docs)**.
 
 ## Hackathon disclosure
 Testnet only. The deployer address owns every contract and can pause, change parameters, force-settle, correct prices and withdraw funds. Not available in restricted jurisdictions. Built for BNB Hack: Tokenized Stocks Edition.

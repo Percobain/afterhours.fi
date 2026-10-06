@@ -12,7 +12,7 @@
 
 The US market closes Friday at 4pm New York and reopens Monday at 9:30. Tokenized stocks (bStocks, Ondo) keep trading through the weekend on BNB Chain, priced off a reference that has not moved. afterhours.fi lets a holder set a **floor** under that weekend for a few basis points, and lets a **Keeper pool** earn those premiums for carrying the risk, fully collateralised and CPPI-sized.
 
-> **Methodology, research and intuition** — how the idea came about, the market research, the history of bad weekends, the two-sided model, the backtest with real numbers and charts, and what it concludes for both sides — is written up at **[afterhoursfi.xyz/docs](https://www.afterhoursfi.xyz/docs)**. Start there if you are curious about the *why*; this README covers the *how*.
+> **Methodology, research and intuition** are written up at **[afterhoursfi.xyz/docs](https://www.afterhoursfi.xyz/docs)**: how the idea came about, the market research, the history of bad weekends, the two-sided model, the backtest with real numbers and charts, and what it concludes for both sides. Start there if you are curious about the *why*; this README covers the *how*.
 
 | folder | what |
 |---|---|
@@ -174,7 +174,7 @@ These policies belong to the weekend closing Friday 2 October 2026. Kip's agent 
 |---|---|---|
 | deploy block | [133,916,239](https://testnet.bscscan.com/block/133916239) | [11,800,197](https://sepolia.etherscan.io/block/11800197) |
 | open weekends (epochId) | 1790971200, 1791576000 | 1790971200, 1791576000 |
-| authorised binders (agents) | [`0x6513a00FB8341ee24Af029EFAf67B19b5914ed4C`](https://testnet.bscscan.com/address/0x6513a00FB8341ee24Af029EFAf67B19b5914ed4C) | — |
+| authorised binders (agents) | [`0x6513a00FB8341ee24Af029EFAf67B19b5914ed4C`](https://testnet.bscscan.com/address/0x6513a00FB8341ee24Af029EFAf67B19b5914ed4C) | none |
 
 **Agent-to-agent (x402)** on BSC Testnet uses the canonical, chain-independent contracts: Permit2 [`0x000000000022D473030F116dDEE9F6B43aC78BA3`](https://testnet.bscscan.com/address/0x000000000022D473030F116dDEE9F6B43aC78BA3) and x402ExactPermit2Proxy [`0x402085c248EeA27D92E8b30b2C58ed07f9E20001`](https://testnet.bscscan.com/address/0x402085c248EeA27D92E8b30b2C58ed07f9E20001).
 

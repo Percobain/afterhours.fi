@@ -1,11 +1,11 @@
 # afterhours.fi - weekend floors for tokenized stocks
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=xkc_5tCGtk8" title="Watch the afterhours.fi demo on YouTube">
+  <a href="https://www.youtube.com/watch?v=xkc_5tCGtk8" target="_blank" rel="noopener noreferrer" title="Watch the afterhours.fi demo on YouTube">
     <img src="assets/afterhoursfi.png" alt="afterhours.fi demo video: click to watch on YouTube" width="820">
   </a>
   <br>
-  <a href="https://www.youtube.com/watch?v=xkc_5tCGtk8"><b>▶ Watch the demo on YouTube</b></a>
+  <a href="https://www.youtube.com/watch?v=xkc_5tCGtk8" target="_blank" rel="noopener noreferrer"><b>▶ Watch the demo on YouTube</b></a>
 </p>
 
 **Live app:** https://www.afterhoursfi.xyz · **Agents demo:** https://www.afterhoursfi.xyz/agents · **API:** https://afterhours-fi.onrender.com/api/health · **Kip's agent:** https://afterhours-kip.onrender.com

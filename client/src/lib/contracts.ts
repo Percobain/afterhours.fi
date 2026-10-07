@@ -3,21 +3,28 @@ import { isAddress, parseUnits } from "viem";
 import { deployments } from "@/deployments";
 import type { Deployment, EpochInfo, StockInfo, TokenInfo } from "./types";
 import { PRICE_DECIMALS, USD_DECIMALS } from "./format";
+import type { NetworkMode } from "./networkMode";
 
 export { CoverMarketAbi, KeeperVaultAbi, MockERC20Abi, ReferenceOracleAbi } from "@/abi";
 
+export const BSC = 56;
 export const SEPOLIA = 11155111;
 export const BSC_TESTNET = 97;
-export const SUPPORTED_CHAIN_IDS = [BSC_TESTNET, SEPOLIA] as const;
-export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number];
+export type SupportedChainId = typeof BSC | typeof BSC_TESTNET | typeof SEPOLIA;
 
-export const CHAIN_META: Record<number, { name: string; short: string; network: "sepolia" | "bscTestnet"; explorer: string; gasFaucet: string }> = {
-  [SEPOLIA]: { name: "Ethereum Sepolia", short: "Sepolia", network: "sepolia", explorer: "https://sepolia.etherscan.io", gasFaucet: "https://sepoliafaucet.com" },
-  [BSC_TESTNET]: { name: "BSC Testnet", short: "BSC Testnet", network: "bscTestnet", explorer: "https://testnet.bscscan.com", gasFaucet: "https://www.bnbchain.org/en/testnet-faucet" },
+/** Chains each network mode offers, home chain first. Mainnet mode never shows testnets and vice versa. */
+export const MODE_CHAIN_IDS: Record<NetworkMode, readonly SupportedChainId[]> = {
+  mainnet: [BSC],
+  testnet: [BSC_TESTNET, SEPOLIA],
 };
 
-// BSC Testnet is the home network; Sepolia stays supported for wallets connected there.
-export const DEFAULT_CHAIN_ID: number = Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID ?? BSC_TESTNET) || BSC_TESTNET;
+export const homeChainId = (mode: NetworkMode): SupportedChainId => MODE_CHAIN_IDS[mode][0];
+
+export const CHAIN_META: Record<number, { name: string; short: string; network: "bsc" | "sepolia" | "bscTestnet"; explorer: string; gasFaucet?: string; testnet: boolean }> = {
+  [BSC]: { name: "BNB Chain Mainnet", short: "BNB Mainnet", network: "bsc", explorer: "https://bscscan.com", testnet: false },
+  [SEPOLIA]: { name: "Ethereum Sepolia", short: "Sepolia", network: "sepolia", explorer: "https://sepolia.etherscan.io", gasFaucet: "https://sepoliafaucet.com", testnet: true },
+  [BSC_TESTNET]: { name: "BSC Testnet", short: "BSC Testnet", network: "bscTestnet", explorer: "https://testnet.bscscan.com", gasFaucet: "https://www.bnbchain.org/en/testnet-faucet", testnet: true },
+};
 
 export const BARRIER_MENU = [100, 200, 300, 500, 700, 1000] as const;
 export const BUDGET_MENU = [2, 5, 10, 25] as const;
@@ -32,6 +39,12 @@ function envAddr(v: string | undefined): Address | undefined {
 
 // NEXT_PUBLIC_* values must be referenced statically for Next to inline them.
 const ENV_OVERRIDES: Record<number, Partial<Deployment["contracts"]>> = {
+  [BSC]: {
+    CoverMarket: envAddr(process.env.NEXT_PUBLIC_BSC_COVER_MARKET),
+    KeeperVault: envAddr(process.env.NEXT_PUBLIC_BSC_KEEPER_VAULT),
+    USDT: envAddr(process.env.NEXT_PUBLIC_BSC_USDT),
+    ReferenceOracle: envAddr(process.env.NEXT_PUBLIC_BSC_ORACLE),
+  },
   [SEPOLIA]: {
     CoverMarket: envAddr(process.env.NEXT_PUBLIC_SEPOLIA_COVER_MARKET),
     KeeperVault: envAddr(process.env.NEXT_PUBLIC_SEPOLIA_KEEPER_VAULT),
@@ -79,15 +92,15 @@ export function stocksToTokens(stocks: Record<string, StockInfo>): TokenInfo[] {
   return Object.entries(stocks).map(([symbol, s]) => ({ symbol, ...s, address: s.address as Address, decimals: s.decimals ?? 18 }));
 }
 
-export function isSupportedChain(chainId: number | undefined): chainId is SupportedChainId {
-  return chainId === SEPOLIA || chainId === BSC_TESTNET;
+export function isSupportedChain(chainId: number | undefined, mode: NetworkMode): chainId is SupportedChainId {
+  return chainId !== undefined && (MODE_CHAIN_IDS[mode] as readonly number[]).includes(chainId);
 }
 
 export function explorerTx(chainId: number | undefined, hash: string): string {
-  return `${CHAIN_META[chainId ?? DEFAULT_CHAIN_ID]?.explorer ?? ""}/tx/${hash}`;
+  return `${CHAIN_META[chainId ?? BSC]?.explorer ?? ""}/tx/${hash}`;
 }
 export function explorerAddress(chainId: number | undefined, addr: string): string {
-  return `${CHAIN_META[chainId ?? DEFAULT_CHAIN_ID]?.explorer ?? ""}/address/${addr}`;
+  return `${CHAIN_META[chainId ?? BSC]?.explorer ?? ""}/address/${addr}`;
 }
 
 // ---- units ----

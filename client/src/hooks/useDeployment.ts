@@ -4,16 +4,18 @@ import { useQuery } from "@tanstack/react-query";
 import { useAccount, useChainId, useReadContracts } from "wagmi";
 import type { Address } from "viem";
 import { api, normaliseTokens } from "@/lib/api";
-import { CoverMarketAbi, DEFAULT_CHAIN_ID, MockERC20Abi, ReferenceOracleAbi, ZERO_ADDRESS, getStaticDeployment, isSupportedChain, stocksToTokens } from "@/lib/contracts";
+import { CoverMarketAbi, MockERC20Abi, ReferenceOracleAbi, ZERO_ADDRESS, getStaticDeployment, homeChainId, isSupportedChain, stocksToTokens } from "@/lib/contracts";
+import { useNetworkMode } from "@/lib/networkMode";
 import { toBig } from "@/lib/format";
 import type { ApiToken, Deployment, EpochInfo, TokenInfo, Wrapper } from "@/lib/types";
 
-/** The chain the UI works against: the wallet's chain when supported, else the default. */
+/** The chain the UI works against: the wallet's chain when the network mode offers it, else the mode's home chain. */
 export function useActiveChainId(): { chainId: number; walletChainId: number | undefined; wrongNetwork: boolean } {
+  const mode = useNetworkMode();
   const wagmiChainId = useChainId();
   const { chainId: walletChainId, isConnected } = useAccount();
-  const supported = isSupportedChain(walletChainId) ? walletChainId : isSupportedChain(wagmiChainId) ? wagmiChainId : DEFAULT_CHAIN_ID;
-  return { chainId: supported, walletChainId, wrongNetwork: isConnected && !isSupportedChain(walletChainId) };
+  const supported = isSupportedChain(walletChainId, mode) ? walletChainId : isSupportedChain(wagmiChainId, mode) ? wagmiChainId : homeChainId(mode);
+  return { chainId: supported, walletChainId, wrongNetwork: isConnected && !isSupportedChain(walletChainId, mode) };
 }
 
 export interface ResolvedDeployment {

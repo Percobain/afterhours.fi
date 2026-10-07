@@ -5,6 +5,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
 import { ArrowRight, BookOpenText, CaretDown, Coins, Pulse, Robot, ShieldCheck, Wallet } from "@phosphor-icons/react";
 import { useMounted } from "@/hooks/useNow";
+import { setNetworkMode, useNetworkMode } from "@/lib/networkMode";
 import { Logo } from "./Logo";
 
 const APP_LINKS = [
@@ -51,6 +52,7 @@ export function Nav() {
             </nav>
           </div>
           <div className="flex items-center gap-2">
+            <TestnetSwitch />
             {onLanding ? (
               <Link href="/protect" className="btn btn-md bg-white text-[#05060A] hover:bg-white/90">
                 Launch app <ArrowRight weight="bold" className="h-4 w-4" />
@@ -82,7 +84,40 @@ export function Nav() {
   );
 }
 
+/** Mainnet (BNB Chain) by default; Testnet runs the whole app on BSC Testnet + Sepolia only. */
+function TestnetSwitch() {
+  const mode = useNetworkMode();
+  const options = [
+    { value: "mainnet", long: "Mainnet", short: "Main", title: "BNB Chain mainnet" },
+    { value: "testnet", long: "Testnet", short: "Test", title: "BSC Testnet and Sepolia" },
+  ] as const;
+  return (
+    <div role="radiogroup" aria-label="Network" className="flex h-10 shrink-0 items-center rounded-xl border border-line bg-surface-2 p-1 text-xs font-medium">
+      {options.map((o) => {
+        const active = mode === o.value;
+        return (
+          <button
+            key={o.value}
+            role="radio"
+            aria-checked={active}
+            title={o.title}
+            onClick={() => !active && setNetworkMode(o.value)}
+            className={clsx(
+              "h-full rounded-lg px-2 transition sm:px-2.5",
+              active ? (o.value === "mainnet" ? "bg-floor-soft text-floor" : "bg-keeper-soft text-keeper") : "text-ink-3 hover:text-ink"
+            )}
+          >
+            <span className="hidden sm:inline">{o.long}</span>
+            <span className="sm:hidden">{o.short}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 function WalletButton() {
+  const testnet = useNetworkMode() === "testnet";
   return (
     <ConnectButton.Custom>
       {({ account, chain, openAccountModal, openChainModal, openConnectModal, mounted }) => {
@@ -108,7 +143,7 @@ function WalletButton() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               {chain.iconUrl ? <img src={chain.iconUrl} alt="" className="h-4 w-4 rounded-full" /> : <span className="h-2 w-2 rounded-full bg-held" />}
               <span className="text-xs">{chain.name?.replace("Binance Smart Chain", "BSC")}</span>
-              <span className="rounded bg-keeper-soft px-1 text-[10px] font-semibold text-keeper">TEST</span>
+              <span className={clsx("rounded px-1 text-[10px] font-semibold", testnet ? "bg-keeper-soft text-keeper" : "bg-floor-soft text-floor")}>{testnet ? "TESTNET" : "MAINNET"}</span>
             </button>
             <button onClick={openAccountModal} className="btn btn-md border border-line bg-surface-2 !px-3 text-ink hover:border-line-strong">
               <span className="h-5 w-5 rounded-full bg-gradient-to-br from-floor to-keeper-2" aria-hidden />

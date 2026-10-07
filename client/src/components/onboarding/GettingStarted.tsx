@@ -98,12 +98,15 @@ export function GettingStarted({ className, variant = "rail" }: { className?: st
     },
     {
       id: "network",
-      title: "Switch to the test network",
-      body: (
-        <>
-          This is a <Term k="testnet">test network</Term>, so nothing here costs real money. Your wallet will ask once.
-        </>
-      ),
+      title: meta?.testnet === false ? `Switch to ${meta.short}` : "Switch to the test network",
+      body:
+        meta?.testnet === false ? (
+          "Your wallet will ask once. The USDT and stock tokens here are free test tokens; only gas is real, and it costs a fraction of a cent."
+        ) : (
+          <>
+            This is a <Term k="testnet">test network</Term>, so nothing here costs real money. Your wallet will ask once.
+          </>
+        ),
       action: (
         <button className="btn-primary !h-11 !text-sm" disabled={switching} onClick={() => switchChain({ chainId })}>
           Switch to {meta?.short ?? "testnet"}
@@ -112,13 +115,17 @@ export function GettingStarted({ className, variant = "rail" }: { className?: st
     },
     {
       id: "gas",
-      title: "Get free gas",
-      body: (
+      title: meta?.gasFaucet ? "Get free gas" : "Get a little BNB for gas",
+      body: meta?.gasFaucet ? (
         <>
           Every action needs a tiny bit of <Term k="gas">gas</Term>. Grab some free from a faucet site, then come back. This updates by itself.
         </>
+      ) : (
+        <>
+          Every action needs a tiny bit of <Term k="gas">gas</Term>. A few cents of BNB covers hundreds of actions. This updates by itself.
+        </>
       ),
-      action: meta ? (
+      action: meta?.gasFaucet ? (
         <a className="btn-ghost w-full" href={meta.gasFaucet} target="_blank" rel="noreferrer">
           Open the {meta.short} gas faucet <ArrowSquareOut weight="bold" className="h-3.5 w-3.5" />
         </a>

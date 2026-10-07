@@ -13,6 +13,7 @@ import { useDeployment } from "@/hooks/useDeployment";
 import { useTx } from "@/hooks/useTx";
 import { Term } from "@/components/ui/Term";
 import { ActionChecklist } from "@/components/ui/Steps";
+import { ModeText } from "@/components/ModeText";
 
 type Side = "deposit" | "withdraw";
 
@@ -242,7 +243,7 @@ export function EarnFlow() {
       <div className="card-2 flex items-start gap-3 p-5 text-sm leading-relaxed text-ink-2">
         <ShieldStar weight="duotone" className="mt-0.5 h-5 w-5 shrink-0 text-keeper" />
         <p>
-          <span className="font-semibold text-ink">The honest part.</span> This is not a savings account. Most weekends the pool just collects fees. A few times a year it pays out, and in a crash weekend like March 2020 a pool like this lost a big chunk of what it had at risk. One weekend can never cost more than what was set aside for it, which is never more than half the pool. Test network only; the admin can pause and move funds.
+          <span className="font-semibold text-ink">The honest part.</span> This is not a savings account. Most weekends the pool just collects fees. A few times a year it pays out, and in a crash weekend like March 2020 a pool like this lost a big chunk of what it had at risk. One weekend can never cost more than what was set aside for it, which is never more than half the pool. <ModeText mainnet="Mainnet, with test tokens only" testnet="Testnet only" />; the admin can pause and move funds.
         </p>
       </div>
     </div>

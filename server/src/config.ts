@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import fs from "node:fs";
 import path from "node:path";
 import { isAddress, getAddress, type Address, type Chain } from "viem";
-import { sepolia, bscTestnet } from "viem/chains";
+import { bsc, bscTestnet, sepolia } from "viem/chains";
 import { DEPLOYMENTS_DIR, SERVER_ROOT } from "./paths";
 import { logger } from "./logger";
 
@@ -33,7 +33,7 @@ function envAddress(name: string): Address | undefined {
   return getAddress(v);
 }
 
-export type ChainKey = "sepolia" | "bscTestnet";
+export type ChainKey = "sepolia" | "bscTestnet" | "bsc";
 export type Wrapper = "bstock" | "ondo" | "xstock" | "unknown";
 
 export interface TokenInfo {
@@ -89,6 +89,7 @@ export const BARRIER_MENU = [100, 200, 300, 500, 700, 1000] as const;
 const PUBLIC_RPC: Record<ChainKey, string> = {
   sepolia: "https://ethereum-sepolia-rpc.publicnode.com",
   bscTestnet: "https://data-seed-prebsc-1-s1.bnbchain.org:8545",
+  bsc: "https://bsc-dataseed.bnbchain.org",
 };
 
 /** RPC policy: explicit override > Alchemy (ALCHEMY_API_KEY) > public RPC (warned). */
@@ -225,6 +226,8 @@ export const config = {
   // Comma-separated resolvers used when the OS resolver refuses the SRV lookup behind mongodb+srv:// URIs.
   dnsFallbackServers: env("DNS_FALLBACK_SERVERS", "8.8.8.8,1.1.1.1").split(",").map((x) => x.trim()).filter(Boolean),
   quoterPrivateKey: env("QUOTER_PRIVATE_KEY"),
+  // per-chain signer: QUOTER_PRIVATE_KEY_<chainId> (e.g. _56 for BSC mainnet) overrides QUOTER_PRIVATE_KEY on that chain
+  quoterPrivateKeyFor: (chainId: number) => env(`QUOTER_PRIVATE_KEY_${chainId}`) || env("QUOTER_PRIVATE_KEY"),
   agents: {
     // public URL of Kip's Agent Studio agent (the underwriter that sells cover over x402)
     kipUrl: env("KIP_AGENT_URL", "https://afterhours-kip.onrender.com").replace(/\/+$/, ""),
@@ -235,8 +238,8 @@ export const config = {
   x402: {
     // testnet stand-in for Binance's b402 facilitator; on mainnet agents point at b402 instead
     facilitatorEnabled: envBool("X402_FACILITATOR_ENABLED", true),
-    // chains the facilitator settles on; the canonical x402 Permit2 proxy must exist there (BSC testnet does)
-    networks: env("X402_NETWORKS", "97").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0),
+    // chains the facilitator settles on; the canonical x402 Permit2 proxy must exist there (BSC testnet and mainnet both have it)
+    networks: env("X402_NETWORKS", "97,56").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0),
     // gas payer for settlements; falls back to the quoter key
     facilitatorPrivateKey: env("FACILITATOR_PRIVATE_KEY"),
   },
@@ -285,6 +288,10 @@ export const config = {
     ),
     97: buildChain(
       { key: "bscTestnet", chainId: 97, name: "BSC Testnet", viemChain: bscTestnet, explorer: "https://testnet.bscscan.com", overrideVar: "BSC_TESTNET_RPC_URL", alchemyHost: "bnb-testnet.g.alchemy.com" },
+      alchemyKey,
+    ),
+    56: buildChain(
+      { key: "bsc", chainId: 56, name: "BNB Chain", viemChain: bsc, explorer: "https://bscscan.com", overrideVar: "BSC_RPC_URL", alchemyHost: "bnb-mainnet.g.alchemy.com" },
       alchemyKey,
     ),
   } as Record<number, ChainConfig>,

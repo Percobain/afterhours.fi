@@ -40,7 +40,7 @@ npm run dev                                          # http://localhost:3000
 The client also runs with no server and no deployment: every server call has a 5s timeout and a static backtest fallback.
 
 ## Hosting
-- **Client → Vercel** (`afterhoursfi`, root directory `client`). Every push to `main` deploys production. Env: `NEXT_PUBLIC_API_URL` (the Render URL), `NEXT_PUBLIC_DEFAULT_CHAIN_ID`. `NEXT_PUBLIC_*` values are baked in at build time, so change them and redeploy.
+- **Client → Vercel** (`afterhoursfi`, root directory `client`). Every push to `main` deploys production. Env: `NEXT_PUBLIC_API_URL` (the Render URL). The navbar "Testnet" switch picks the network (BNB Chain mainnet by default). `NEXT_PUBLIC_*` values are baked in at build time, so change them and redeploy.
 - **Server → Render** web service. Build `npm ci --omit=dev`, start `node dist/index.js`, health check `/health`. The server is committed precompiled, so after changing anything in `server/src` run `npm run build` in `server/` and commit `server/dist/` in the same commit.
 - **Kip's agent → Render** (`afterhours-kip`, root `agents/kip/app/agent`). It ships as one prebuilt bundle (`npm run bundle`, commit `bundle/kip.mjs`), so Render runs `node bundle/kip.mjs` with no install or build. The keystore comes from `WALLET_KEYSTORE_JSON` + `WALLET_PASSWORD`.
 - **Keep-alive.** Render's free tier sleeps after 15 idle minutes, which would pause the indexer, the Friday/Monday jobs and Kip's keeper. An uptime pinger (cron-job.org) hits `GET /health` on both services every 10 minutes: `https://afterhours-fi.onrender.com/health` and `https://afterhours-kip.onrender.com/health`. Neither route touches a DB or RPC.

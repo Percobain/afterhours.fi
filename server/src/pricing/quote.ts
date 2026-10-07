@@ -190,7 +190,7 @@ export async function buildQuote(p: QuoteParams): Promise<QuoteResponse> {
     nonce,
   };
 
-  const account = getQuoterAccount();
+  const account = getQuoterAccount(p.chainId);
   const verifyingContract = c.contracts.CoverMarket ?? null;
   let signature: Hex | null = null;
   if (account && verifyingContract) {

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import clsx from "clsx";
 import { MondaySimulator } from "@/components/MondaySimulator";
 import { StockMark } from "@/components/ui/StockMark";
+import { ModeText } from "@/components/ModeText";
 
 /* Part I of /docs: the product as a story, with round numbers anyone can check in their head. */
 
@@ -218,7 +219,7 @@ export function Story() {
             <>The payout is capped at 20% of the amount. A 50% crash would still leave a loss beyond that.</>,
             <>It covers the gap to Monday’s <i>opening</i> price. A fall later on Monday isn’t covered.</>,
             <>Kip can lose money on a bad weekend, and a few times in 21 years the pool paid out more in a year than it collected.</>,
-            <>Right now this runs on test networks with free test tokens. The admin can pause things and move funds.</>,
+            <><ModeText mainnet="Right now this runs on BNB Chain mainnet with free test tokens (no real money)." testnet="Right now this runs on testnet with free test tokens." /> The admin can pause things and move funds.</>,
           ].map((t, i) => (
             <li key={i} className="flex gap-3 text-[17px] leading-[1.7] text-ink-2">
               <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gap" aria-hidden />

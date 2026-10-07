@@ -21,7 +21,8 @@ import {
   zerionWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { createConfig, type Config } from "wagmi";
-import { chains, transports } from "./chains";
+import { chainsByMode, transports } from "./chains";
+import type { NetworkMode } from "./networkMode";
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID?.trim() ?? "";
 export const hasWalletConnect = projectId.length > 0;
@@ -71,4 +72,8 @@ const connectors =
         },
       );
 
-export const wagmiConfig: Config = createConfig({ chains, transports, connectors, ssr: true });
+// One config per network mode, built on first use: wagmi only offers (and RainbowKit only lists) the mode's chains.
+const configs: Partial<Record<NetworkMode, Config>> = {};
+export function getWagmiConfig(mode: NetworkMode): Config {
+  return (configs[mode] ??= createConfig({ chains: chainsByMode[mode], transports, connectors, ssr: true }));
+}

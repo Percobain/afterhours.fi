@@ -315,7 +315,7 @@ export async function openNextEpochs(chainId: number): Promise<OpenEpochsResult>
   const instruction = `cd contracts && npm run epoch:${c.key}   # opens ${todo.map((e) => e.epochId).join(", ")} with the owner key`;
   const wallet = getWalletClient(chainId);
   const owner = await client.readContract({ address: market, abi: CoverMarketAbi, functionName: "owner" });
-  const me = quoterAddress();
+  const me = quoterAddress(chainId);
   if (!wallet || !me || owner.toLowerCase() !== me.toLowerCase()) {
     logger.warn({ chainId, owner, quoter: me, missing: todo.map((e) => e.epochId) }, `openEpoch is owner-only and the quoter is not the owner. Run: ${instruction}`);
     return { chainId, opened: [], existing, txs: [], skipped: "quoter is not the market owner", instruction };

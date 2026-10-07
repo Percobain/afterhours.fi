@@ -4,8 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { WagmiProvider, useAccountEffect, useSwitchChain } from "wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
-import { wagmiConfig } from "@/lib/wagmi";
-import { bscTestnet } from "@/lib/chains";
+import { getWagmiConfig } from "@/lib/wagmi";
+import { chainsByMode } from "@/lib/chains";
+import { isSupportedChain } from "@/lib/contracts";
+import { consumeModeSwitch, useNetworkMode, type NetworkMode } from "@/lib/networkMode";
 import { ToastProvider } from "@/hooks/useToast";
 
 const theme = darkTheme({ accentColor: "#f0b35a", accentColorForeground: "#09090b", borderRadius: "medium", fontStack: "system", overlayBlur: "small" });
@@ -26,11 +28,14 @@ export function Providers({ children }: { children: ReactNode }) {
         defaultOptions: { queries: { staleTime: 15_000, refetchOnWindowFocus: false, retry: 1 } },
       })
   );
+  const mode = useNetworkMode();
+  const home = chainsByMode[mode][0];
+  // keyed by mode: flipping mainnet/testnet remounts wagmi with that mode's chains, and the wallet reconnects by itself
   return (
-    <WagmiProvider config={wagmiConfig}>
+    <WagmiProvider key={mode} config={getWagmiConfig(mode)}>
       <QueryClientProvider client={qc}>
-        <RainbowKitProvider theme={theme} modalSize="compact" initialChain={bscTestnet} appInfo={{ appName: "afterhours.fi" }}>
-          <PreferBsc />
+        <RainbowKitProvider theme={theme} modalSize="compact" initialChain={home} appInfo={{ appName: "afterhours.fi" }}>
+          <PreferHome mode={mode} />
           <ToastProvider>{children}</ToastProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
@@ -39,14 +44,16 @@ export function Providers({ children }: { children: ReactNode }) {
 }
 
 /**
- * BSC Testnet is the home network: a fresh wallet connection on any other chain is asked to switch to BSC once.
- * Reconnects (page reloads) are left alone, so someone who deliberately moved to Sepolia stays there.
+ * Each mode has a home chain (BNB Chain on mainnet, BSC Testnet on testnet). A fresh wallet connection on a chain the
+ * mode doesn't offer is asked to switch home once, and so is a connected wallet right after the mainnet/testnet switch.
+ * Plain reconnects (page reloads) are left alone, so someone who deliberately moved to Sepolia stays there.
  */
-function PreferBsc() {
+function PreferHome({ mode }: { mode: NetworkMode }) {
   const { switchChain } = useSwitchChain();
   useAccountEffect({
     onConnect({ chainId, isReconnected }) {
-      if (!isReconnected && chainId !== bscTestnet.id) switchChain({ chainId: bscTestnet.id });
+      const flipped = consumeModeSwitch();
+      if ((!isReconnected || flipped) && !isSupportedChain(chainId, mode)) switchChain({ chainId: chainsByMode[mode][0].id });
     },
   });
   return null;

@@ -30,6 +30,7 @@ configRouter.get(
           contracts: c.contracts,
           deployer: c.deployer ?? null,
           quoterOnDeployment: c.quoter ?? null,
+          signer: quoterAddress(id),
           deployBlock: c.deployBlock ?? null,
           tokens,
           epochs,

@@ -4,6 +4,7 @@ import clsx from "clsx";
 import D from "./data.json";
 import { Calibration, Callout, DataTable, Figure, Formula, ImageFigure, KeyNumbers, RefBars, TailCompare, YearBars } from "./Charts";
 import { STORY_SECTIONS, Story } from "./Story";
+import { ModeText } from "@/components/ModeText";
 
 /* ------------------------------------------------------------------ helpers */
 
@@ -202,9 +203,9 @@ export function Docs() {
                 { tag: "Test 2", h: "The full backtest", p: <>50 stocks and ETFs with bStock or Ondo wrappers, 61,815 weekends, four pricing engines, strictly out of sample. Section 5 and 6 describe it. It confirmed the tail, overturned test 1’s claim that Black-Scholes is uniformly too cheap (it is wrong by regime, not in one direction), and picked the engine we ship.</> },
                 { tag: "Research", h: "Is it wanted, and is it new?", p: <>A market and literature review (section 2) before any code: who carries weekend risk today, what they pay, what already exists, and what 58 academic papers say about pricing it.</> },
                 { tag: "Structure", h: "Making both sides work", p: <>Simulations of protection structures for buyers (fixed lines, spreads, yield-funded, fixed budgets) and capital structures for the pool (T-bill collateral, payout caps, junior/senior tranches, dynamic sizing). Tranches were rejected; dynamic sizing was adopted (section 4).</> },
-                { tag: "Build", h: "Live on a test network", p: <>Contracts, pricing server and app, with a full Friday-to-Monday cycle settled on-chain: a −7% Monday paid exactly the $40 the formula says on $1,000 protected at a 3% line.</> },
+                { tag: "Build", h: <ModeText mainnet="Live on mainnet" testnet="Live on testnet" />, p: <>Contracts, pricing server and app, with a full Friday-to-Monday cycle settled on-chain: a −7% Monday paid exactly the $40 the formula says on $1,000 protected at a 3% line.</> },
               ].map((s) => (
-                <li key={s.h} className="relative">
+                <li key={s.tag} className="relative">
                   <span className="absolute -left-[41px] top-1 flex h-5 w-5 items-center justify-center rounded-full border border-floor/50 bg-bg" aria-hidden>
                     <span className="h-2 w-2 rounded-full bg-floor" />
                   </span>
@@ -482,7 +483,7 @@ fee        = max( 1.5 × fair(b) ,  0.01% )     refuse if fee > 2% of the amount
                 ["Pricing server", "Node.js, TypeScript, viem, MongoDB", "Runs the shipped engine live, signs each price, posts Friday and Monday prices, settles"],
                 ["App", "Next.js, wagmi, RainbowKit", "The interface you’re reading"],
                 ["Research log", "RecurOS", "Every decision and rejected idea, with its reason, in order"],
-                ["Networks", "BSC Testnet (via Alchemy)", "Where it runs today"],
+                ["Networks", <ModeText key="net" mainnet="BNB Chain mainnet (via Alchemy)" testnet="BSC Testnet and Sepolia (via Alchemy)" />, "Where it runs today"],
               ]}
             />
             <P>
@@ -544,7 +545,7 @@ fee        = max( 1.5 × fair(b) ,  0.01% )     refuse if fee > 2% of the amount
               ))}
             </ol>
             <p className="mt-8 text-sm text-ink-3">
-              Nothing here is investment advice. Figures are historical and hypothetical; the product runs on test networks. <a href="#part-1" className="text-ink underline underline-offset-4">Back to the plain-English story.</a>
+              Nothing here is investment advice. Figures are historical and hypothetical; the product runs on <ModeText mainnet="BNB Chain mainnet with test tokens" testnet="testnet" />. <a href="#part-1" className="text-ink underline underline-offset-4">Back to the plain-English story.</a>
             </p>
           </Section>
         </article>

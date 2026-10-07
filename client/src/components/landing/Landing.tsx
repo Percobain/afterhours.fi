@@ -5,13 +5,15 @@ import { AnimatePresence, animate, motion, useInView, useReducedMotion } from "f
 import clsx from "clsx";
 import { ArrowRight, ArrowsLeftRight, BellSimpleSlash, CalendarCheck, Check, Clock, Coins, Flask, Lightning, Lock, Minus, MoonStars, PiggyBank, Plus, SealCheck, ShieldCheck, Sparkle, SunHorizon, Vault, Wallet } from "@phosphor-icons/react";
 import { FALLBACK_SUMMARY, pickFamous } from "@/lib/backtest";
-import { SEPOLIA, explorerAddress, getStaticDeployment } from "@/lib/contracts";
+import { CHAIN_META, SEPOLIA, explorerAddress, getStaticDeployment, homeChainId } from "@/lib/contracts";
+import { useNetworkMode } from "@/lib/networkMode";
 import { Reveal } from "@/components/Reveal";
 import { MondaySimulator } from "@/components/MondaySimulator";
 import { IssuerMark, IssuerPill, StockMark } from "@/components/ui/StockMark";
 import { WeekendBar } from "@/components/ui/WeekendBar";
 import { LiveDot } from "@/components/ui/Badge";
 import { HeroDemo } from "./HeroDemo";
+import { ModeText } from "@/components/ModeText";
 
 const S = FALLBACK_SUMMARY;
 
@@ -36,6 +38,8 @@ export function Landing() {
 /* ------------------------------------------------------------------ hero */
 
 function Hero() {
+  const mode = useNetworkMode();
+  const chainName = CHAIN_META[homeChainId(mode)]!.name;
   return (
     <section className="noise relative -mt-[76px] pb-16 pt-[140px] sm:pb-24 sm:pt-[170px]">
       {/* aurora */}
@@ -51,7 +55,7 @@ function Hero() {
           <div>
             <Link href="/protect" className="glass inline-flex items-center gap-2 rounded-full py-1.5 pl-1.5 pr-4 text-xs font-medium text-ink hover:bg-white/[0.06]">
               <span className="rounded-full bg-floor px-2 py-0.5 text-[11px] font-bold text-[#1A0E00]">LIVE</span>
-              On BSC Testnet · BNB Hack: Tokenized Stocks <ArrowRight weight="bold" className="h-3.5 w-3.5" />
+              On {chainName} · BNB Hack: Tokenized Stocks <ArrowRight weight="bold" className="h-3.5 w-3.5" />
             </Link>
           </div>
 
@@ -74,7 +78,7 @@ function Hero() {
           </div>
 
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-2">
-            {["No lock-up, keep your stock", "Pays automatically on Monday", "Free to try on testnet"].map((t) => (
+            {["No lock-up, keep your stock", "Pays automatically on Monday", mode === "testnet" ? "Free to try on testnet" : "Free to try on mainnet"].map((t) => (
               <li key={t} className="flex items-center gap-2">
                 <Check weight="bold" className="h-4 w-4 text-held" /> {t}
               </li>
@@ -91,7 +95,7 @@ function Hero() {
                 <IssuerPill issuer="ondo" short size="lg" className="!text-[15px] font-bold" />
               </a>
               <span className="text-xs text-ink-3">
-                on <span className="text-ink-2">BSC Testnet</span>
+                on <span className="text-ink-2">{chainName}</span>
               </span>
             </div>
           </div>
@@ -516,7 +520,7 @@ function Safety() {
 
 /* ------------------------------------------------------------------ faq */
 
-const FAQ: { q: string; a: string }[] = [
+const FAQ: { q: string; a: React.ReactNode }[] = [
   { q: "What exactly do I get?", a: "A safety net for one weekend on one stock. If the stock opens on Monday more than your chosen line (for example 3%) below Friday’s close, you get the difference back in USDT, up to 20% of the amount you protected. If it doesn’t fall that far, nothing happens and you keep your stock." },
   { q: "How much does it cost?", a: "Usually a few cents to a few dollars per $1,000 for one weekend. Calm stocks like the S&P 500 are cheapest; jumpy ones like Coinbase cost more. You always see the exact dollar amount before you pay." },
   { q: "When do I need to buy it?", a: "Any time before Friday 4:00 pm New York, when the US market closes. After that, sales for that weekend stop, because news starts to show up in futures and it wouldn’t be fair to the pool." },
@@ -524,7 +528,7 @@ const FAQ: { q: string; a: string }[] = [
   { q: "Do I have to hold the stock?", a: "Yes. You can only protect stock you actually hold in your wallet. That keeps it protection, not betting." },
   { q: "Who pays me, and could they run out?", a: "The protection pool: USDT from people who chose to earn. Before your protection is sold, the most you could be paid is locked for you, so the money is already there." },
   { q: "What if something weird happens, like a stock split?", a: "If Friday and Monday prices can’t be compared fairly (a split, a halt, no Monday price), that weekend is cancelled and your fee is returned." },
-  { q: "Is this real money?", a: "Not yet. This is a hackathon build on test networks, with free test tokens. The admin can pause things and move funds. It isn’t available in restricted countries." },
+  { q: "Is this real money?", a: <ModeText mainnet="Not yet. This is a hackathon build on BNB Chain mainnet, but the USDT and stock tokens are free test tokens with no value; only gas is real. The admin can pause things and move funds. It isn’t available in restricted countries." testnet="Not yet. This is a hackathon build on testnet, with free test tokens. The admin can pause things and move funds. It isn’t available in restricted countries." /> },
 ];
 
 function Faq() {

@@ -26,29 +26,35 @@ import {
   type VerifyResponse,
 } from "./x402";
 
-let account: PrivateKeyAccount | null | undefined;
+let fixedAccount: PrivateKeyAccount | null | undefined;
 
-function facilitatorAccount(): PrivateKeyAccount | null {
-  if (account !== undefined) return account;
-  const k = config.x402.facilitatorPrivateKey.trim();
-  try {
-    account = k ? privateKeyToAccount((k.startsWith("0x") ? k : `0x${k}`) as Hex) : getQuoterAccount();
-  } catch {
-    account = null;
+/** X402_FACILITATOR_PRIVATE_KEY when set (every chain), otherwise the chain quoter signer (QUOTER_PRIVATE_KEY_<chainId> or QUOTER_PRIVATE_KEY). */
+function facilitatorAccount(chainId: number): PrivateKeyAccount | null {
+  if (fixedAccount === undefined) {
+    const k = config.x402.facilitatorPrivateKey.trim();
+    try {
+      fixedAccount = k ? privateKeyToAccount((k.startsWith("0x") ? k : `0x${k}`) as Hex) : null;
+    } catch {
+      fixedAccount = null;
+    }
   }
-  return account;
+  return fixedAccount ?? getQuoterAccount(chainId);
 }
 
-export function facilitatorAddress(): Address | null {
-  return facilitatorAccount()?.address ?? null;
+export function facilitatorAddress(chainId: number): Address | null {
+  return facilitatorAccount(chainId)?.address ?? null;
 }
 
 export function supported() {
-  const addr = facilitatorAddress();
+  const signers: Record<string, Address[]> = {};
+  for (const id of config.x402.networks) {
+    const addr = facilitatorAddress(id);
+    if (addr) signers[`eip155:${id}`] = [addr];
+  }
   return {
     kinds: config.x402.networks.map((id) => ({ x402Version: X402_VERSION, scheme: "exact", network: `eip155:${id}`, extra: { assetTransferMethod: "permit2" } })),
     extensions: [],
-    signers: addr ? { "eip155:*": [addr] } : {},
+    signers,
   };
 }
 
@@ -74,7 +80,7 @@ export async function settle(p: PaymentPayload, r: PaymentRequirements): Promise
   const chainId = chainIdOf(network);
   const v = await verify(p, r);
   if (!v.isValid) return { success: false, network, payer: v.payer, errorReason: v.invalidReason };
-  const acct = facilitatorAccount();
+  const acct = facilitatorAccount(chainId);
   const c = getChain(chainId);
   if (!acct || !c) return { success: false, network, payer: v.payer, errorReason: "facilitator_not_configured" };
 

@@ -1,0 +1,150 @@
+{
+  "network": "bsc",
+  "chainId": 56,
+  "deployer": "0x944421244Afd4097B453EF3351f742614aD884dd",
+  "quoter": "0x944421244Afd4097B453EF3351f742614aD884dd",
+  "deployedAt": "2026-10-07T11:40:49.730Z",
+  "deployBlock": 126245611,
+  "contracts": {
+    "USDT": "0x557e85adAF23AE53E1B323b745926b9071A85c7A",
+    "ReferenceOracle": "0x4f180f1886Cf3773e5Cdef5590edc587C73C1482",
+    "KeeperVault": "0x88D3F05912327aEc3505Fbca5559F176A4c85aE6",
+    "CoverMarket": "0x93ecE38fbDCf46B0a3b2ef9C1aE427541AEd77b2"
+  },
+  "stocks": {
+    "NVDAB": {
+      "address": "0x594A3B4323d80EC3b9fF04e87e025D4Eeb65f60C",
+      "ticker": "NVDA",
+      "name": "NVIDIA bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "TSLAB": {
+      "address": "0xcc55Ff4A333262E4511b91f36137dB5E674Bc957",
+      "ticker": "TSLA",
+      "name": "Tesla bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "AAPLB": {
+      "address": "0x704663c30fb3e4F71D839E953364DE25537f1D37",
+      "ticker": "AAPL",
+      "name": "Apple bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "SPYB": {
+      "address": "0x846c02b1BCB83f1190d849CbC7caA80465588852",
+      "ticker": "SPY",
+      "name": "SPDR S&P 500 bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "COINB": {
+      "address": "0x50AE0a8Ecda5DD715A2FB239033c127986674361",
+      "ticker": "COIN",
+      "name": "Coinbase bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "MSTRB": {
+      "address": "0x4AD19C756BD6c43593272FEB44FCbE597D443337",
+      "ticker": "MSTR",
+      "name": "Strategy bStock (test)",
+      "decimals": 18,
+      "wrapper": "bstock"
+    },
+    "NVDAon": {
+      "address": "0x783Ed93B8719c72E434e5D7396102197006A3Fe9",
+      "ticker": "NVDA",
+      "name": "NVIDIA Ondo Stock (test)",
+      "decimals": 18,
+      "wrapper": "ondo"
+    },
+    "SPYon": {
+      "address": "0x30b4EcEEd72be2b5160Fd84C70B4Bd1A09945f89",
+      "ticker": "SPY",
+      "name": "SPDR S&P 500 Ondo Stock (test)",
+      "decimals": 18,
+      "wrapper": "ondo"
+    }
+  },
+  "epochs": [
+    {
+      "epochId": 1791576000,
+      "expectedOpen": 1791811800
+    },
+    {
+      "epochId": 1792180800,
+      "expectedOpen": 1792416600
+    }
+  ],
+  "binders": [],
+  "config": {
+    "gasPriceWei": "50000000",
+    "txType": 0,
+    "initialSupply": "1000000000",
+    "initialSupplyHolder": "0x944421244Afd4097B453EF3351f742614aD884dd",
+    "faucet": {
+      "USDT": "10000",
+      "stocks": "100"
+    },
+    "decimals": {
+      "USDT": 6,
+      "stocks": 18
+    },
+    "vaultSeedUsdt": "50000",
+    "oraclePrices": {
+      "NVDAB": 224.5,
+      "TSLAB": 430,
+      "AAPLB": 341.07,
+      "SPYB": 690,
+      "COINB": 310,
+      "MSTRB": 320,
+      "NVDAon": 224.5,
+      "SPYon": 690
+    },
+    "owner": "0x944421244Afd4097B453EF3351f742614aD884dd"
+  },
+  "txs": {
+    "deploy:USDT": "0x43bd010e24f00d7a2c5b88ec280eb384b7d96cc58ea19551fc6abf683f9996dc",
+    "deploy:NVDAB": "0x41235eb40b3e3c33ddc4d0c1f01c028e4f0c364a21146dbfd20209754023ecc7",
+    "mint:NVDAB": "0x7ba6d44a5ea2716c3948d6877a62948dcb39810b31574247b60fda80ea9862f3",
+    "deploy:TSLAB": "0x247621bbef6c7fc3df9eb397a1e92eda846148d9f05f7fdbb5424325535ef34e",
+    "mint:TSLAB": "0xdcccd726dbabaa7bd159e9b90fffa19d7c096b26fc7bd94b4a1d1b13a77ea693",
+    "deploy:AAPLB": "0x76f062703d7bbefa06711c96a5f07dcd7281bc564782e02c1c1f1123bbef24a9",
+    "mint:AAPLB": "0xbff2a8ab0f699f7702f057d23415bc654f17955f296e23bbf99eb6d5ef36bb68",
+    "deploy:SPYB": "0x6da557e57198726b206ac23bac27cd42db6391520dfd8dbab20c83cf6c82795f",
+    "mint:SPYB": "0x2d7dceab33bf6523aceb9c3fba4d2e0c106853ea73d7e1552ac4f12cdd4a26e9",
+    "deploy:COINB": "0x35ad6e4d50b2efe8a6fe32647a759de1921164bc9da571e6a10f0195a5f046c5",
+    "mint:COINB": "0xe44f90ce048fd2bd9e35db4843a254fc900db53014fb1cda250387b8c263a7c2",
+    "deploy:MSTRB": "0xff903cf5bee8623b82b6e04701b428671130103f154c71aaf8c66215ca86a604",
+    "mint:MSTRB": "0xc8ea4d924fcbb5f5bcad92af0350e50c61772427e8ac575fac42eee94687142c",
+    "deploy:NVDAon": "0xabb1b99f53c335e4c64281848ec60814bc0f8050bc820f8ac9552e0a1aea7bc0",
+    "mint:NVDAon": "0xb7f35f34bdc45c6cf340ac1f7298338020f5a51f20524529561f8e09e73b93b4",
+    "deploy:SPYon": "0x64c369f7a16558beef14ce646e0f6c1dcb41f3aa1d1e11721a1b18ea3b4866be",
+    "mint:SPYon": "0x191f5965ec6c26b082869cd78392326f3f90c9090440ba6d4c41048fc2c8b7b4",
+    "deploy:ReferenceOracle": "0x7f0e25d67f8fd14cbbb1a3c7a0dd0f52ae82fdcbeb7b87031b6dd8897707d9db",
+    "deploy:KeeperVault": "0x940aaadd408b593fe53a95f0927866653715b5157d16d48bf52cb81362789c0d",
+    "deploy:CoverMarket": "0xf468fc4169a780289f97194ca49dad48aef32dc24eb711bb9167c1f41e0ac6a7",
+    "vault.setMarket": "0xda7e8d211c4b5f6fb8c90d5d8c2e2d19839f97ce1a92691a016000594ff7da9b",
+    "market.setTokenAllowed:NVDAB": "0x5037b8762d22b88bf3380176578dd0ceec98b09ae72c31bf625be40d6905cddc",
+    "market.setTokenAllowed:TSLAB": "0x6631c289e2bb783aeda162b7468bfd0afa4d402b31408834606c965cc1217380",
+    "market.setTokenAllowed:AAPLB": "0x86791077201bc1fb11871e923d5424d40fff1f83ae98410eded040ecf7609634",
+    "market.setTokenAllowed:SPYB": "0x4b2938c32d3017d4df99be44733931569940d11c4516ebfc5b743f47d9dc6064",
+    "market.setTokenAllowed:COINB": "0x7c6e914b23bb7c6892fa4e1c39be502383b683802158b843f33fd3bbb8ebeb81",
+    "market.setTokenAllowed:MSTRB": "0x8dd2fb81618e84d98a1d1b3f49b67b3f5196aab2237a022234b731681517b602",
+    "market.setTokenAllowed:NVDAon": "0x29bd9ed6b2722ed9d6d32b946011cadb68fedd23c3e5b643e180a37cc1571cbd",
+    "market.setTokenAllowed:SPYon": "0xe7fedec2a136d1e506172d5395510ecbb8cc9483454cc15918f64fe0ba188f3d",
+    "oracle.setLastPrices": "0x154e2e2512e421cda9d5a20f0f767d402f02eb76016b82e53cec11ac98455e22",
+    "mint:USDT": "0xe088e6f31091d93b045df7831280bc33e318e78f4617f4fa25ade29e0fba25ea",
+    "usdt.approve": "0x4fc18445da73f5bba7a7fca9021b07219cda7f519cf631262a57f1205e379205",
+    "vault.deposit": "0x7e96857f681e14f2e9461e4ab6c48280472c6e09eb820c91a34bd9e21496c626",
+    "market.openEpoch:1791576000": "0x063be9e9b6bb02cb9515c429f2802afdb38920c349f00a799af0da1fb1c50263",
+    "market.openEpoch:1792180800": "0xd9eb16319da1076af90be7949962e55e7766c1d1ecd3b4f2abafa3aef29896f0"
+  },
+  "x402": {
+    "permit2": "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+    "exactPermit2Proxy": "0x402085c248EeA27D92E8b30b2C58ed07f9E20001"
+  }
+}

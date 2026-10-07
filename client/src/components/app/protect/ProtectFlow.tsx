@@ -24,6 +24,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Term } from "@/components/ui/Term";
 import { MondaySimulator } from "@/components/MondaySimulator";
 import { useWeekState } from "@/components/ui/WeekendBar";
+import { ModeText } from "@/components/ModeText";
 
 const STEP_NAMES = ["Stock", "Amount", "Protection", "Review"];
 const QUICK_AMOUNTS = [250, 1000, 5000];
@@ -250,7 +251,7 @@ export function ProtectFlow() {
           {/* ---------------- STEP 1: STOCK ---------------- */}
           {step === 0 && (
             <div key="s0" className="animate-step-in">
-              <StepTitle n={1} title="Which stock do you want to protect?" hint="These are tokenized US stocks. On this test network they’re free from the faucet." />
+              <StepTitle n={1} title="Which stock do you want to protect?" hint={<ModeText mainnet="These are tokenized US stocks. On mainnet these test versions are free from the faucet." testnet="These are tokenized US stocks. On testnet they’re free from the faucet." />} />
               {tokens.length === 0 ? (
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">{[0, 1, 2, 3].map((i) => <div key={i} className="skeleton h-28" />)}</div>
               ) : (
@@ -491,7 +492,7 @@ export function ProtectFlow() {
             </button>
           </div>
         )}
-        <p className="mt-2 text-center text-[11px] text-ink-3">Test network · no real money · you can back out at any step</p>
+        <p className="mt-2 text-center text-[11px] text-ink-3"><ModeText mainnet="Mainnet · test tokens, no real money" testnet="Testnet · no real money" /> · you can back out at any step</p>
       </div>
     </div>
   );

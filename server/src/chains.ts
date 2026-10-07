@@ -10,30 +10,36 @@ export type Wallet = WalletClient<Transport, Chain, PrivateKeyAccount>;
 const publicClients = new Map<number, Public>();
 const walletClients = new Map<number, Wallet>();
 
-let quoterAccount: PrivateKeyAccount | null | undefined;
+// keyed by chainId; 0 = the default QUOTER_PRIVATE_KEY
+const quoterAccounts = new Map<number, PrivateKeyAccount | null>();
 
-/** The server's signer (quotes + oracle keeper writes). null when QUOTER_PRIVATE_KEY is empty or invalid. */
-export function getQuoterAccount(): PrivateKeyAccount | null {
-  if (quoterAccount !== undefined) return quoterAccount;
-  const k = config.quoterPrivateKey.trim();
+/**
+ * The server's signer (quotes + oracle keeper writes + x402 settlement). With a chainId, QUOTER_PRIVATE_KEY_<chainId>
+ * wins over QUOTER_PRIVATE_KEY, so mainnet can sign as its own owner/quoter while testnets keep theirs.
+ * null when the key is empty or invalid.
+ */
+export function getQuoterAccount(chainId?: number): PrivateKeyAccount | null {
+  const slot = chainId ?? 0;
+  if (quoterAccounts.has(slot)) return quoterAccounts.get(slot)!;
+  const k = (chainId ? config.quoterPrivateKeyFor(chainId) : config.quoterPrivateKey).trim();
+  const name = chainId && process.env[`QUOTER_PRIVATE_KEY_${chainId}`]?.trim() ? `QUOTER_PRIVATE_KEY_${chainId}` : "QUOTER_PRIVATE_KEY";
+  let account: PrivateKeyAccount | null = null;
   if (!k) {
-    quoterAccount = null;
-    logger.warn("QUOTER_PRIVATE_KEY is empty: quotes are returned unsigned and keeper jobs are disabled");
-    return null;
+    logger.warn({ chainId }, `${name} is empty: quotes are returned unsigned and keeper jobs are disabled`);
+  } else {
+    try {
+      account = privateKeyToAccount((k.startsWith("0x") ? k : `0x${k}`) as Hex);
+      logger.info({ chainId, quoter: account.address, from: name }, "quoter signer loaded");
+    } catch (e) {
+      logger.error({ chainId, err: (e as Error).message }, `${name} is not a valid private key; running unsigned`);
+    }
   }
-  try {
-    const hex = (k.startsWith("0x") ? k : `0x${k}`) as Hex;
-    quoterAccount = privateKeyToAccount(hex);
-    logger.info({ quoter: quoterAccount.address }, "quoter signer loaded");
-  } catch (e) {
-    quoterAccount = null;
-    logger.error({ err: (e as Error).message }, "QUOTER_PRIVATE_KEY is not a valid private key; running unsigned");
-  }
-  return quoterAccount;
+  quoterAccounts.set(slot, account);
+  return account;
 }
 
-export function quoterAddress(): Address | null {
-  return getQuoterAccount()?.address ?? null;
+export function quoterAddress(chainId?: number): Address | null {
+  return getQuoterAccount(chainId)?.address ?? null;
 }
 
 export function getPublicClient(chainId: number): Public {
@@ -53,7 +59,7 @@ export function getPublicClient(chainId: number): Public {
 export function getWalletClient(chainId: number): Wallet | null {
   const existing = walletClients.get(chainId);
   if (existing) return existing;
-  const account = getQuoterAccount();
+  const account = getQuoterAccount(chainId);
   const c = getChain(chainId);
   if (!account || !c) return null;
   const client = createWalletClient({ account, chain: c.viemChain, transport: http(c.rpcUrl, { timeout: 20_000, retryCount: 1 }) });

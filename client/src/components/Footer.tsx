@@ -4,16 +4,20 @@ import { usePathname } from "next/navigation";
 import { ArrowSquareOut } from "@phosphor-icons/react";
 import { Logo } from "./Logo";
 import { useAccount } from "wagmi";
-import { BSC_TESTNET, CHAIN_META, getStaticDeployment, SEPOLIA, explorerAddress } from "@/lib/contracts";
+import { BSC_TESTNET, CHAIN_META, getStaticDeployment, homeChainId, SEPOLIA, explorerAddress } from "@/lib/contracts";
 import { useMounted } from "@/hooks/useNow";
+import { useNetworkMode } from "@/lib/networkMode";
+import { ModeText } from "@/components/ModeText";
 
 /**
- * BSC Testnet is the home network: its contracts are shown when a wallet is on BSC or when nothing is connected.
- * Only a wallet connected to Ethereum Sepolia switches the links to Sepolia. Until BSC is deployed, Sepolia fills in.
+ * Mainnet mode always shows the BNB Chain contracts. In testnet mode BSC Testnet is home: only a wallet connected to
+ * Ethereum Sepolia switches the links to Sepolia, and Sepolia fills in until BSC Testnet is deployed.
  */
 function useFooterChain(): { chainId: number; fallback: boolean } {
   const { chainId, isConnected } = useAccount();
   const mounted = useMounted();
+  const mode = useNetworkMode();
+  if (mode === "mainnet") return { chainId: homeChainId(mode), fallback: false };
   const wanted = mounted && isConnected && chainId === SEPOLIA ? SEPOLIA : BSC_TESTNET;
   if (getStaticDeployment(wanted)) return { chainId: wanted, fallback: false };
   return { chainId: SEPOLIA, fallback: wanted === BSC_TESTNET };
@@ -48,17 +52,17 @@ export function Footer() {
                   </li>
                 ))}
                 <li className="text-xs text-ink-3">
-                  {CHAIN_META[chainId]?.name ?? "Testnet"}
+                  {CHAIN_META[chainId]?.name}
                   {fallback && " · BSC Testnet deploy coming soon"}
                 </li>
               </ul>
             ) : (
-              <p className="text-ink-3">BSC Testnet</p>
+              <p className="text-ink-3">{CHAIN_META[chainId]?.name}: deploying soon</p>
             )}
           </div>
         </div>
         <div className="mt-12 rounded-2xl border border-line bg-surface/60 p-4 text-xs leading-relaxed text-ink-3">
-          <span className="font-medium text-ink-2">Hackathon prototype on test networks.</span> Test tokens have no value. The admin can pause, change settings and move funds. Not available in restricted jurisdictions (including the US, UK, Canada, Netherlands and Japan). Not an offer of insurance or securities, and nothing here is investment advice.
+          <ModeText mainnet={<><span className="font-medium text-ink-2">Hackathon prototype on mainnet.</span> The USDT and stock tokens are test tokens with no value; only gas is real.</>} testnet={<><span className="font-medium text-ink-2">Hackathon prototype on testnet.</span> Test tokens have no value.</>} /> The admin can pause, change settings and move funds. Not available in restricted jurisdictions (including the US, UK, Canada, Netherlands and Japan). Not an offer of insurance or securities, and nothing here is investment advice.
         </div>
         <div className="mt-6 flex flex-wrap items-center justify-between gap-2 text-xs text-ink-3">
           <span>© {new Date().getFullYear()} afterhours.fi</span>

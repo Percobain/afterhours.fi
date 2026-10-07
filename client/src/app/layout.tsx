@@ -7,6 +7,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { DemoNudge } from "@/components/DemoNudge";
 
 export const metadata: Metadata = {
   title: { default: "afterhours.fi - Weekend protection for tokenized stocks", template: "%s · afterhours.fi" },
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Nav />
           <main className="flex-1">{children}</main>
           <Footer />
+          <DemoNudge />
         </Providers>
         {analyticsOn && <Analytics />}
         {analyticsOn && CLARITY_ID && (

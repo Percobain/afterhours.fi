@@ -134,7 +134,7 @@ async function buildQuote(p) {
         expiry: BigInt(expiry),
         nonce,
     };
-    const account = (0, chains_1.getQuoterAccount)();
+    const account = (0, chains_1.getQuoterAccount)(p.chainId);
     const verifyingContract = c.contracts.CoverMarket ?? null;
     let signature = null;
     if (account && verifyingContract) {

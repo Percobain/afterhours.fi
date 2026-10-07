@@ -12,30 +12,37 @@ const logger_1 = require("./logger");
 const errors_1 = require("./util/errors");
 const publicClients = new Map();
 const walletClients = new Map();
-let quoterAccount;
-/** The server's signer (quotes + oracle keeper writes). null when QUOTER_PRIVATE_KEY is empty or invalid. */
-function getQuoterAccount() {
-    if (quoterAccount !== undefined)
-        return quoterAccount;
-    const k = config_1.config.quoterPrivateKey.trim();
+// keyed by chainId; 0 = the default QUOTER_PRIVATE_KEY
+const quoterAccounts = new Map();
+/**
+ * The server's signer (quotes + oracle keeper writes + x402 settlement). With a chainId, QUOTER_PRIVATE_KEY_<chainId>
+ * wins over QUOTER_PRIVATE_KEY, so mainnet can sign as its own owner/quoter while testnets keep theirs.
+ * null when the key is empty or invalid.
+ */
+function getQuoterAccount(chainId) {
+    const slot = chainId ?? 0;
+    if (quoterAccounts.has(slot))
+        return quoterAccounts.get(slot);
+    const k = (chainId ? config_1.config.quoterPrivateKeyFor(chainId) : config_1.config.quoterPrivateKey).trim();
+    const name = chainId && process.env[`QUOTER_PRIVATE_KEY_${chainId}`]?.trim() ? `QUOTER_PRIVATE_KEY_${chainId}` : "QUOTER_PRIVATE_KEY";
+    let account = null;
     if (!k) {
-        quoterAccount = null;
-        logger_1.logger.warn("QUOTER_PRIVATE_KEY is empty: quotes are returned unsigned and keeper jobs are disabled");
-        return null;
+        logger_1.logger.warn({ chainId }, `${name} is empty: quotes are returned unsigned and keeper jobs are disabled`);
     }
-    try {
-        const hex = (k.startsWith("0x") ? k : `0x${k}`);
-        quoterAccount = (0, accounts_1.privateKeyToAccount)(hex);
-        logger_1.logger.info({ quoter: quoterAccount.address }, "quoter signer loaded");
+    else {
+        try {
+            account = (0, accounts_1.privateKeyToAccount)((k.startsWith("0x") ? k : `0x${k}`));
+            logger_1.logger.info({ chainId, quoter: account.address, from: name }, "quoter signer loaded");
+        }
+        catch (e) {
+            logger_1.logger.error({ chainId, err: e.message }, `${name} is not a valid private key; running unsigned`);
+        }
     }
-    catch (e) {
-        quoterAccount = null;
-        logger_1.logger.error({ err: e.message }, "QUOTER_PRIVATE_KEY is not a valid private key; running unsigned");
-    }
-    return quoterAccount;
+    quoterAccounts.set(slot, account);
+    return account;
 }
-function quoterAddress() {
-    return getQuoterAccount()?.address ?? null;
+function quoterAddress(chainId) {
+    return getQuoterAccount(chainId)?.address ?? null;
 }
 function getPublicClient(chainId) {
     const existing = publicClients.get(chainId);
@@ -56,7 +63,7 @@ function getWalletClient(chainId) {
     const existing = walletClients.get(chainId);
     if (existing)
         return existing;
-    const account = getQuoterAccount();
+    const account = getQuoterAccount(chainId);
     const c = (0, config_1.getChain)(chainId);
     if (!account || !c)
         return null;

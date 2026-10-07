@@ -26,6 +26,7 @@ exports.configRouter.get("/config", (0, util_1.asyncHandler)(async (_req, res) =
             contracts: c.contracts,
             deployer: c.deployer ?? null,
             quoterOnDeployment: c.quoter ?? null,
+            signer: (0, chains_1.quoterAddress)(id),
             deployBlock: c.deployBlock ?? null,
             tokens,
             epochs,

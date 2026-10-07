@@ -20,28 +20,34 @@ const config_1 = require("../config");
 const logger_1 = require("../logger");
 const store_1 = require("../store");
 const x402_1 = require("./x402");
-let account;
-function facilitatorAccount() {
-    if (account !== undefined)
-        return account;
-    const k = config_1.config.x402.facilitatorPrivateKey.trim();
-    try {
-        account = k ? (0, accounts_1.privateKeyToAccount)((k.startsWith("0x") ? k : `0x${k}`)) : (0, chains_1.getQuoterAccount)();
+let fixedAccount;
+/** X402_FACILITATOR_PRIVATE_KEY when set (every chain), otherwise the chain quoter signer (QUOTER_PRIVATE_KEY_<chainId> or QUOTER_PRIVATE_KEY). */
+function facilitatorAccount(chainId) {
+    if (fixedAccount === undefined) {
+        const k = config_1.config.x402.facilitatorPrivateKey.trim();
+        try {
+            fixedAccount = k ? (0, accounts_1.privateKeyToAccount)((k.startsWith("0x") ? k : `0x${k}`)) : null;
+        }
+        catch {
+            fixedAccount = null;
+        }
     }
-    catch {
-        account = null;
-    }
-    return account;
+    return fixedAccount ?? (0, chains_1.getQuoterAccount)(chainId);
 }
-function facilitatorAddress() {
-    return facilitatorAccount()?.address ?? null;
+function facilitatorAddress(chainId) {
+    return facilitatorAccount(chainId)?.address ?? null;
 }
 function supported() {
-    const addr = facilitatorAddress();
+    const signers = {};
+    for (const id of config_1.config.x402.networks) {
+        const addr = facilitatorAddress(id);
+        if (addr)
+            signers[`eip155:${id}`] = [addr];
+    }
     return {
         kinds: config_1.config.x402.networks.map((id) => ({ x402Version: x402_1.X402_VERSION, scheme: "exact", network: `eip155:${id}`, extra: { assetTransferMethod: "permit2" } })),
         extensions: [],
-        signers: addr ? { "eip155:*": [addr] } : {},
+        signers,
     };
 }
 /** marketplace policy on top of the spec checks */
@@ -70,7 +76,7 @@ async function settle(p, r) {
     const v = await verify(p, r);
     if (!v.isValid)
         return { success: false, network, payer: v.payer, errorReason: v.invalidReason };
-    const acct = facilitatorAccount();
+    const acct = facilitatorAccount(chainId);
     const c = (0, config_1.getChain)(chainId);
     if (!acct || !c)
         return { success: false, network, payer: v.payer, errorReason: "facilitator_not_configured" };

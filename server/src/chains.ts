@@ -1,6 +1,6 @@
-import { createPublicClient, createWalletClient, http, type Address, type Chain, type Hex, type PublicClient, type Transport, type WalletClient } from "viem";
+import { createPublicClient, createWalletClient, fallback, http, type Address, type Chain, type HttpTransportConfig, type Hex, type PublicClient, type Transport, type WalletClient } from "viem";
 import { privateKeyToAccount, type PrivateKeyAccount } from "viem/accounts";
-import { config, getChain } from "./config";
+import { config, getChain, type ChainConfig } from "./config";
 import { logger } from "./logger";
 import { ApiError } from "./util/errors";
 
@@ -42,6 +42,12 @@ export function quoterAddress(chainId?: number): Address | null {
   return getQuoterAccount(chainId)?.address ?? null;
 }
 
+/** One http transport, or an ordered fallback over every URL when the chain lists several (public RPCs drop out often). */
+export function rpcTransport(c: ChainConfig, opts: HttpTransportConfig): Transport {
+  if (c.rpcUrls.length < 2) return http(c.rpcUrl, opts);
+  return fallback(c.rpcUrls.map((u) => http(u, opts)));
+}
+
 export function getPublicClient(chainId: number): Public {
   const existing = publicClients.get(chainId);
   if (existing) return existing;
@@ -49,7 +55,7 @@ export function getPublicClient(chainId: number): Public {
   if (!c) throw new ApiError(400, "unsupported_chain", `chainId ${chainId} is not supported`);
   const client = createPublicClient({
     chain: c.viemChain,
-    transport: http(c.rpcUrl, { timeout: 12_000, retryCount: 2, retryDelay: 400 }),
+    transport: rpcTransport(c, { timeout: 12_000, retryCount: 2, retryDelay: 400 }),
     batch: { multicall: { wait: 16 } },
   });
   publicClients.set(chainId, client);
@@ -62,7 +68,7 @@ export function getWalletClient(chainId: number): Wallet | null {
   const account = getQuoterAccount(chainId);
   const c = getChain(chainId);
   if (!account || !c) return null;
-  const client = createWalletClient({ account, chain: c.viemChain, transport: http(c.rpcUrl, { timeout: 20_000, retryCount: 1 }) });
+  const client = createWalletClient({ account, chain: c.viemChain, transport: rpcTransport(c, { timeout: 20_000, retryCount: 1 }) });
   walletClients.set(chainId, client);
   return client;
 }

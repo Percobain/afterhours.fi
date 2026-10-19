@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getQuoterAccount = getQuoterAccount;
 exports.quoterAddress = quoterAddress;
+exports.rpcTransport = rpcTransport;
 exports.getPublicClient = getPublicClient;
 exports.getWalletClient = getWalletClient;
 exports.requireWallet = requireWallet;
@@ -44,6 +45,12 @@ function getQuoterAccount(chainId) {
 function quoterAddress(chainId) {
     return getQuoterAccount(chainId)?.address ?? null;
 }
+/** One http transport, or an ordered fallback over every URL when the chain lists several (public RPCs drop out often). */
+function rpcTransport(c, opts) {
+    if (c.rpcUrls.length < 2)
+        return (0, viem_1.http)(c.rpcUrl, opts);
+    return (0, viem_1.fallback)(c.rpcUrls.map((u) => (0, viem_1.http)(u, opts)));
+}
 function getPublicClient(chainId) {
     const existing = publicClients.get(chainId);
     if (existing)
@@ -53,7 +60,7 @@ function getPublicClient(chainId) {
         throw new errors_1.ApiError(400, "unsupported_chain", `chainId ${chainId} is not supported`);
     const client = (0, viem_1.createPublicClient)({
         chain: c.viemChain,
-        transport: (0, viem_1.http)(c.rpcUrl, { timeout: 12_000, retryCount: 2, retryDelay: 400 }),
+        transport: rpcTransport(c, { timeout: 12_000, retryCount: 2, retryDelay: 400 }),
         batch: { multicall: { wait: 16 } },
     });
     publicClients.set(chainId, client);
@@ -67,7 +74,7 @@ function getWalletClient(chainId) {
     const c = (0, config_1.getChain)(chainId);
     if (!account || !c)
         return null;
-    const client = (0, viem_1.createWalletClient)({ account, chain: c.viemChain, transport: (0, viem_1.http)(c.rpcUrl, { timeout: 20_000, retryCount: 1 }) });
+    const client = (0, viem_1.createWalletClient)({ account, chain: c.viemChain, transport: rpcTransport(c, { timeout: 20_000, retryCount: 1 }) });
     walletClients.set(chainId, client);
     return client;
 }

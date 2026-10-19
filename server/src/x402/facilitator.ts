@@ -7,9 +7,9 @@
  * this service only pays gas and cannot redirect funds. To avoid being a free gas tap for arbitrary x402 sellers it
  * settles only our marketplace's payments: our chains, our test USDT, and an authorised binder as payTo.
  */
-import { createWalletClient, http, isAddressEqual, type Address, type Hex } from "viem";
+import { createWalletClient, isAddressEqual, type Address, type Hex } from "viem";
 import { privateKeyToAccount, type PrivateKeyAccount } from "viem/accounts";
-import { getPublicClient, getQuoterAccount } from "../chains";
+import { getPublicClient, getQuoterAccount, rpcTransport } from "../chains";
 import { config, getChain } from "../config";
 import { logger } from "../logger";
 import { store } from "../store";
@@ -84,7 +84,7 @@ export async function settle(p: PaymentPayload, r: PaymentRequirements): Promise
   const c = getChain(chainId);
   if (!acct || !c) return { success: false, network, payer: v.payer, errorReason: "facilitator_not_configured" };
 
-  const wallet = createWalletClient({ account: acct, chain: c.viemChain, transport: http(c.rpcUrl, { timeout: 20_000, retryCount: 1 }) });
+  const wallet = createWalletClient({ account: acct, chain: c.viemChain, transport: rpcTransport(c, { timeout: 20_000, retryCount: 1 }) });
   try {
     const hash = await wallet.writeContract({ address: EXACT_PERMIT2_PROXY, abi: EXACT_PERMIT2_PROXY_ABI, functionName: "settle", args: settleArgs(p) as never });
     const receipt = await getPublicClient(chainId).waitForTransactionReceipt({ hash, timeout: 60_000 });

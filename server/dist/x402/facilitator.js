@@ -80,7 +80,7 @@ async function settle(p, r) {
     const c = (0, config_1.getChain)(chainId);
     if (!acct || !c)
         return { success: false, network, payer: v.payer, errorReason: "facilitator_not_configured" };
-    const wallet = (0, viem_1.createWalletClient)({ account: acct, chain: c.viemChain, transport: (0, viem_1.http)(c.rpcUrl, { timeout: 20_000, retryCount: 1 }) });
+    const wallet = (0, viem_1.createWalletClient)({ account: acct, chain: c.viemChain, transport: (0, chains_1.rpcTransport)(c, { timeout: 20_000, retryCount: 1 }) });
     try {
         const hash = await wallet.writeContract({ address: x402_1.EXACT_PERMIT2_PROXY, abi: x402_1.EXACT_PERMIT2_PROXY_ABI, functionName: "settle", args: (0, x402_1.settleArgs)(p) });
         const receipt = await (0, chains_1.getPublicClient)(chainId).waitForTransactionReceipt({ hash, timeout: 60_000 });

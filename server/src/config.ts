@@ -69,7 +69,10 @@ export interface ChainConfig {
   chainId: number;
   key: ChainKey;
   name: string;
+  /** first of rpcUrls; what /api/config shows */
   rpcUrl: string;
+  /** tried in order through viem's fallback transport; more than one only when the override lists several */
+  rpcUrls: string[];
   rpcSource: "override" | "alchemy" | "public";
   explorer: string;
   viemChain: Chain;
@@ -92,13 +95,16 @@ const PUBLIC_RPC: Record<ChainKey, string> = {
   bsc: "https://bsc-dataseed.bnbchain.org",
 };
 
-/** RPC policy: explicit override > Alchemy (ALCHEMY_API_KEY) > public RPC (warned). */
-function resolveRpc(key: ChainKey, overrideVar: string, alchemyHost: string, alchemyKey: string): { url: string; source: ChainConfig["rpcSource"] } {
-  const override = env(overrideVar);
-  if (override) return { url: override, source: "override" };
-  if (alchemyKey) return { url: `https://${alchemyHost}/v2/${alchemyKey}`, source: "alchemy" };
+/**
+ * RPC policy: explicit override > Alchemy (ALCHEMY_API_KEY) > public RPC (warned).
+ * The override may be a comma-separated list; the URLs become an ordered fallback chain.
+ */
+function resolveRpc(key: ChainKey, overrideVar: string, alchemyHost: string, alchemyKey: string): { urls: string[]; source: ChainConfig["rpcSource"] } {
+  const override = env(overrideVar).split(",").map((x) => x.trim()).filter(Boolean);
+  if (override.length) return { urls: override, source: "override" };
+  if (alchemyKey) return { urls: [`https://${alchemyHost}/v2/${alchemyKey}`], source: "alchemy" };
   logger.warn({ chain: key }, `ALCHEMY_API_KEY and ${overrideVar} are both empty; falling back to a public RPC (rate-limited, best effort)`);
-  return { url: PUBLIC_RPC[key], source: "public" };
+  return { urls: [PUBLIC_RPC[key]], source: "public" };
 }
 
 export function wrapperFor(symbol: string, given?: string): Wrapper {
@@ -194,7 +200,8 @@ function buildChain(spec: ChainSpec, alchemyKey: string): ChainConfig {
     chainId,
     key,
     name: spec.name,
-    rpcUrl: rpc.url,
+    rpcUrl: rpc.urls[0]!,
+    rpcUrls: rpc.urls,
     rpcSource: rpc.source,
     explorer: spec.explorer,
     viemChain: spec.viemChain,

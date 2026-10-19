@@ -52,15 +52,18 @@ const PUBLIC_RPC = {
     bscTestnet: "https://data-seed-prebsc-1-s1.bnbchain.org:8545",
     bsc: "https://bsc-dataseed.bnbchain.org",
 };
-/** RPC policy: explicit override > Alchemy (ALCHEMY_API_KEY) > public RPC (warned). */
+/**
+ * RPC policy: explicit override > Alchemy (ALCHEMY_API_KEY) > public RPC (warned).
+ * The override may be a comma-separated list; the URLs become an ordered fallback chain.
+ */
 function resolveRpc(key, overrideVar, alchemyHost, alchemyKey) {
-    const override = env(overrideVar);
-    if (override)
-        return { url: override, source: "override" };
+    const override = env(overrideVar).split(",").map((x) => x.trim()).filter(Boolean);
+    if (override.length)
+        return { urls: override, source: "override" };
     if (alchemyKey)
-        return { url: `https://${alchemyHost}/v2/${alchemyKey}`, source: "alchemy" };
+        return { urls: [`https://${alchemyHost}/v2/${alchemyKey}`], source: "alchemy" };
     logger_1.logger.warn({ chain: key }, `ALCHEMY_API_KEY and ${overrideVar} are both empty; falling back to a public RPC (rate-limited, best effort)`);
-    return { url: PUBLIC_RPC[key], source: "public" };
+    return { urls: [PUBLIC_RPC[key]], source: "public" };
 }
 function wrapperFor(symbol, given) {
     if (given === "bstock" || given === "ondo" || given === "xstock")
@@ -153,7 +156,8 @@ function buildChain(spec, alchemyKey) {
         chainId,
         key,
         name: spec.name,
-        rpcUrl: rpc.url,
+        rpcUrl: rpc.urls[0],
+        rpcUrls: rpc.urls,
         rpcSource: rpc.source,
         explorer: spec.explorer,
         viemChain: spec.viemChain,
